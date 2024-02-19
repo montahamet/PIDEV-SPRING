@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Data
@@ -13,17 +14,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Candidacy implements Serializable {
+public class JobOffer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long candidacy_id ;
-    String cv;
-    String motivationLetter;
-    LocalDateTime submissionDate;
-    @Enumerated(EnumType.STRING)
-    StatusCandidacy candidacystatus;
+    Long jobOffer_id ;
+    String title;
+    LocalDateTime postedDate;
+    String Description;
+    String requiredSkills;
+    Integer nbPlaces;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="job_offer")
+    private Set<Candidacy> Candidacys;
     @ManyToOne
-    JobOffer job_offer;
-    @ManyToOne(cascade = CascadeType.ALL)
     User user;
 }
