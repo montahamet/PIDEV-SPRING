@@ -25,6 +25,7 @@ public class User implements   Serializable {
     String lastname;
     String password;
     String Adresse;
+
     /////////////////////// haifa
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<FeedBack> FeedBacks;
@@ -40,5 +41,12 @@ public class User implements   Serializable {
     /////////////////////// haifa
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<TrainingSession> TrainingSessions;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    private Set<Job_Offer> Job_Offers;//montaha
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="userHR")
+    private Set<Interview> InterviewsHR;//montaha
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="userCANDIDATE")
+    private Set<Interview> InterviewsCandidate;//montaha
+
 }
 
