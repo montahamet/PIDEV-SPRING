@@ -28,7 +28,7 @@ public class Task implements Serializable {
     @ManyToOne
     Project projetT;
     @ManyToOne
-    User employeeTaskMalek;
+    User employeeTask;
 
 
 
