@@ -25,9 +25,11 @@ public class User implements   Serializable {
     String lastname;
     String password;
     String Adresse;
-    @OneToMany(mappedBy = "projectManagerMalek")
+    //// malek
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "projectManager")
     List<Project> projects=new ArrayList<>();
-    @OneToMany(mappedBy = "employeeTaskMalek")
+    ///// malek
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "employeeTask")
     List<Task> employeeTask=new ArrayList<>();
 
     /////////////////////// haifa

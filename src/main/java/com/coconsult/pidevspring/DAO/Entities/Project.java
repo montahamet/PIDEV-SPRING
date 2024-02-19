@@ -25,13 +25,13 @@ public class Project implements Serializable {
     LocalDate enddateProject;
     @Enumerated(EnumType.STRING)
     StatusProject projectStatus;
-    @OneToMany(mappedBy = "projetT")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetT")
     List<Task> tasks=new ArrayList<>();
-    @OneToMany(mappedBy = "projetContract")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetContract")
     List<Contract> contracts=new ArrayList<>();
     @OneToOne
     Documentation document;
-    @OneToMany(mappedBy = "projetInvoice")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetInvoice")
     List<Invoice> invoices=new ArrayList<>();
     @ManyToOne
     User projectManager;
