@@ -18,7 +18,7 @@ public class JobOffer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long jobOffer_id ;
-    String title;
+    String titleJobOffer;
     LocalDateTime postedDate;
     String Description;
     String requiredSkills;
