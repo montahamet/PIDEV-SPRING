@@ -55,6 +55,11 @@ public class User implements   Serializable {
     private Set<Interview> InterviewsCandidate;//montaha
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<ProjectOffer> ProjectOffers;//montaha
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="userEvaluator")
+    private Set<PerformanceEvaluation> PerformanceEvaluations;//montaha
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="userEvaluated")
+    private Set<PerformanceEvaluation> EmployeePerformanceEvaluations;//montaha
+
 
 }
 

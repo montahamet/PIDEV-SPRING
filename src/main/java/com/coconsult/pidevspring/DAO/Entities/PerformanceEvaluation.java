@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -13,18 +13,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Interview implements Serializable {
+public class PerformanceEvaluation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long interview_id ;
-    LocalDateTime dateInterview;
-    @Enumerated(EnumType.STRING)
-    TypeInterview type;
-    @Enumerated(EnumType.STRING)
-    StatusInterview statusInterview;
-    Boolean passed;
+    Long evaluation_id;
+    LocalDate evaluationDate;
+    String feedback;
+    Integer rating;
     @ManyToOne
-    User userHR;
+    User userEvaluator;
     @ManyToOne
-    User userCANDIDATE;
+    User userEvaluated;
 }
