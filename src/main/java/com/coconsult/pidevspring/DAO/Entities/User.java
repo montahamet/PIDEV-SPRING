@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -49,11 +48,13 @@ public class User implements   Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<TrainingSession> TrainingSessions;
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Job_Offer> Job_Offers;//montaha
+    private Set<JobOffer> Job_Offers;//montaha
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userHR")
     private Set<Interview> InterviewsHR;//montaha
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userCANDIDATE")
     private Set<Interview> InterviewsCandidate;//montaha
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    private Set<ProjectOffer> ProjectOffers;//montaha
 
 }
 

@@ -35,5 +35,7 @@ public class Project implements Serializable {
     List<Invoice> invoices=new ArrayList<>();
     @ManyToOne
     User projectManager;
+    @ManyToOne
+    ProjectOffer projectoffer;
 
 }
