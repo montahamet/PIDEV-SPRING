@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,10 @@ public class User implements   Serializable {
     String lastname;
     String password;
     String Adresse;
+    @OneToMany(mappedBy = "projectManagerMalek")
+    List<Project> projects=new ArrayList<>();
+    @OneToMany(mappedBy = "employeeTaskMalek")
+    List<Task> employeeTask=new ArrayList<>();
 
     /////////////////////// haifa
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
