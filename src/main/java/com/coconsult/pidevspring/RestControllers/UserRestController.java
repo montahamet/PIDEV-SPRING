@@ -13,6 +13,7 @@ import java.util.List;
 
 @RequestMapping("/user")
 public class UserRestController {
+
     IUserService iUserService;
     @GetMapping("/retrieveAllUser")
     public List<User> retrieveAllUser() {
