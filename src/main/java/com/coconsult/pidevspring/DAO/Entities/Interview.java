@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,8 +24,11 @@ public class Interview implements Serializable {
     @Enumerated(EnumType.STRING)
     StatusInterview statusInterview;
     Boolean passed;
+    @JsonIgnore
     @ManyToOne
-    User userHR;
+    User user;
+    @JsonIgnore
     @ManyToOne
-    User userCANDIDATE;
+    Candidacy candidacy;
+
 }

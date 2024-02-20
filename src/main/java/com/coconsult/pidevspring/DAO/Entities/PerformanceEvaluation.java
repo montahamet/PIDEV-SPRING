@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,8 +21,10 @@ public class PerformanceEvaluation implements Serializable {
     LocalDate evaluationDate;
     String feedback;
     Integer rating;
+    @JsonIgnore
     @ManyToOne
     User userEvaluator;
+    @JsonIgnore
     @ManyToOne
     User userEvaluated;
 }
