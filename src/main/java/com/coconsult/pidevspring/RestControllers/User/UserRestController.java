@@ -1,7 +1,7 @@
-package com.coconsult.pidevspring.RestControllers;
+package com.coconsult.pidevspring.RestControllers.User;
 
 import com.coconsult.pidevspring.DAO.Entities.User;
-import com.coconsult.pidevspring.Services.IUserService;
+import com.coconsult.pidevspring.Services.User.IUserService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

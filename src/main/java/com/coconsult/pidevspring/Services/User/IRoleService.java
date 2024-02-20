@@ -1,11 +1,11 @@
-package com.coconsult.pidevspring.Services;
+package com.coconsult.pidevspring.Services.User;
 
 import com.coconsult.pidevspring.DAO.Entities.Role;
 
 import java.util.List;
 
 public interface IRoleService {
-    List<Role> retrieveAllRole();
+    List<Role> retrieveAllRoles();
 
     Role addRole(Role r);
 

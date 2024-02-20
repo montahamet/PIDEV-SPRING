@@ -1,7 +1,7 @@
-package com.coconsult.pidevspring.Services;
+package com.coconsult.pidevspring.Services.User;
 
 import com.coconsult.pidevspring.DAO.Entities.User;
-import com.coconsult.pidevspring.DAO.Repositories.UserRepository;
+import com.coconsult.pidevspring.DAO.Repositories.User.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +29,11 @@ public class UserService implements IUserService {
     @Override
     public User retrieveOneUser(Long userId) {
         return userRepository.findById(userId).get();
+    }
+
+    @Override
+    public User retrieveUser(Long userId) {
+        return null;
     }
 
     @Override

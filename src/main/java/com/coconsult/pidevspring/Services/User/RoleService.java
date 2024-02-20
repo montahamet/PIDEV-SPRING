@@ -1,9 +1,7 @@
-package com.coconsult.pidevspring.Services;
+package com.coconsult.pidevspring.Services.User;
 
 import com.coconsult.pidevspring.DAO.Entities.Role;
-import com.coconsult.pidevspring.DAO.Entities.Role;
-import com.coconsult.pidevspring.DAO.Repositories.RoleRepository;
-import com.coconsult.pidevspring.DAO.Repositories.RoleRepository;
+import com.coconsult.pidevspring.DAO.Repositories.User.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,7 @@ public class RoleService implements IRoleService {
 
     RoleRepository roleRepository ;
     @Override
-    public List<Role> retrieveAllRole() {
+    public List<Role> retrieveAllRoles() {
         return roleRepository.findAll();
     }
     @Override

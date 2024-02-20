@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.Services;
+package com.coconsult.pidevspring.Services.User;
 
 import com.coconsult.pidevspring.DAO.Entities.User;
 
