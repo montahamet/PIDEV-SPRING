@@ -90,10 +90,11 @@ public class User implements   Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userEvaluated")
     private Set<PerformanceEvaluation> EmployeePerformanceEvaluations;
     /////////////////////// Montaha //////////////////////
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="employee")
-    private Set<Message> messages = new HashSet<>();
+    private Set<Attendence> attendences = new HashSet<>();
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="admin")
-    private Set<Message> message = new HashSet<>();
+    private Set<Attendence> Attendence = new HashSet<>();
 }
 
