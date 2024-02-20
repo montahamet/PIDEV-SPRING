@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import java.util.Set;
 public class User implements   Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id_user ;
+    Long userId ;
     @Column(unique = true)
     String email;
     String firstname;
@@ -28,6 +29,20 @@ public class User implements   Serializable {
     String Adresse;
     @Enumerated(EnumType.STRING)
     Gender gender;
+    /////////////////////// Thamer /////////////////////
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    private Set<Role> Roles = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Chat> chats = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    private Set<Message> Messages = new HashSet<>();
+
+    /////////////////////// Thamer /////////////////////
     /////////////////////// Malek //////////////////////
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projectManager")
@@ -61,21 +76,24 @@ public class User implements   Serializable {
     private Set<JobOffer> Job_Offers;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userHR")
-    private Set<Interview> InterviewsHR;//montaha
+    private Set<Interview> InterviewsHR;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userCANDIDATE")
-    private Set<Interview> InterviewsCandidate;//montaha
+    private Set<Interview> InterviewsCandidate;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<ProjectOffer> ProjectOffers;//montaha
+    private Set<ProjectOffer> ProjectOffers;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userEvaluator")
-    private Set<PerformanceEvaluation> PerformanceEvaluations;//montaha
+    private Set<PerformanceEvaluation> PerformanceEvaluations;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userEvaluated")
-    private Set<PerformanceEvaluation> EmployeePerformanceEvaluations;//montaha
+    private Set<PerformanceEvaluation> EmployeePerformanceEvaluations;
     /////////////////////// Montaha //////////////////////
 
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="employee")
+    private Set<Message> messages = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="admin")
+    private Set<Message> message = new HashSet<>();
 }
 
