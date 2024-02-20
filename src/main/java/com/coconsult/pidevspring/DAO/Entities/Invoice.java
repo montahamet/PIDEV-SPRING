@@ -23,6 +23,7 @@ public class Invoice implements Serializable {
     int quantity;
     double unitPrice;
     double totalAmount;
+    String paymentMethods;
     @Enumerated(EnumType.STRING)
     PaymentStatus paymentStatus;
     @ManyToOne

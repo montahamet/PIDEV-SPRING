@@ -24,6 +24,7 @@ public class Quote implements Serializable {
     Integer quantity;
     double UnitPrice;
     double TotalAmount;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="quote")
-    private Set<ProjectOffer> ProjectOffers;
+    @ManyToOne
+    Project projectQuote;
+
 }

@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,9 @@ public class Project implements Serializable {
     String projectDescription;
     LocalDate startdateProject;
     LocalDate enddateProject;
+    LocalDateTime postedDateoffer;
+    @Enumerated(EnumType.STRING)
+    StatusProjectOffer statusOffer;
     @Enumerated(EnumType.STRING)
     StatusProject projectStatus;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetT")
@@ -35,7 +39,11 @@ public class Project implements Serializable {
     List<Invoice> invoices=new ArrayList<>();
     @ManyToOne
     User projectManager;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy ="projectQuote")
+    List<Quote> quotes=new ArrayList<>();
     @ManyToOne
-    ProjectOffer projectoffer;
+    User client;
+    @ManyToOne
+    User CRM;
 
 }
