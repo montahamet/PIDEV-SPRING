@@ -5,6 +5,7 @@ import com.coconsult.pidevspring.DAO.Entities.User;
 import java.util.List;
 
 public interface IUserService {
+
     List<User> retrieveAllUser();
 
     User addUser(User u);
