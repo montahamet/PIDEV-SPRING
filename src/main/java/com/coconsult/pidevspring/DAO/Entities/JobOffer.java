@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,8 +24,10 @@ public class JobOffer implements Serializable {
     String Description;
     String requiredSkills;
     Integer nbPlaces;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="job_offer")
     private Set<Candidacy> Candidacys;
+    @JsonIgnore
     @ManyToOne
     User user;
 }
