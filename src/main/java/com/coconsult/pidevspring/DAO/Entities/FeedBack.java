@@ -24,5 +24,9 @@ public class FeedBack  implements Serializable {
 
     @ManyToOne
     User user;
+    @ManyToOne
+    Event event;
+    @ManyToOne
+    TrainingSession trainingsession;
 
 }

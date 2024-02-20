@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Data
@@ -14,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RegistationTS implements Serializable {
+public class RegistrationTS implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long registrationTS_id ;
