@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,47 +19,62 @@ import java.util.Set;
 public class User implements   Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id ;
+    Long id_user ;
     @Column(unique = true)
     String email;
     String firstname;
     String lastname;
     String password;
     String Adresse;
-    //// malek
+    @Enumerated(EnumType.STRING)
+    Gender gender;
+    /////////////////////// Malek //////////////////////
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projectManager")
     List<Project> projects=new ArrayList<>();
-    ///// malek
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "employeeTask")
     List<Task> employeeTask=new ArrayList<>();
+    /////////////////////// Malek //////////////////////
 
-    /////////////////////// haifa
+
+    /////////////////////// haifa //////////////////////
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<FeedBack> FeedBacks;
-    /////////////////////// haifa
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<RegistationEvent> RegistationEvents;
-    /////////////////////// haifa
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Event> Events;
-    /////////////////////// haifa
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<RegistationTS> RegistationTSs;
-    /////////////////////// haifa
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<TrainingSession> TrainingSessions;
+    /////////////////////// haifa //////////////////////
+    /////////////////////// montaha //////////////////////
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<JobOffer> Job_Offers;//montaha
+    private Set<JobOffer> Job_Offers;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userHR")
     private Set<Interview> InterviewsHR;//montaha
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userCANDIDATE")
     private Set<Interview> InterviewsCandidate;//montaha
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<ProjectOffer> ProjectOffers;//montaha
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userEvaluator")
     private Set<PerformanceEvaluation> PerformanceEvaluations;//montaha
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userEvaluated")
     private Set<PerformanceEvaluation> EmployeePerformanceEvaluations;//montaha
+    /////////////////////// Montaha //////////////////////
 
 
 }
