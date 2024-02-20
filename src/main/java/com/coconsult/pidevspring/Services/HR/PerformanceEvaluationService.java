@@ -35,4 +35,8 @@ public class PerformanceEvaluationService implements IPerformanceEvaluationServi
     public PerformanceEvaluation findPerformanceEvaluationById(long id) {
         return performanceEvaluationRepository.findById(id).get();
     }
+    @Override
+    public List<PerformanceEvaluation> findByRatingOrderByDesc() {
+        return performanceEvaluationRepository.findByRatingOrderByDesc();
+    }
 }
