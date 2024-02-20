@@ -1,7 +1,7 @@
 package com.coconsult.pidevspring.Services;
 
 import com.coconsult.pidevspring.DAO.Entities.User;
-import com.coconsult.pidevspring.DAO.Repository.UserRepository;
+import com.coconsult.pidevspring.DAO.Repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
