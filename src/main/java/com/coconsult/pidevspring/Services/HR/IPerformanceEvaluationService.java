@@ -10,4 +10,5 @@ public interface IPerformanceEvaluationService {
     PerformanceEvaluation updatePerformanceEvaluation(PerformanceEvaluation performanceEvaluation);
     List<PerformanceEvaluation> findAllPerformanceEvaluations();
     PerformanceEvaluation findPerformanceEvaluationById(long id);
+    List<PerformanceEvaluation> findByRatingOrderByDesc();
 }

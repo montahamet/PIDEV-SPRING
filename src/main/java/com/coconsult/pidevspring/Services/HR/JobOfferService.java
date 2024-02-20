@@ -47,4 +47,13 @@ public class JobOfferService implements IJobOfferService {
         jobOfferRepository.deleteById(id);
 
     }
+
+
+    public List<JobOffer> findByTitleJobOffer(String titleJobOffer) {
+        return jobOfferRepository.findByTitleJobOffer(titleJobOffer);
+    }
+    @Override
+    public List<JobOffer> findByRequiredSkills(String requiredSkills) {
+        return jobOfferRepository.findByRequiredSkills(requiredSkills);
+    }
 }

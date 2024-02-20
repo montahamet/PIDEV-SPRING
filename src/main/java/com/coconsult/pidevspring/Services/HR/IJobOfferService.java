@@ -12,4 +12,6 @@ public interface IJobOfferService {
     JobOffer findJobOfferById(long id);
     void deleteJobOffer(JobOffer jobOffer);
     void deleteJobOfferById(long id);
+    List<JobOffer> findByTitleJobOffer(String titleJobOffer);
+    List<JobOffer> findByRequiredSkills(String requiredSkills);
 }
