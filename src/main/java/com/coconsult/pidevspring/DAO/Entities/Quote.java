@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,13 +19,17 @@ import java.util.Set;
 public class Quote implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long quote_id ;
-    LocalDate issuanceDate;
-    String description;
-    Integer quantity;
-    double UnitPrice;
-    double TotalAmount;
+
+    private Long quote_id ;
+    private LocalDate issuanceDate;
+    private String description;
+    private Integer quantity;
+    private Double UnitPrice;
+    private Double TotalAmount;
+
+
+    @JsonIgnore
     @ManyToOne
-    Project projectQuote;
+    private ProjectOffer projectofferquote;
 
 }
