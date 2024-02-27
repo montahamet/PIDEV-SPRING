@@ -75,8 +75,11 @@ public class User implements   Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<JobOffer> Job_Offers;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="userHR")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Interview> InterviewsHR;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    private Set<ProjectOffer> ProjectOffers;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userCANDIDATE")
     private Set<Interview> InterviewsCandidate;
@@ -95,13 +98,5 @@ public class User implements   Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="admin")
     private Set<Attendence> Attendence = new HashSet<>();
-    //////////hamza///////////
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="client")
-    List<Project> projectsclient=new ArrayList<>();
-    /////// hamza////////
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="CRM")
-    List<Project>projectsCRM=new ArrayList<>();
 }
 
