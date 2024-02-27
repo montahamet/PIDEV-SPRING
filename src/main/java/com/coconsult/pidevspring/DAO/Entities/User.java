@@ -60,6 +60,7 @@ public class User implements   Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<RegistationEvent> RegistationEvents;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Event> Events;
