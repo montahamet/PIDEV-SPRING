@@ -22,7 +22,7 @@ public class MessageRestController {
     }
 
     @PostMapping("/addMessage")
-    public Message addMessage(Message m) {
+    public Message addMessage(@RequestBody Message m) {
         return iMessageService.addMessage(m);
     }
 

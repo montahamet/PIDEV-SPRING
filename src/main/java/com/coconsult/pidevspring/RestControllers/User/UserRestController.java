@@ -22,7 +22,7 @@ public class UserRestController {
     }
 
     @PostMapping("/addUser")
-    public User addUser(User u) {
+    public User addUser( User u) {
         return iUserService.addUser(u);
     }
 

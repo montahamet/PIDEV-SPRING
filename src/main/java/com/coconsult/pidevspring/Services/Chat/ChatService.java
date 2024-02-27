@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.Services.Chat;
 
 import com.coconsult.pidevspring.DAO.Entities.Chat;
+import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repositories.Chat.ChatRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class ChatService implements IChatService {
     }
     @Override
     public Chat addChat(Chat u) {
+
         return chatRepository.save(u);
     }
 

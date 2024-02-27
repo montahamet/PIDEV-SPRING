@@ -22,7 +22,7 @@ public class ChatRestController {
     }
 
     @PostMapping("/addChat")
-    public Chat addChat(Chat c) {
+    public Chat addChat(@RequestBody Chat c) {
         return iChatService.addChat(c);
     }
 

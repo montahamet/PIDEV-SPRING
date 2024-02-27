@@ -22,7 +22,7 @@ public class RoleRestController {
     }
 
     @PostMapping("/addRole")
-    public Role addRole(Role r) {
+    public Role addRole(@RequestBody Role r) {
         return iRoleService.addRole(r);
     }
 

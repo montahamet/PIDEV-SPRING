@@ -77,9 +77,7 @@ public class User implements   Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userHR")
     private Set<Interview> InterviewsHR;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="userCANDIDATE")
-    private Set<Interview> InterviewsCandidate;
+
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
