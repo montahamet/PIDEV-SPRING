@@ -16,19 +16,19 @@ import java.time.LocalDateTime;
 public class Attendence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long attendenceId ;
-    boolean presence;
-    boolean approved ;
-    String reason ;
-    LocalDateTime date ;
+    private Long attendenceId ;
+    private boolean presence;
+    private boolean approved ;
+    private String reason ;
+    private LocalDateTime date ;
     @Enumerated(EnumType.STRING)
-    TypeAttendence typeAttendence ;
+    private TypeAttendence typeAttendence ;
     @JsonIgnore
     @ManyToOne
-    User employee;
+    private User employee;
     @JsonIgnore
     @ManyToOne
-    User admin;
+    private User admin;
 
 
 }
