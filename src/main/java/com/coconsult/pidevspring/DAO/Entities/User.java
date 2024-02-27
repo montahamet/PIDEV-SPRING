@@ -59,14 +59,14 @@ public class User implements   Serializable {
     private Set<FeedBack> FeedBacks;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<RegistationEvent> RegistationEvents;
+    private Set<RegistrationEvent> RegistationEvents;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Event> Events;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<RegistationTS> RegistationTSs;
+    private Set<RegistrationEvent> RegistationTSs;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<TrainingSession> TrainingSessions;
@@ -81,11 +81,6 @@ public class User implements   Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<ProjectOffer> ProjectOffers;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="userCANDIDATE")
-    private Set<Interview> InterviewsCandidate;
-
-
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="userEvaluator")
     private Set<PerformanceEvaluation> PerformanceEvaluations;
