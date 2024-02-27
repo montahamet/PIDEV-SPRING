@@ -26,8 +26,10 @@ public class Event implements Serializable {
     User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<RegistationEvent> RegistationEvents;
+    private Set<RegistrationEvent> RegistationEvents;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<Activity> Activitys;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
+    private Set<FeedBack> FeedBacks;
 }

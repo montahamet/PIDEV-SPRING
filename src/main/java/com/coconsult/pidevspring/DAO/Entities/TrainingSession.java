@@ -30,7 +30,9 @@ public class TrainingSession implements Serializable {
     @ManyToOne
     User user;
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<RegistationTS> registationtss;
+    private Set<RegistrationTS> registationtss;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="trainingsession")
+    private Set<FeedBack> FeedBacks;
 
 
 
