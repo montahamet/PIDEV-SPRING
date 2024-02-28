@@ -20,7 +20,7 @@ public class Candidacy implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long candidacy_id ;
     String cv;
-    String motivationLetter;
+    String coverLetter;
     LocalDateTime submissionDate;
     @Enumerated(EnumType.STRING)
     StatusCandidacy candidacystatus;
