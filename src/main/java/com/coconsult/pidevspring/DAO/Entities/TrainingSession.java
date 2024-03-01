@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,10 +28,13 @@ public class TrainingSession implements Serializable {
     String Place;
     @Enumerated(EnumType.STRING)
     TypeTS typeTS;
+    @JsonIgnore
     @ManyToOne
     User user;
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<RegistrationTS> registationtss;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="trainingsession")
     private Set<FeedBack> FeedBacks;
 

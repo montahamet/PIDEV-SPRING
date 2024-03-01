@@ -29,8 +29,8 @@ public class FeedbackService implements IFeedBackService{
     }
 
     @Override
-    public void deleteFeedBack(FeedBack feedBack) {
-        feedBackRepository.delete(feedBack);
+    public void deleteFeedBackById(Long feedback_id) {
+        feedBackRepository.deleteById(feedback_id);
     }
 
     @Override
