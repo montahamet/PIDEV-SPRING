@@ -31,4 +31,16 @@ public class Interview implements Serializable {
     @ManyToOne
     Candidacy candidacy;
 
+
+    ///Enum
+    public enum StatusInterview {
+        SCHEDULED,
+        IN_PROGRESS,
+        COMPLETED,
+        CANCELED
+    }
+    public enum TypeInterview {
+        HR,
+        TECHNICAL
+    }
 }

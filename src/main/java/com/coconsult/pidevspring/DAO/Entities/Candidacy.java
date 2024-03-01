@@ -33,4 +33,13 @@ public class Candidacy implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="candidacy")
     private Set<Interview> Interviews;
+
+
+    ///Enum
+    public enum StatusCandidacy {
+        PENDING,
+        UNDER_REVIEW,
+        REJECTERD,
+        SELECTED_FOR_INTERVIW
+    }
 }
