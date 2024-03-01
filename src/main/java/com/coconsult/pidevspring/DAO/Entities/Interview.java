@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
