@@ -11,6 +11,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/Activity-TrainingSession")
+
 public class ActivityRestController {
     IActivityService iActivityService;
 
@@ -23,7 +25,7 @@ public class ActivityRestController {
         return  iActivityService.findAllActivities();
     }
     @PostMapping("/addActivity")
-    public  Activity addActivity(Activity activity) {
+    public  Activity addActivity(@RequestBody Activity activity) {
         return iActivityService.addActivity(activity);
     }
     @PostMapping("/updateActivity")

@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,11 +22,15 @@ public class FeedBack  implements Serializable {
     String description ;
     LocalTime FeedBack_date ;
     int note ;
-
+@JsonIgnore
     @ManyToOne
     User user;
+    @JsonIgnore
+
     @ManyToOne
     Event event;
+    @JsonIgnore
+
     @ManyToOne
     TrainingSession trainingsession;
 

@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,15 +22,16 @@ public class Event implements Serializable {
 
     String Event_name;
     LocalDateTime Event_date;
-
+@JsonIgnore
     @ManyToOne
     User user;
-
+@JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<RegistrationEvent> RegistationEvents;
-
+@JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<Activity> Activitys;
+@JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<FeedBack> FeedBacks;
 }
