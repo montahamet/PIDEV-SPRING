@@ -33,7 +33,7 @@ public class RegistrationTSRestController {
         return iRegistrationTSService.updateRegistrationTS(registrationTS);
     }
     @DeleteMapping("/deleteRegistrationTS")
-    public void  deleteRegistrationTS(RegistrationTS registrationTS){
-        iRegistrationTSService.deleteRegistrationTS(registrationTS);
+    public void  deleteRegistrationTS(Long registrationTS_id){
+        iRegistrationTSService.deleteRegistrationTSById(registrationTS_id);
     }
 }

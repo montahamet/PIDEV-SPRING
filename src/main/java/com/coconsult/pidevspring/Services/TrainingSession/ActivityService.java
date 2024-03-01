@@ -28,8 +28,8 @@ public class ActivityService implements IActivityService {
     }
 
     @Override
-    public void deleteActivity(Activity activity) {
-         activityRepository.delete(activity);
+    public void deleteActivityById(Long Activity_id) {
+         activityRepository.deleteById(Activity_id);
     }
 
     @Override

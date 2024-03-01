@@ -31,8 +31,8 @@ public class FeedBackRestController {
         return iFeedBackService.updateFeedBack(feedBack);
     }
     @DeleteMapping("/deleteFeedBack")
-    public void  deleteFeedBack(FeedBack feedBack){
-        iFeedBackService.deleteFeedBack(feedBack);
+    public void  deleteFeedBack(@PathParam("feedback_id")  Long feedback_id){
+        iFeedBackService.deleteFeedBackById(feedback_id);
     }
 
 }

@@ -9,6 +9,6 @@ public interface ITrainingSessionService {
     List<TrainingSession> findAllTrainingSession();
     TrainingSession addTrainingSession(TrainingSession trainingSession);
     TrainingSession updateTrainingSession(TrainingSession trainingSession);
-    void deleteTrainingSession (TrainingSession trainingSession);
+    void deleteTrainingSessionById (Long TS_id);
     TrainingSession findOneTrainingSession (Long TS_id);
 }

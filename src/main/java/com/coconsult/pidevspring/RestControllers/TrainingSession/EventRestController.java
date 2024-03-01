@@ -33,8 +33,8 @@ public class EventRestController {
         return iEventService.updateEvent(event);
     }
     @DeleteMapping("/deleteEvent")
-    public void  deleteEvent(Event event){
-        iEventService.deleteEvent(event);
+    public void  deleteEvent(@PathParam("Event_id") Long Event_id){
+        iEventService.deleteEventById(Event_id);
     }
 
 }

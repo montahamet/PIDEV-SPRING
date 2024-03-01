@@ -31,8 +31,8 @@ public class RegistrationEventRestController {
         return iRegistrationEventService.updateRegistrationEvent(registrationEvent);
     }
     @DeleteMapping("/deleteRegistrationEvent")
-    public void  deleteRegistrationEvent(RegistrationEvent registrationEvent){
-        iRegistrationEventService.deleteRegistrationEvent(registrationEvent);
+    public void  deleteRegistrationEvent(@PathParam("registrationE_id") Long registrationE_id){
+        iRegistrationEventService.deleteRegistrationEventById(registrationE_id);
     }
 
 }

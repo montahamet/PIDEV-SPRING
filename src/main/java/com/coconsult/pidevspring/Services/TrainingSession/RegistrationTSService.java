@@ -28,8 +28,8 @@ public class RegistrationTSService implements IRegistrationTSService{
     }
 
     @Override
-    public void deleteRegistrationTS(RegistrationTS registrationTS) {
-        registrationTSRepository.delete(registrationTS);
+    public void deleteRegistrationTSById(Long registrationTS_id) {
+        registrationTSRepository.deleteById(registrationTS_id);
     }
 
     @Override

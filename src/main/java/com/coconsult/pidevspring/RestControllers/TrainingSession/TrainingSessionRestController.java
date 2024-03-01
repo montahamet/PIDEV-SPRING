@@ -32,7 +32,7 @@ public class TrainingSessionRestController {
         return iTrainingSessionService.updateTrainingSession(trainingSession);
     }
     @DeleteMapping("/deleteTrainingSession")
-    public void  deleteTrainingSession(TrainingSession trainingSession){
-        iTrainingSessionService.deleteTrainingSession(trainingSession);
+    public void  deleteTrainingSession(@PathParam("TS_id") Long TS_id){
+        iTrainingSessionService.deleteTrainingSessionById(TS_id);
     }
 }
