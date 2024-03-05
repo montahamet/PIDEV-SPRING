@@ -1,8 +1,11 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.io.Serializable;
 
@@ -12,6 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+
 public class Documentation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +23,8 @@ public class Documentation implements Serializable {
     String rapport;
     String specficationDoc;
     @OneToOne(mappedBy = "document")
+    @JsonIgnore
+
     Project projectDoc;
 
 }

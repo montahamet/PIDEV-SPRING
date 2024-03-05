@@ -16,5 +16,9 @@ public interface IProjectService {
 
     void removeProjectbyid(long projectid);
     void deleteProject(Project project);
+    List<String> getAllProjectNames();
+    Project findByProjectName(String projectName);
+
+
 
 }

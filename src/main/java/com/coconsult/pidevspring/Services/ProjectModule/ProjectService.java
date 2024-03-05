@@ -47,4 +47,14 @@ public class ProjectService implements IProjectService {
 
     }
 
+    @Override
+    public List<String> getAllProjectNames() {
+        return projectRepository.getAllProjectNames();
+    }
+
+    @Override
+    public Project findByProjectName(String projectName) {
+        return projectRepository.findByProjectName(projectName);
+    }
+
 }
