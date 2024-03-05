@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -20,7 +21,7 @@ public class FeedBack  implements Serializable {
     Long feedback_id ;
 
     String description ;
-    LocalTime FeedBack_date ;
+    LocalDateTime FeedBack_date ;
     int note ;
 @JsonIgnore
     @ManyToOne

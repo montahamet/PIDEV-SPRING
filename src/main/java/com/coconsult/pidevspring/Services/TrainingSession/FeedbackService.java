@@ -20,13 +20,14 @@ public class FeedbackService implements IFeedBackService{
 
     @Override
     public FeedBack addFeedBack(FeedBack feedBack) {
-        return feedBackRepository.save(feedBack);
+         return feedBackRepository.save(feedBack);
     }
 
     @Override
-    public FeedBack updateFeedBack(FeedBack feedBack) {
+    public FeedBack UpdateFeedBack(FeedBack feedBack) {
         return feedBackRepository.save(feedBack);
     }
+
 
     @Override
     public void deleteFeedBackById(Long feedback_id) {

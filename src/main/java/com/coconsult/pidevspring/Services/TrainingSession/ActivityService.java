@@ -1,7 +1,9 @@
 package com.coconsult.pidevspring.Services.TrainingSession;
 
 import com.coconsult.pidevspring.DAO.Entities.Activity;
+import com.coconsult.pidevspring.DAO.Entities.Event;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.ActivityRepository;
+import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ActivityService implements IActivityService {
     ActivityRepository activityRepository;
+    EventRepository eventRepository;
 
     @Override
     public List<Activity> findAllActivities() {
@@ -23,13 +26,19 @@ public class ActivityService implements IActivityService {
     }
 
     @Override
-    public Activity updateActivity(Activity activity) {
+    public Activity UpdateActivity(Activity activity) {
         return activityRepository.save(activity);
     }
 
+
     @Override
-    public void deleteActivityById(Long Activity_id) {
-         activityRepository.deleteById(Activity_id);
+    public void deleteActivityById(Long activity_id) {
+         activityRepository.deleteById(activity_id);
+    }
+
+    @Override
+    public List<Event> getAllEventsWithName() {
+        return eventRepository.findAll();
     }
 
     @Override

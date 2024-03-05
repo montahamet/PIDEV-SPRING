@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/TrainingSession-TrainingSession")
 
 public class TrainingSessionRestController {
@@ -27,12 +28,13 @@ public class TrainingSessionRestController {
     public  TrainingSession addTrainingSession(@RequestBody TrainingSession trainingSession) {
         return iTrainingSessionService.addTrainingSession(trainingSession);
     }
-    @PostMapping("/updateTrainingSession")
-    public TrainingSession updateTrainingSession(@RequestBody TrainingSession trainingSession){
-        return iTrainingSessionService.updateTrainingSession(trainingSession);
+    @PutMapping("/UpdateTrainingSession")
+    public  TrainingSession UpdateTrainingSession(@RequestBody TrainingSession trainingSession) {
+        return iTrainingSessionService.UpdateTrainingSession(trainingSession);
     }
-    @DeleteMapping("/deleteTrainingSession")
-    public void  deleteTrainingSession(@PathParam("TS_id") Long TS_id){
+
+    @DeleteMapping("/deleteTrainingSessionById")
+    public void  deleteTrainingSessionById(@PathParam("TS_id") Long TS_id){
         iTrainingSessionService.deleteTrainingSessionById(TS_id);
     }
 }

@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,6 +15,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Event implements Serializable {
     @Id
@@ -22,16 +25,18 @@ public class Event implements Serializable {
 
     String Event_name;
     LocalDateTime Event_date;
-@JsonIgnore
-    @ManyToOne
-    User user;
+
+    @ManyToMany(mappedBy="Events", cascade = CascadeType.ALL)
+    private Set<User> users;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
+    private Set<RegistrationEvent> RegistrationEvents;
 @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<RegistrationEvent> RegistationEvents;
-@JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Activity> Activitys;
-@JsonIgnore
+    private Set<Activity> Activities;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<FeedBack> FeedBacks;
+
+
 }
