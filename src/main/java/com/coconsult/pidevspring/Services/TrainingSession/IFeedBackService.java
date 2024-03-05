@@ -8,6 +8,6 @@ public interface IFeedBackService {
     List<FeedBack> findAllFeedBack();
     FeedBack addFeedBack(FeedBack feedBack);
     FeedBack updateFeedBack(FeedBack feedBack);
-    void deleteFeedBack (FeedBack feedBack);
+    void deleteFeedBackById (Long feedback_id);
     FeedBack findOneFeedBack (Long feedback_id);
 }

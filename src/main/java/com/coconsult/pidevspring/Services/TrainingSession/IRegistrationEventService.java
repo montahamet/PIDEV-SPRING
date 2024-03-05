@@ -9,6 +9,6 @@ public interface IRegistrationEventService {
     List<RegistrationEvent> findAllRegistrationEvent();
     RegistrationEvent addRegistrationEvent(RegistrationEvent registrationEvent);
     RegistrationEvent updateRegistrationEvent(RegistrationEvent registrationEvent);
-    void deleteRegistrationEvent (RegistrationEvent registrationEvent);
+    void deleteRegistrationEventById (Long registrationE_id);
     RegistrationEvent findOneRegistrationEvent (Long registrationE_id);
 }

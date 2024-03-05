@@ -28,8 +28,8 @@ public class RegistrationEventService implements IRegistrationEventService{
     }
 
     @Override
-    public void deleteRegistrationEvent(RegistrationEvent registrationEvent) {
-        registrationEventRepository.delete(registrationEvent);
+    public void deleteRegistrationEventById(Long registrationE_id) {
+        registrationEventRepository.deleteById(registrationE_id);
     }
 
     @Override

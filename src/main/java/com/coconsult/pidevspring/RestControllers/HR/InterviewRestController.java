@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @AllArgsConstructor
 @RequestMapping("/Interview")
 public class InterviewRestController {

@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,12 +28,22 @@ public class JobOffer implements Serializable {
     LocalDateTime postedDate;
     String Description;
     String requiredSkills;
-    Integer vacancy;
+
+    Integer Vacancy;
     double salary;
+    @Enumerated(EnumType.STRING)
+    JobNature jobNature;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="job_offer")
     private Set<Candidacy> Candidacys;
     @JsonIgnore
     @ManyToOne
     User user;
+
+
+    ///Enum
+    public enum JobNature{
+        FULL_TIME,PART_TIME,INTERN
+    }
 }
