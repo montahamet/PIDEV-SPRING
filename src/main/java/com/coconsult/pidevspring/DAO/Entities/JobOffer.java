@@ -22,13 +22,18 @@ public class JobOffer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long jobOffer_id ;
     String titleJobOffer;
+    String jobLocation;
+    LocalDateTime applicationDeadLine;
+    String experience;
     LocalDateTime postedDate;
     String Description;
     String requiredSkills;
+
     Integer Vacancy;
     double salary;
     @Enumerated(EnumType.STRING)
     JobNature jobNature;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="job_offer")
     private Set<Candidacy> Candidacys;
