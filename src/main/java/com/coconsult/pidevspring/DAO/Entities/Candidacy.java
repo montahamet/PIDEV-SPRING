@@ -21,11 +21,15 @@ public class Candidacy implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long candidacy_id ;
+    String candidateName;
+    String link;
     String cv;
     String coverLetter;
     LocalDateTime submissionDate;
     @Enumerated(EnumType.STRING)
     StatusCandidacy candidacystatus;
+
+    ///Relations
     @JsonIgnore
     @ManyToOne
     JobOffer job_offer;
