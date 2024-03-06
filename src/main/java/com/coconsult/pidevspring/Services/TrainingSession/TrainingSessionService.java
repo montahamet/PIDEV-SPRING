@@ -28,8 +28,8 @@ public class TrainingSessionService implements ITrainingSessionService{
     }
 
     @Override
-    public void deleteTrainingSession(TrainingSession trainingSession) {
-        trainingSessionRepository.delete(trainingSession);
+    public void deleteTrainingSessionById(Long TS_id) {
+        trainingSessionRepository.deleteById(TS_id);
     }
 
     @Override

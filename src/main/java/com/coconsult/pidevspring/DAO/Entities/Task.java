@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long task_id;
+    long taskid;
     String taskname;
     LocalDate startDateTask;
     LocalDate dueDateTask;
@@ -26,8 +27,10 @@ public class Task implements Serializable {
     @Enumerated(EnumType.STRING)
     StatusTask taskStatus;
     @ManyToOne
+    @JsonIgnore
     Project projetT;
     @ManyToOne
+    @JsonIgnore
     User employeeTask;
 
 

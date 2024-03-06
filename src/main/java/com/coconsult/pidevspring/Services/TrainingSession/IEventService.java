@@ -9,6 +9,6 @@ public interface IEventService {
     List<Event> findAllEvent();
     Event addEvent(Event event);
     Event updateEvent(Event event);
-    void deleteEvent (Event event);
+    void deleteEventById (Long Event_id);
     Event findOneEvent (Long event_id );
 }
