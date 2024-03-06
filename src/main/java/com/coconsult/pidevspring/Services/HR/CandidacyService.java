@@ -12,7 +12,7 @@ import java.util.List;
 public class CandidacyService implements ICandidacyService {
     CandidacyRepository candidacyRepository;
     @Override
-    public Candidacy addCandidacy(Candidacy candidacy) {
+    public Candidacy addOrUpdateCandidacy(Candidacy candidacy) {
         return candidacyRepository.save(candidacy);
     }
 
@@ -21,10 +21,6 @@ public class CandidacyService implements ICandidacyService {
         return candidacyRepository.saveAll(Candidacys);
     }
 
-    @Override
-    public Candidacy updateCandidacy(Candidacy candidacy) {
-        return candidacyRepository.save(candidacy);
-    }
 
     @Override
     public List<Candidacy> findAllCandidacies() {

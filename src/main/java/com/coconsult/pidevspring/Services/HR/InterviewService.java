@@ -13,18 +13,13 @@ import java.util.List;
 public class InterviewService implements IInterviewService{
     InterviewRepository interviewRepository;
     @Override
-    public Interview addInterview(Interview interview) {
+    public Interview addOrUpdateInterview(Interview interview) {
         return interviewRepository.save(interview);
     }
 
     @Override
     public List<Interview> addAllInterviews(List<Interview> interviews) {
         return interviewRepository.saveAll(interviews);
-    }
-
-    @Override
-    public Interview updateInterview(Interview interview) {
-        return interviewRepository.save(interview);
     }
 
     @Override

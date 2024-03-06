@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.RestControllers.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
+import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 import com.coconsult.pidevspring.Services.HR.ICandidacyService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
@@ -17,14 +18,15 @@ public class CandidacyRestController {
 
     @PostMapping("addCandidacy")
     public Candidacy addCandidacy (@RequestBody Candidacy Candidacy){
-        return iCandidacyService.addCandidacy(Candidacy);
+        return iCandidacyService.addOrUpdateCandidacy(Candidacy);
+    }
+    @PutMapping ("updateCandidacy")
+    public Candidacy updateCandidacy (@RequestBody Candidacy Candidacy){
+        return iCandidacyService.addOrUpdateCandidacy(Candidacy);
     }
 
 
-    @PutMapping("updateCandidacy")
-    public Candidacy updateCandidacy (@RequestBody  Candidacy Candidacy){
-        return iCandidacyService.updateCandidacy(Candidacy);
-    }
+
 
     @PostMapping("addAll")
     public List<Candidacy> addAllCandidacies(@RequestBody List<Candidacy> Candidacys){

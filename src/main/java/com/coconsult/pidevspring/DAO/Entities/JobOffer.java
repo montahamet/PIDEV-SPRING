@@ -26,13 +26,20 @@ public class JobOffer implements Serializable {
     LocalDateTime applicationDeadLine;
     String experience;
     LocalDateTime postedDate;
-    String Description;
+    String jobLocation;
+    LocalDateTime applicationDeadLine;
+    String experience;
+    String description;
     String requiredSkills;
 
-    Integer Vacancy;
+    Integer vacancy;
+
     double salary;
     @Enumerated(EnumType.STRING)
     JobNature jobNature;
+
+
+    ///Relations
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="job_offer")

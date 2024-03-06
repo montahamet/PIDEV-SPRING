@@ -26,6 +26,9 @@ public class Interview implements Serializable {
     @Enumerated(EnumType.STRING)
     StatusInterview statusInterview;
     Boolean passed;
+
+
+    ///Relations
     @JsonIgnore
     @ManyToOne
     User user;

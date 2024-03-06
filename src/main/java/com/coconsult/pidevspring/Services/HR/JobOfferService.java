@@ -12,7 +12,7 @@ import java.util.List;
 public class JobOfferService implements IJobOfferService {
     JobOfferRepository jobOfferRepository;
     @Override
-    public JobOffer addJobOffer(JobOffer JobOffer) {
+    public JobOffer addOrUpdateJobOffer(JobOffer JobOffer) {
         return jobOfferRepository.save(JobOffer);
     }
 
@@ -21,10 +21,7 @@ public class JobOfferService implements IJobOfferService {
         return jobOfferRepository.saveAll(JobOffers);
     }
 
-    @Override
-    public JobOffer updateJobOffer(JobOffer jobOffer) {
-        return jobOfferRepository.save(jobOffer);
-    }
+
 
     @Override
     public List<JobOffer> findAllJobOffers() {

@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.RestControllers.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Interview;
+import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 import com.coconsult.pidevspring.Services.HR.IInterviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,14 +19,15 @@ public class InterviewRestController {
 
     @PostMapping("addInterview")
     public Interview addInterview (@RequestBody Interview Interview){
-        return iInterviewService.addInterview(Interview);
+        return iInterviewService.addOrUpdateInterview(Interview);
+    }
+    @PutMapping ("updateInterview")
+    public Interview updateInterview (@RequestBody Interview Interview){
+        return iInterviewService.addOrUpdateInterview(Interview);
     }
 
 
-    @PutMapping("updateInterview")
-    public Interview updateInterview (@RequestBody  Interview Interview){
-        return iInterviewService.updateInterview(Interview);
-    }
+
 
     @PostMapping("addAllInterviews")
     public List<Interview> addAllInterviews(@RequestBody List<Interview> Interviews){
