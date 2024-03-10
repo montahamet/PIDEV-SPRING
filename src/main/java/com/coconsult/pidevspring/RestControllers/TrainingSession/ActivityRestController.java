@@ -22,7 +22,7 @@ public class ActivityRestController {
     public Activity findOneActivity(@PathParam("Activity_id") Long Activity_id){
         return iActivityService.findOneActivity(Activity_id);
     }
-    @GetMapping("/fin dAllActivities")
+    @GetMapping("/findAllActivities")
     public List<Activity> findAllActivities() {
         return  iActivityService.findAllActivities();
     }

@@ -38,14 +38,8 @@ public class ActivityService implements IActivityService {
 
     @Override
     public List<Event> getAllEventsWithName() {
-        List<Event> events = eventRepository.findAll();
-        for (Event event : events) {
-            event.setEvent_name(event.getEvent_name()); // Assuming getName() returns the name of the event
-        }
-        return events;
+        return eventRepository.findAll();
     }
-
-
 
     @Override
     public Activity findOneActivity(Long Activity_id) {
