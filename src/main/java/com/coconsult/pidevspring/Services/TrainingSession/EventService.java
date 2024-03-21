@@ -1,17 +1,29 @@
 package com.coconsult.pidevspring.Services.TrainingSession;
 
+import com.coconsult.pidevspring.DAO.Entities.Activity;
 import com.coconsult.pidevspring.DAO.Entities.Event;
-import com.coconsult.pidevspring.DAO.Entities.Event;
+import com.coconsult.pidevspring.DAO.Entities.RegistrationEvent;
+import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
-import lombok.AllArgsConstructor;
+import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
-@AllArgsConstructor
-public class EventService implements IEventService{
-    EventRepository eventRepository;
+public class EventService implements IEventService {
+    private final EventRepository eventRepository;
+    private final RegistrationEventRepository registrationEventRepository;
+
+    @Autowired
+    public EventService(EventRepository eventRepository, RegistrationEventRepository registrationEventRepository) {
+        this.eventRepository = eventRepository;
+        this.registrationEventRepository = registrationEventRepository;
+    }
 
     @Override
     public List<Event> findAllEvent() {
@@ -24,19 +36,39 @@ public class EventService implements IEventService{
     }
 
     @Override
-    public Event updateEvent(Event event) {
+    public Event UpdateEvent(Event event) {
         return eventRepository.save(event);
     }
 
     @Override
-    public void deleteEventById(Long Event_id) {
-        eventRepository.deleteById(Event_id);
-
+    public void deleteEventById(Long eventId) {
+        eventRepository.deleteById(eventId);
     }
 
+    @Override
+    public Event findOneEvent(Long eventId) {
+        return eventRepository.findById(eventId).get();
+    }
 
     @Override
-    public Event findOneEvent(Long event_id) {
-        return eventRepository.findById(event_id).get();
+    public Set<RegistrationEvent> getRelatedRegistrations(Long eventId) {
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            Event event = eventOptional.get();
+            return event.getRegistationEvents();
+        }
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<User> getRelatedUsers(Long eventId) {
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        return eventOptional.map(Event::getUsers).orElse(Collections.emptySet());
+    }
+
+    @Override
+    public Set<Activity> getRelatedActivities(Long eventId) {
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        return eventOptional.map(Event::getActivitys).orElse(Collections.emptySet());
     }
 }

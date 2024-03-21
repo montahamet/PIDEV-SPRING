@@ -17,13 +17,13 @@ import java.time.LocalDateTime;
 public class Activity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Activity_id ;
-
+    Long activity_id ;
     String Activity_name;
     String description ;
     LocalDateTime startTime ;
     LocalDateTime finishTime;
 
     @ManyToOne
+    @JoinColumn(name = "event_id")
     Event event;
 }
