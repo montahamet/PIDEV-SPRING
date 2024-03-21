@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -21,7 +23,8 @@ public class FeedBack  implements Serializable {
     Long feedback_id ;
 
     String description ;
-    LocalDateTime FeedBack_date ;
+    @CreationTimestamp
+    LocalDateTime feedBack_date;
     int note ;
 @JsonIgnore
     @ManyToOne

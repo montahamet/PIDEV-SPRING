@@ -18,7 +18,6 @@ public class Activity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long activity_id ;
-
     String Activity_name;
     String description ;
     LocalDateTime startTime ;

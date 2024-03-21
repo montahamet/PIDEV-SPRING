@@ -26,12 +26,8 @@ public class JobOffer implements Serializable {
     LocalDateTime applicationDeadLine;
     String experience;
     LocalDateTime postedDate;
-    String jobLocation;
-    LocalDateTime applicationDeadLine;
-    String experience;
     String description;
     String requiredSkills;
-
     Integer vacancy;
 
     double salary;

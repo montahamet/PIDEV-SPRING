@@ -47,7 +47,7 @@ public class EventService implements IEventService {
 
     @Override
     public Event findOneEvent(Long eventId) {
-        return eventRepository.findById(eventId).orElse(null);
+        return eventRepository.findById(eventId).get();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class EventService implements IEventService {
         Optional<Event> eventOptional = eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
-            return event.getRegistrationEvents();
+            return event.getRegistationEvents();
         }
         return Collections.emptySet();
     }
@@ -69,6 +69,6 @@ public class EventService implements IEventService {
     @Override
     public Set<Activity> getRelatedActivities(Long eventId) {
         Optional<Event> eventOptional = eventRepository.findById(eventId);
-        return eventOptional.map(Event::getActivities).orElse(Collections.emptySet());
+        return eventOptional.map(Event::getActivitys).orElse(Collections.emptySet());
     }
 }
