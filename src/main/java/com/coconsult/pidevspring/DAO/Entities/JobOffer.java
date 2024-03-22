@@ -28,7 +28,6 @@ public class JobOffer implements Serializable {
     LocalDateTime postedDate;
     String description;
     String requiredSkills;
-
     Integer vacancy;
 
     double minsalary;

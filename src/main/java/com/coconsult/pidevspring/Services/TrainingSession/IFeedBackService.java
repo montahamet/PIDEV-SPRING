@@ -7,7 +7,8 @@ import java.util.List;
 public interface IFeedBackService {
     List<FeedBack> findAllFeedBack();
     FeedBack addFeedBack(FeedBack feedBack);
-    FeedBack updateFeedBack(FeedBack feedBack);
+    FeedBack UpdateFeedBack(FeedBack feedBack);
+
     void deleteFeedBackById (Long feedback_id);
     FeedBack findOneFeedBack (Long feedback_id);
 }

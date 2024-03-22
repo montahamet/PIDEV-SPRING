@@ -11,14 +11,15 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/Event-TrainingSession")
 
 public class EventRestController {
     IEventService iEventService;
 
-    @GetMapping("/findOneEvent")
-    public Event findOneEvent(@PathParam("Event_id") Long event_id){
-        return iEventService.findOneEvent(event_id);
+    @GetMapping("/findOneEvent/{eventId}")
+    public Event findOneEvent(@PathVariable("eventId") Long eventId){
+        return iEventService.findOneEvent(eventId);
     }
     @GetMapping("/findAllEvents")
     public List<Event> findAllEvent() {
@@ -28,13 +29,13 @@ public class EventRestController {
     public  Event addEvent(@RequestBody Event event) {
         return iEventService.addEvent(event);
     }
-    @PostMapping("/updateEvent")
-    public Event updateEvent(@RequestBody Event event){
-        return iEventService.updateEvent(event);
+    @PutMapping("/UpdateEvent")
+    public  Event UpdateEvent(@RequestBody Event event) {
+        return iEventService.UpdateEvent(event);
     }
-    @DeleteMapping("/deleteEvent")
-    public void  deleteEvent(@PathParam("Event_id") Long Event_id){
-        iEventService.deleteEventById(Event_id);
+    @DeleteMapping("/deleteEvent/{eventId}")
+    public void deleteEvent(@PathVariable("eventId") Long eventId) {
+        iEventService.deleteEventById(eventId);
     }
 
 }

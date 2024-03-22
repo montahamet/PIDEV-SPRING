@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/FeedBack-TrainingSession")
 public class FeedBackRestController {
     IFeedBackService iFeedBackService;
@@ -26,10 +27,12 @@ public class FeedBackRestController {
     public  FeedBack addFeedBack(@RequestBody FeedBack feedBack) {
         return iFeedBackService.addFeedBack(feedBack);
     }
-    @PostMapping("/updateFeedBack")
-    public FeedBack updateFeedBack(@RequestBody FeedBack feedBack){
-        return iFeedBackService.updateFeedBack(feedBack);
+    @PutMapping("/UpdateFeedBack")
+    public  FeedBack UpdateFeedBack(@RequestBody FeedBack feedBack) {
+        return iFeedBackService.UpdateFeedBack(feedBack);
     }
+
+
     @DeleteMapping("/deleteFeedBack")
     public void  deleteFeedBack(@PathParam("feedback_id")  Long feedback_id){
         iFeedBackService.deleteFeedBackById(feedback_id);
