@@ -17,7 +17,7 @@ public class ActivityService implements IActivityService {
         return activityRepository.findAll();
     }
 
-    @Override
+    @Override 
     public Activity addActivity(Activity activity) {
         return activityRepository.save(activity);
     }
@@ -28,8 +28,8 @@ public class ActivityService implements IActivityService {
     }
 
     @Override
-    public void deleteActivity(Activity activity) {
-         activityRepository.delete(activity);
+    public void deleteActivityById(Long Activity_id) {
+         activityRepository.deleteById(Activity_id);
     }
 
     @Override

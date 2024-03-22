@@ -9,6 +9,6 @@ public interface IRegistrationTSService {
     List<RegistrationTS> findAllRegistrationTS();
     RegistrationTS addRegistrationTS(RegistrationTS registrationTS);
     RegistrationTS updateRegistrationTS(RegistrationTS registrationTS);
-    void deleteRegistrationTS (RegistrationTS registrationTS);
+    void deleteRegistrationTSById (Long registrationTS_id);
     RegistrationTS findOneRegistrationTS (Long registrationTS_id);
 }

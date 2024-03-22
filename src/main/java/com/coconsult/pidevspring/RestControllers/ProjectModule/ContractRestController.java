@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 
 @RequestMapping("/Contract")
 public class ContractRestController {

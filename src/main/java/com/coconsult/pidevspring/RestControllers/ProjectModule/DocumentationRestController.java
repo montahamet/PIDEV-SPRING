@@ -4,12 +4,13 @@ import com.coconsult.pidevspring.DAO.Entities.Documentation;
 import com.coconsult.pidevspring.Services.ProjectModule.IDocumentationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-
+@CrossOrigin("*")
 @RequestMapping("/Documents")
 public class DocumentationRestController {
     IDocumentationService iDocumentationService;
@@ -22,10 +23,11 @@ public class DocumentationRestController {
         return iDocumentationService.findDocById(id);
     }
     @PostMapping("/AddDoc")
-    public Documentation addDoc(@RequestBody Documentation doc){
-        return iDocumentationService.addDoc(doc);
+    public Documentation addDoc( @ModelAttribute Documentation doc, @RequestParam("rapportFile") MultipartFile rapportFile,@RequestParam("specficationDocFile") MultipartFile specficationDocFile) {
+        return iDocumentationService.addDoc(doc,rapportFile,specficationDocFile);
     }
-    @PutMapping("/UpdateDoc")
+
+        @PutMapping("/UpdateDoc")
     public Documentation updateDoc(@RequestBody Documentation doc){
         return iDocumentationService.updateDoc(doc);
     }
