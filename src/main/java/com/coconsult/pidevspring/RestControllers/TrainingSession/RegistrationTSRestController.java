@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/RegistrationTS-TrainingSession")
 
 public class RegistrationTSRestController {
@@ -28,10 +29,11 @@ public class RegistrationTSRestController {
     public  RegistrationTS addRegistrationTS(@RequestBody RegistrationTS registrationTS) {
         return iRegistrationTSService.addRegistrationTS(registrationTS);
     }
-    @PostMapping("/updateRegistrationTS")
-    public RegistrationTS updateRegistrationTS(@RequestBody RegistrationTS registrationTS){
-        return iRegistrationTSService.updateRegistrationTS(registrationTS);
+    @PutMapping("/UpdateRegistrationTS")
+    public  RegistrationTS UpdateRegistrationTS(@RequestBody RegistrationTS registrationTS) {
+        return iRegistrationTSService.UpdateRegistrationTS(registrationTS);
     }
+
     @DeleteMapping("/deleteRegistrationTS")
     public void  deleteRegistrationTS(Long registrationTS_id){
         iRegistrationTSService.deleteRegistrationTSById(registrationTS_id);

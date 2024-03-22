@@ -18,14 +18,16 @@ public class RegistrationTSService implements IRegistrationTSService{
     }
 
     @Override
-    public RegistrationTS addRegistrationTS(RegistrationTS registrationTS) {
+    public RegistrationTS UpdateRegistrationTS(RegistrationTS registrationTS) {
         return registrationTSRepository.save(registrationTS);
     }
 
     @Override
-    public RegistrationTS updateRegistrationTS(RegistrationTS registrationTS) {
+    public RegistrationTS addRegistrationTS(RegistrationTS registrationTS) {
         return registrationTSRepository.save(registrationTS);
     }
+
+
 
     @Override
     public void deleteRegistrationTSById(Long registrationTS_id) {

@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/RegistrationEvent-TrainingSession")
 public class RegistrationEventRestController {
     IRegistrationEventService iRegistrationEventService;
@@ -19,17 +20,19 @@ public class RegistrationEventRestController {
         return iRegistrationEventService.findOneRegistrationEvent(registrationE_id);
     }
     @GetMapping("/findAllRegistrationEvent")
-    public List<RegistrationEvent> findAllActivities() {
+    public List<RegistrationEvent> findAllRegistrationEvent() {
         return  iRegistrationEventService.findAllRegistrationEvent();
     }
     @PostMapping("/addRegistrationEvent")
     public  RegistrationEvent addRegistrationEvent(@RequestBody RegistrationEvent registrationEvent) {
         return iRegistrationEventService.addRegistrationEvent(registrationEvent);
     }
-    @PostMapping("/updateRegistrationEvent")
-    public RegistrationEvent updateRegistrationEvent(@RequestBody RegistrationEvent registrationEvent){
-        return iRegistrationEventService.updateRegistrationEvent(registrationEvent);
+
+    @PostMapping("/UpdateRegistrationEvent")
+    public  RegistrationEvent UpdateRegistrationEvent(@RequestBody RegistrationEvent registrationEvent) {
+        return iRegistrationEventService.UpdateRegistrationEvent(registrationEvent);
     }
+
     @DeleteMapping("/deleteRegistrationEvent")
     public void  deleteRegistrationEvent(@PathParam("registrationE_id") Long registrationE_id){
         iRegistrationEventService.deleteRegistrationEventById(registrationE_id);

@@ -23,9 +23,10 @@ public class RegistrationEventService implements IRegistrationEventService{
     }
 
     @Override
-    public RegistrationEvent updateRegistrationEvent(RegistrationEvent registrationEvent) {
+    public RegistrationEvent UpdateRegistrationEvent(RegistrationEvent registrationEvent) {
         return registrationEventRepository.save(registrationEvent);
     }
+
 
     @Override
     public void deleteRegistrationEventById(Long registrationE_id) {
