@@ -29,7 +29,8 @@ public class JobOffer implements Serializable {
     String description;
     String requiredSkills;
     Integer vacancy;
-    double salary;
+    double minsalary;
+    double maxsalary;
     @Enumerated(EnumType.STRING)
     JobNature jobNature;
 
