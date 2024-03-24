@@ -6,13 +6,14 @@ import com.coconsult.pidevspring.DAO.Repository.TrainingSession.ActivityReposito
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -23,8 +24,8 @@ public class ActivityService implements IActivityService {
 
 
     @Override
-    public List<Activity> findAllActivities() {
-        return activityRepository.findAll();
+    public Page<Activity> findAllActivities(Pageable pageable) {
+        return activityRepository.findAll(pageable);
     }
 
     @Override
@@ -32,17 +33,33 @@ public class ActivityService implements IActivityService {
         return activityRepository.save(activity);
     }
 
+
+
     @Override
-    public Activity UpdateActivity(Activity activity, Long eventId) {
-        Optional<Event> eventOptional = eventRepository.findById(eventId);
-        Event event = eventOptional.orElseThrow(() -> new EntityNotFoundException("Event with ID " + eventId + " not found."));
-        activity.setEvent(event);
-        // Logique de mise à jour de l'activité ici
-        return activityRepository.save(activity);
+    public Activity updateActivity(Long activity_id, Activity activityDetails, Long event_id) {
+        // Trouver l'activité existante
+        Activity activityToUpdate = activityRepository.findById(activity_id)
+                .orElseThrow(() -> new EntityNotFoundException("Activity not found with id: " + activity_id));
+
+        // Trouver l'événement à associer
+        Event event = eventRepository.findById(event_id)
+                .orElseThrow(() -> new EntityNotFoundException("Event not found with id: " + event_id));
+
+        // Mettre à jour les champs de l'activité avec les nouvelles valeurs
+        activityToUpdate.setActivity_name(activityDetails.getActivity_name());
+        activityToUpdate.setDescription(activityDetails.getDescription());
+        activityToUpdate.setStartTime(activityDetails.getStartTime());
+        activityToUpdate.setFinishTime(activityDetails.getFinishTime());
+        // Associer l'événement
+        activityToUpdate.setEvent(event);
+
+        // Sauvegarder et retourner l'activité mise à jour
+        return activityRepository.save(activityToUpdate);
     }
 
 
-    
+
+
 
 
     @Override

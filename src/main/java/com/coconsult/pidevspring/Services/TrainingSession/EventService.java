@@ -24,7 +24,10 @@ public class EventService implements IEventService {
         this.eventRepository = eventRepository;
         this.registrationEventRepository = registrationEventRepository;
     }
-
+    @Override
+    public boolean hasRelatedActivities(Long eventId) {
+        return eventRepository.existsByEventId(eventId);
+    }
     @Override
     public List<Event> findAllEvent() {
         return eventRepository.findAll();

@@ -5,6 +5,7 @@ import com.coconsult.pidevspring.DAO.Entities.Event;
 import com.coconsult.pidevspring.Services.TrainingSession.IEventService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,11 @@ import java.util.List;
 
 public class EventRestController {
     IEventService iEventService;
-
+    @GetMapping("/{eventId}/hasRelatedActivities")
+    public ResponseEntity<Boolean> checkEventRelatedActivities(@PathVariable Long eventId) {
+        boolean hasRelated = iEventService.hasRelatedActivities(eventId);
+        return ResponseEntity.ok(hasRelated);
+    }
     @GetMapping("/findOneEvent/{eventId}")
     public Event findOneEvent(@PathVariable("eventId") Long eventId){
         return iEventService.findOneEvent(eventId);

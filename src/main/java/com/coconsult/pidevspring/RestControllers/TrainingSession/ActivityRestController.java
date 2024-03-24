@@ -7,6 +7,10 @@ import com.coconsult.pidevspring.Services.TrainingSession.IEventService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,14 +25,15 @@ public class ActivityRestController {
     IEventService iEventService;
 
 
-    @GetMapping("/findOneActivity/{activityId}")
-    public Activity findOneActivity(@PathVariable("activityId") Long activityId) {
-        return iActivityService.findOneActivity(activityId);
+    @GetMapping("/findOneActivity/{activity_id}")
+    public Activity findOneActivity(@PathVariable("activity_id") Long activity_id) {
+        return iActivityService.findOneActivity(activity_id);
     }
 
     @GetMapping("/findAllActivities")
-    public List<Activity> findAllActivities() {
-        return  iActivityService.findAllActivities();
+    public Page<Activity> findAllActivities(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return iActivityService.findAllActivities(pageable);
     }
     @PostMapping("/addActivity/{event_id}")
     public  Activity addActivity(@RequestBody Activity activity, @PathVariable("event_id") long event_id) {
@@ -36,10 +41,13 @@ public class ActivityRestController {
         activity.setEvent(event);
         return iActivityService.addActivity(activity);
     }
-    @PutMapping("/updateActivity/{event_id}")
-    public Activity updateActivity(@RequestBody Activity activity, @PathVariable("event_id") Long eventId) {
-        return iActivityService.UpdateActivity(activity, eventId);
+    @PutMapping("/updateActivity/{activity_id}/{event_id}")
+    public ResponseEntity<Activity> updateActivity(@PathVariable Long activity_id, @PathVariable Long event_id, @RequestBody Activity activityDetails) {
+        Activity updatedActivity = iActivityService.updateActivity(activity_id, activityDetails, event_id);
+        return ResponseEntity.ok(updatedActivity);
     }
+
+
 
 
     @DeleteMapping("/deleteActivityById")
