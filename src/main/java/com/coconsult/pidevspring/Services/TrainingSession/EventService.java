@@ -8,6 +8,8 @@ import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
 import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -30,8 +32,8 @@ public class EventService implements IEventService {
         return eventRepository.existsByEventId(eventId);
     }
     @Override
-    public List<Event> findAllEvent() {
-        return eventRepository.findAll();
+    public Page<Event> findAllEvent(Pageable pageable) {
+        return eventRepository.findAll(pageable);
     }
 
     @Override

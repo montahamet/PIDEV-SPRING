@@ -7,6 +7,9 @@ import com.coconsult.pidevspring.Services.TrainingSession.IEventService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springdoc.api.OpenApiResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +32,10 @@ public class EventRestController {
     public Event findOneEvent(@PathVariable("eventId") Long eventId){
         return iEventService.findOneEvent(eventId);
     }
-    @GetMapping("/findAllEvents")
-    public List<Event> findAllEvent() {
-        return  iEventService.findAllEvent();
+    @GetMapping("/events")
+    public Page<Event> findAllEvent(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return iEventService.findAllEvent(pageable);
     }
     @PostMapping("/addEvent")
     public  Event addEvent(@RequestBody Event event) {
