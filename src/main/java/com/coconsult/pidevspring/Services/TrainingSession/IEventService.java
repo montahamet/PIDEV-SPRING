@@ -12,7 +12,7 @@ public interface IEventService {
     List<Event> findAllEvent();
     Event addEvent(Event event);
     Event UpdateEvent(Event event);
-
+    public boolean hasRelatedActivities(Long eventId) ;
     void deleteEventById (Long Event_id);
     Event findOneEvent (Long event_id );
     Set<RegistrationEvent> getRelatedRegistrations(Long event_id);
