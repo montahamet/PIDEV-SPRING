@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface IEventService {
+    public Event saveEventWithLocation(Event event);
     Page<Event> findAllEvent(Pageable pageable);
     Event addEvent(Event event);
     Event UpdateEvent(Event event);
@@ -20,4 +21,7 @@ public interface IEventService {
     Set<RegistrationEvent> getRelatedRegistrations(Long event_id);
     public Set<User> getRelatedUsers(Long eventId);
     public Set<Activity> getRelatedActivities(Long eventId);
-}
+//    public void likeEvent(Long eventId, Long userId);
+//    public void dislikeEvent(Long eventId, Long userId) ;
+
+    }
