@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.RestControllers.TrainingSession;
 
+import com.coconsult.pidevspring.DAO.Entities.Event;
 import com.coconsult.pidevspring.DAO.Entities.FeedBack;
 import com.coconsult.pidevspring.Services.TrainingSession.IFeedBackService;
 import jakarta.websocket.server.PathParam;
@@ -60,6 +61,32 @@ public class FeedBackRestController {
             return ResponseEntity.ok(savedFeedback);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding feedback: " + e.getMessage());
+        }
+    }
+    @GetMapping("/event/{eventId}/averageRating")
+    public ResponseEntity<Double> getEventAverageRating(@PathVariable Long eventId) {
+        try {
+            Double averageRating = iFeedBackService.getAverageRatingForEvent(eventId);
+            if(averageRating == null || Double.isNaN(averageRating)) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return ResponseEntity.ok(averageRating);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+    @GetMapping("/events/withRatings")
+    public ResponseEntity<List<Event>> getEventsWithAverageRatings() {
+        try {
+            List<Event> eventsWithRatings = iFeedBackService.getEventsWithAverageRatings();
+            if(eventsWithRatings.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return ResponseEntity.ok(eventsWithRatings);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
         }
     }
 

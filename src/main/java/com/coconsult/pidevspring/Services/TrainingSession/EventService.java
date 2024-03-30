@@ -5,6 +5,7 @@ import com.coconsult.pidevspring.DAO.Entities.Event;
 import com.coconsult.pidevspring.DAO.Entities.RegistrationEvent;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
+import com.coconsult.pidevspring.DAO.Repository.TrainingSession.FeedBackRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
 import com.coconsult.pidevspring.DAO.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +23,7 @@ import java.util.Set;
 @Service
 public class EventService implements IEventService {
     private final EventRepository eventRepository;
+    private  FeedBackRepository feedbackRepository;
     private final RegistrationEventRepository registrationEventRepository;
     private UserRepository userRepository;
 
@@ -56,15 +58,12 @@ public class EventService implements IEventService {
 //    }
 @Override
 public Event UpdateEvent(Event event) {
-    // Vérifier si l'événement existe avant de le mettre à jour
     return eventRepository.findById(event.getEventId())
             .map(existingEvent -> {
-                // Mettez à jour ici les champs de l'existingEvent avec ceux de l'event
                 existingEvent.setEvent_name(event.getEvent_name());
                 existingEvent.setEvent_description(event.getEvent_description());
                 existingEvent.setEvent_date(event.getEvent_date());
                 existingEvent.setPlace(event.getPlace());
-                // Ajoutez d'autres champs à mettre à jour si nécessaire
                 return eventRepository.save(existingEvent);
             })
             .orElseThrow(() -> new OpenApiResourceNotFoundException("Event not found with id " + event.getEventId()));
@@ -72,9 +71,13 @@ public Event UpdateEvent(Event event) {
 
 
     @Override
+
     public void deleteEventById(Long eventId) {
+        feedbackRepository.deleteByEventId(eventId);
+        registrationEventRepository.deleteByEventId(eventId);
         eventRepository.deleteById(eventId);
     }
+
 
     @Override
     public Event findOneEvent(Long eventId) {
