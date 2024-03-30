@@ -13,6 +13,10 @@ public interface IFeedBackService {
     public FeedBack addFeedbackWithNote(Long eventId, String description, int note);
     public List<FeedBack> findAllFeedbacksForEvent(Long eventId);
     public List<Event> getEventsWithAverageRatings();
+    public double calculateAverageRatingForEvent(Long eventId) ;
+    public Double getAverageRatingForEvent(Long eventId);
+    public List<FeedBack> getFeedbacksForEvent(Long eventId);
     void deleteFeedBackById (Long feedback_id);
     FeedBack findOneFeedBack (Long feedback_id);
+
 }

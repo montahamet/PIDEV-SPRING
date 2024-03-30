@@ -57,24 +57,30 @@ EventRepository eventRepository;
     }
     @Override
     public List<Event> getEventsWithAverageRatings() {
-        List<Event> events = eventRepository.findAll(); // Fetch all events
-        List<Map<String, Object>> averageRatings = feedBackRepository.findAverageRatingsForAllEvents();
-
-        Map<Long, Double> ratingsMap = averageRatings.stream().collect(
-                Collectors.toMap(
-                        avg -> (Long) avg.get("eventId"),
-                        avg -> (Double) avg.get("averageRating")
-                )
-        );
-
-        // Iterate over each event and set its average rating
+        List<Event> events = eventRepository.findAll();
         events.forEach(event -> {
-            Double averageRating = ratingsMap.getOrDefault(event.getEventId(), 0.0);
+            Double averageRating = this.getAverageRatingForEvent(event.getEventId());
             event.setAverageRating(averageRating);
         });
-
         return events;
     }
+
+    public List<FeedBack> getFeedbacksForEvent(Long eventId) {
+        return feedBackRepository.findAllByEventEventId(eventId);
+    }
+
+    public Double getAverageRatingForEvent(Long eventId) {
+        Double averageRating = feedBackRepository.findAverageRatingByEventId(eventId);
+        return averageRating != null ? averageRating : Double.NaN;
+    }
+    public double calculateAverageRatingForEvent(Long eventId) {
+        List<FeedBack> feedbacks = feedBackRepository.findAllByEventEventId(eventId);
+        return feedbacks.stream()
+                .mapToInt(FeedBack::getNote)
+                .average()
+                .orElse(Double.NaN); // Retourne NaN si aucune note n'est disponible
+    }
+
 
     @Override
     public void deleteFeedBackById(Long feedback_id) {
