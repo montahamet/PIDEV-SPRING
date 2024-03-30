@@ -26,6 +26,7 @@ public class RegistrationEvent implements Serializable {
     @ManyToOne
     User user;
 
+
     @ManyToOne
     Event event;
 }

@@ -4,9 +4,12 @@ import com.coconsult.pidevspring.DAO.Entities.FeedBack;
 import com.coconsult.pidevspring.Services.TrainingSession.IFeedBackService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -23,14 +26,43 @@ public class FeedBackRestController {
     public List<FeedBack> findAllFeedBack() {
         return  iFeedBackService.findAllFeedBack();
     }
-    @PostMapping("/addFeedBack")
-    public  FeedBack addFeedBack(@RequestBody FeedBack feedBack) {
-        return iFeedBackService.addFeedBack(feedBack);
-    }
+//    @PostMapping("/addFeedBack")
+//    public  FeedBack addFeedBack(@RequestBody FeedBack feedBack) {
+//        return iFeedBackService.addFeedback(feedBack);
+//    }
     @PutMapping("/UpdateFeedBack")
     public  FeedBack UpdateFeedBack(@RequestBody FeedBack feedBack) {
         return iFeedBackService.UpdateFeedBack(feedBack);
     }
+    @GetMapping("/event/{eventId}")
+    public ResponseEntity<List<FeedBack>> getAllFeedbacksByEventId(@PathVariable Long eventId) {
+        List<FeedBack> feedbacks = iFeedBackService.findAllFeedbacksForEvent(eventId);
+        return ResponseEntity.ok(feedbacks);
+    }
+    @PostMapping("/feedback/addWithNote/{eventId}")
+    public ResponseEntity<?> addFeedbackWithNote(@PathVariable Long eventId, @RequestParam String description, @RequestParam int note) {
+        try {
+            FeedBack savedFeedback = iFeedBackService.addFeedbackWithNote(eventId, description, note);
+            return ResponseEntity.ok(savedFeedback);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding feedback with note: " + e.getMessage());
+        }
+    }
+    @PostMapping("/feedback/add/{eventId}")
+    public ResponseEntity<?> addFeedback(@PathVariable Long eventId, @RequestBody FeedBack feedback) {
+        try {
+            // Ajouter la note à l'objet Feedback
+            feedback.setNote(feedback.getNote());
+
+            // Enregistrer le feedback avec l'ID de l'événement
+            FeedBack savedFeedback = iFeedBackService.addFeedback(eventId, feedback);
+
+            return ResponseEntity.ok(savedFeedback);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding feedback: " + e.getMessage());
+        }
+    }
+
 
 
     @DeleteMapping("/deleteFeedBack")

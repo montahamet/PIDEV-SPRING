@@ -6,8 +6,12 @@ import com.coconsult.pidevspring.DAO.Entities.RegistrationEvent;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
+import com.coconsult.pidevspring.DAO.Repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -19,6 +23,7 @@ import java.util.Set;
 public class EventService implements IEventService {
     private final EventRepository eventRepository;
     private final RegistrationEventRepository registrationEventRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public EventService(EventRepository eventRepository, RegistrationEventRepository registrationEventRepository) {
@@ -29,9 +34,15 @@ public class EventService implements IEventService {
     public boolean hasRelatedActivities(Long eventId) {
         return eventRepository.existsByEventId(eventId);
     }
+
     @Override
-    public List<Event> findAllEvent() {
-        return eventRepository.findAll();
+    public Event saveEventWithLocation(Event event) {
+        return eventRepository.save(event);
+    }
+
+    @Override
+    public Page<Event> findAllEvent(Pageable pageable) {
+        return eventRepository.findAll(pageable);
     }
 
     @Override
@@ -46,7 +57,7 @@ public class EventService implements IEventService {
 @Override
 public Event UpdateEvent(Event event) {
     // Vérifier si l'événement existe avant de le mettre à jour
-    return eventRepository.findById(event.getEvent_id())
+    return eventRepository.findById(event.getEventId())
             .map(existingEvent -> {
                 // Mettez à jour ici les champs de l'existingEvent avec ceux de l'event
                 existingEvent.setEvent_name(event.getEvent_name());
@@ -56,7 +67,7 @@ public Event UpdateEvent(Event event) {
                 // Ajoutez d'autres champs à mettre à jour si nécessaire
                 return eventRepository.save(existingEvent);
             })
-            .orElseThrow(() -> new OpenApiResourceNotFoundException("Event not found with id " + event.getEvent_id()));
+            .orElseThrow(() -> new OpenApiResourceNotFoundException("Event not found with id " + event.getEventId()));
 }
 
 
@@ -91,4 +102,37 @@ public Event UpdateEvent(Event event) {
         Optional<Event> eventOptional = eventRepository.findById(eventId);
         return eventOptional.map(Event::getActivitys).orElse(Collections.emptySet());
     }
+
+//    @Override
+//    public void likeEvent(Long eventId, Long userId) {
+//        Event event = eventRepository.findById(eventId)
+//                .orElseThrow(() -> new EntityNotFoundException("Event not found"));
+//
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+//
+//        if (!event.getLikedByUsers().contains(user)) {
+//            event.getLikedByUsers().add(user);
+//            eventRepository.save(event);
+//        } else {
+//            // Handle case where user already liked the event
+//        }
+//    }
+//
+//    @Override
+//    public void dislikeEvent(Long eventId, Long userId) {
+//        Event event = eventRepository.findById(eventId)
+//                .orElseThrow(() -> new EntityNotFoundException("Event not found"));
+//
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+//
+//        if (event.getLikedByUsers().contains(user)) {
+//            event.getLikedByUsers().remove(user);
+//            eventRepository.save(event);
+//        } else {
+//            // Handle case where user already disliked the event
+//        }
+//    }
+
 }

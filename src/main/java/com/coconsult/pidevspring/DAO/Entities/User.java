@@ -65,7 +65,9 @@ public class User implements   Serializable {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Event> Events = new HashSet<>();
 
-
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "likedByUsers", cascade = CascadeType.ALL)
+//    private Set<Event> likedEvents;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<RegistrationEvent> RegistationTSs;
