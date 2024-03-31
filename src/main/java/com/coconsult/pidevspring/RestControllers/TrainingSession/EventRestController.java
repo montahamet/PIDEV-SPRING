@@ -46,16 +46,20 @@ public class EventRestController {
     }
     @PutMapping("/events/{eventId}")
     public ResponseEntity<Event> updateEvent(@PathVariable(value = "eventId") Long eventId, @RequestBody Event eventDetails) {
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new OpenApiResourceNotFoundException("Event not found for this id :: " + eventId));
-
-        event.setEvent_name(eventDetails.getEvent_name());
-        event.setEvent_description(eventDetails.getEvent_description());
-        event.setEvent_date(eventDetails.getEvent_date());
-        event.setPlace(eventDetails.getPlace());
-        final Event updatedEvent = eventRepository.save(event);
+        Event updatedEvent = iEventService.UpdateEvent(eventDetails); // Utiliser la méthode appropriée du service
         return ResponseEntity.ok(updatedEvent);
     }
+//    public ResponseEntity<Event> updateEvent(@PathVariable(value = "eventId") Long eventId, @RequestBody Event eventDetails) {
+//        Event event = eventRepository.findById(eventId)
+//                .orElseThrow(() -> new OpenApiResourceNotFoundException("Event not found for this id :: " + eventId));
+//
+//        event.setEvent_name(eventDetails.getEvent_name());
+//        event.setEvent_description(eventDetails.getEvent_description());
+//        event.setEvent_date(eventDetails.getEvent_date());
+//        event.setPlace(eventDetails.getPlace());
+//        final Event updatedEvent = eventRepository.save(event);
+//        return ResponseEntity.ok(updatedEvent);
+//    }
 
     @DeleteMapping("/deleteEvent/{eventId}")
     public void deleteEvent(@PathVariable("eventId") Long eventId) {
@@ -65,6 +69,15 @@ public class EventRestController {
     public ResponseEntity<List<Event>> getEventsWithRatings() {
         List<Event> eventsWithRatings = iFeedBackService.getEventsWithAverageRatings();
         return ResponseEntity.ok(eventsWithRatings);
+    }
+    @PutMapping("/{eventId}/updateAverageRating")
+    public ResponseEntity<?> updateEventAverageRating(@PathVariable Long eventId) {
+        try {
+            iEventService.updateEventAverageRating(eventId);
+            return ResponseEntity.ok().body("Average rating updated successfully for event with ID: " + eventId);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 //    @PostMapping("/{eventId}/like")
 //    public ResponseEntity<Event> likeEvent(@PathVariable Long eventId) {

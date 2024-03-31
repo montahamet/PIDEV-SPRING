@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface IEventService {
@@ -21,7 +22,5 @@ public interface IEventService {
     Set<RegistrationEvent> getRelatedRegistrations(Long event_id);
     public Set<User> getRelatedUsers(Long eventId);
     public Set<Activity> getRelatedActivities(Long eventId);
-//    public void likeEvent(Long eventId, Long userId);
-//    public void dislikeEvent(Long eventId, Long userId) ;
-
+    public void updateEventAverageRating(Long eventId);
     }
