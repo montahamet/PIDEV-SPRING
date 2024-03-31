@@ -3,6 +3,12 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+application.proprities
+application.yaml
+# Ignore les fichiers de logs
+log/
+# ignore les fichier temporaire
+*.tmp
 
 ### STS ###
 .apt_generated
