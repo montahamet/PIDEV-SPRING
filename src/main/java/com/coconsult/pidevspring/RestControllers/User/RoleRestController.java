@@ -4,15 +4,18 @@ import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.Services.User.IRoleService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-
+//@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RequestMapping("/role")
 public class RoleRestController {
+    @Autowired
 
     IRoleService iRoleService;
     @GetMapping("/retrieveAllRoles")
@@ -31,13 +34,13 @@ public class RoleRestController {
         return iRoleService.updateRole(r);
     }
 
-    @GetMapping("/retrieveOneRole")
-    public Role retrieveOneUser(@PathParam("roleId") Long roleId) {
+    @GetMapping("/retrieveOneRole/{roleId}")
+    public Role retrieveOneUser(@PathVariable Long roleId) {
         return iRoleService.retrieveOneRole(roleId);
     }
 
-    @DeleteMapping("/removeRole")
-    public void removeUser(@PathParam("roleId") Long roleId) {
+    @DeleteMapping("/removeRole/{roleId}")
+    public void removeUser(@PathVariable Long roleId) {
         iRoleService.removeRole(roleId);
 
     }

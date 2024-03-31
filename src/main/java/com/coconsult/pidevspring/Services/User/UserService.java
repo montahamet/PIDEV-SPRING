@@ -1,19 +1,22 @@
 package com.coconsult.pidevspring.Services.User;
 
 import com.coconsult.pidevspring.DAO.Entities.User;
-import com.coconsult.pidevspring.DAO.Repositories.User.UserRepository;
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class UserService implements IUserService {
+    @Autowired
     UserRepository userRepository ;
     @Override
     public List<User> retrieveAllUser() {
-        return userRepository.findAll();
+        return (List<User>)  userRepository.findAll();
     }
 
     @Override

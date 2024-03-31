@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.DAO.Repositories.Chat;
+package com.coconsult.pidevspring.DAO.Repository.Chat;
 
 import com.coconsult.pidevspring.DAO.Entities.Chat;
 import com.coconsult.pidevspring.DAO.Entities.Message;

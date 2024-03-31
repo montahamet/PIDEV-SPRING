@@ -1,7 +1,7 @@
 package com.coconsult.pidevspring.Services.Chat;
 
 import com.coconsult.pidevspring.DAO.Entities.Message;
-import com.coconsult.pidevspring.DAO.Repositories.Chat.MessageRepository;
+import com.coconsult.pidevspring.DAO.Repository.Chat.MessageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
