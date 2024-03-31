@@ -49,6 +49,10 @@ public class EventRestController {
         Event updatedEvent = iEventService.UpdateEvent(eventDetails); // Utiliser la méthode appropriée du service
         return ResponseEntity.ok(updatedEvent);
     }
+    @GetMapping("/upcoming")
+    public List<Event> getUpcomingEvents() {
+        return iEventService.getUpcomingEvents();
+    }
 //    public ResponseEntity<Event> updateEvent(@PathVariable(value = "eventId") Long eventId, @RequestBody Event eventDetails) {
 //        Event event = eventRepository.findById(eventId)
 //                .orElseThrow(() -> new OpenApiResourceNotFoundException("Event not found for this id :: " + eventId));

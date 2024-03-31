@@ -25,7 +25,7 @@ public class Event implements Serializable {
     Long eventId ;
 
     String event_name;
-    LocalDate event_date;
+    LocalDateTime event_date;
     String event_description;
     String place;
     Double latitude;
