@@ -19,6 +19,7 @@ import java.util.Set;
 public class Quote implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long quote_id ;
     private LocalDate issuanceDate;
     private String description;
@@ -30,4 +31,5 @@ public class Quote implements Serializable {
     @JsonIgnore
     @ManyToOne
     private ProjectOffer projectofferquote;
+
 }

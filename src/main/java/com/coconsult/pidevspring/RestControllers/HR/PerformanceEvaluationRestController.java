@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @AllArgsConstructor
 @RequestMapping("/PerformanceEvaluation")
 public class PerformanceEvaluationRestController {

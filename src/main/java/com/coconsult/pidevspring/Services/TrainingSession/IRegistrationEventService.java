@@ -8,7 +8,9 @@ import java.util.List;
 public interface IRegistrationEventService {
     List<RegistrationEvent> findAllRegistrationEvent();
     RegistrationEvent addRegistrationEvent(RegistrationEvent registrationEvent);
-    RegistrationEvent updateRegistrationEvent(RegistrationEvent registrationEvent);
-    void deleteRegistrationEvent (RegistrationEvent registrationEvent);
+    RegistrationEvent UpdateRegistrationEvent(RegistrationEvent registrationEvent);
+
+    void deleteRegistrationEventById (Long registrationE_id);
     RegistrationEvent findOneRegistrationEvent (Long registrationE_id);
+    public RegistrationEvent registerForEvent(Long eventId, Long userId);
 }

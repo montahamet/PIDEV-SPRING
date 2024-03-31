@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
 @RequestMapping("/JobOffer")
 public class JobOfferRestController {
@@ -15,14 +16,13 @@ public class JobOfferRestController {
 
     @PostMapping("addJobOffer")
     public JobOffer addJobOffer (@RequestBody JobOffer JobOffer){
-        return iJobOfferService.addJobOffer(JobOffer);
+        return iJobOfferService.addOrUpdateJobOffer(JobOffer);
+    }
+    @PutMapping ("updateJobOffer")
+    public JobOffer updateJobOffer (@RequestBody JobOffer JobOffer){
+        return iJobOfferService.addOrUpdateJobOffer(JobOffer);
     }
 
-
-    @PutMapping("updateJobOffer")
-    public JobOffer updateJobOffer (@RequestBody  JobOffer JobOffer){
-        return iJobOfferService.updateJobOffer(JobOffer);
-    }
 
     @PostMapping("addAllJobOffers")
     public List<JobOffer> addAllJobOffers(@RequestBody List<JobOffer> JobOffers){
