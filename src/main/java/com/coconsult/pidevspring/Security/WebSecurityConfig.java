@@ -96,6 +96,15 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
                             .requestMatchers("/api/test/**").permitAll()
                             .requestMatchers("/user/**").permitAll()
                             .requestMatchers("/role/**").permitAll()
+/////////////////////////////////// haifa /////////////////////////////////////////////////////////////////
+                            .requestMatchers("/Activity-TrainingSession/**").permitAll()
+                            .requestMatchers("/Event-TrainingSession/**").permitAll()
+                            .requestMatchers("/FeedBack-TrainingSession/**").permitAll()
+                            .requestMatchers("/RegistrationEvent-TrainingSession/**").permitAll()
+                            .requestMatchers("/RegistrationTS-TrainingSession/**").permitAll()
+                            .requestMatchers("/TrainingSession-TrainingSession/**").permitAll()
+/////////////////////////////////// haifa /////////////////////////////////////////////////////////////////
+
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().authenticated()
             );
