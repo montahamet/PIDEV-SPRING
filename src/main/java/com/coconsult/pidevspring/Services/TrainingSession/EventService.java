@@ -1,9 +1,6 @@
 package com.coconsult.pidevspring.Services.TrainingSession;
 
-import com.coconsult.pidevspring.DAO.Entities.Activity;
-import com.coconsult.pidevspring.DAO.Entities.Event;
-import com.coconsult.pidevspring.DAO.Entities.RegistrationEvent;
-import com.coconsult.pidevspring.DAO.Entities.User;
+import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.FeedBackRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
@@ -23,13 +20,13 @@ import java.util.Set;
 @Service
 public class EventService implements IEventService {
     private final EventRepository eventRepository;
-    private  FeedBackRepository feedbackRepository;
+    private final FeedBackRepository feedbackRepository;
     private final RegistrationEventRepository registrationEventRepository;
-    private UserRepository userRepository;
 
     @Autowired
-    public EventService(EventRepository eventRepository, RegistrationEventRepository registrationEventRepository) {
+    public EventService(EventRepository eventRepository, FeedBackRepository feedbackRepository, RegistrationEventRepository registrationEventRepository) {
         this.eventRepository = eventRepository;
+        this.feedbackRepository = feedbackRepository;
         this.registrationEventRepository = registrationEventRepository;
     }
     @Override
@@ -104,6 +101,25 @@ public Event UpdateEvent(Event event) {
     public Set<Activity> getRelatedActivities(Long eventId) {
         Optional<Event> eventOptional = eventRepository.findById(eventId);
         return eventOptional.map(Event::getActivitys).orElse(Collections.emptySet());
+    }
+
+    @Override
+    public void updateEventAverageRating(Long eventId) {
+        // Trouver tous les feedbacks pour l'événement
+        List<FeedBack> feedbacks = feedbackRepository.findAllByEventEventId(eventId);
+
+        // Calculer la moyenne des notes
+        double averageRating = feedbacks.stream()
+                .mapToInt(FeedBack::getNote)
+                .average()
+                .orElse(0.0);
+
+        // Mettre à jour l'événement avec la nouvelle moyenne
+        Event event = eventRepository.findById(eventId).orElse(null);
+        if (event != null) {
+            event.setAverageRating(averageRating);
+            eventRepository.save(event);
+        }
     }
 
 //    @Override

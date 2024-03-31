@@ -69,6 +69,7 @@ EventRepository eventRepository;
         return feedBackRepository.findAllByEventEventId(eventId);
     }
 
+
     public Double getAverageRatingForEvent(Long eventId) {
         Double averageRating = feedBackRepository.findAverageRatingByEventId(eventId);
         return averageRating != null ? averageRating : Double.NaN;
