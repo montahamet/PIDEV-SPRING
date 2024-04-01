@@ -6,6 +6,7 @@ import com.coconsult.pidevspring.DAO.Repository.HR.CandidacyRepository;
 import com.coconsult.pidevspring.DAO.Repository.HR.JobOfferRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CandidacyService implements ICandidacyService {
+    @Autowired
     CandidacyRepository candidacyRepository;
     JobOfferRepository jobOfferRepository;
 
