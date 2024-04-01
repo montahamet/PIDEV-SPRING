@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,6 +23,7 @@ public class Candidacy implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long candidacy_id ;
     String candidateName;
+    String email;
     String link;
     String cv;
     String coverLetter;
@@ -29,10 +31,27 @@ public class Candidacy implements Serializable {
     @Enumerated(EnumType.STRING)
     StatusCandidacy candidacystatus;
 
+
+    @Builder
+    public Candidacy(Long candidacy_id, String candidateName, String link, String cv, String coverLetter, StatusCandidacy candidacystatus) {
+        this.candidacy_id = candidacy_id;
+        this.candidateName = candidateName;
+        this.link = link;
+        this.cv = cv;
+        this.coverLetter = coverLetter;
+        this.submissionDate = LocalDateTime.now(); // Set submissionDate to current system date and time
+        this.candidacystatus = candidacystatus;
+//        this.job_offer = job_offer;
+//        this.user = user;
+//        this.Interviews = Interviews;
+    }
+
     ///Relations
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToOne
-    JobOffer job_offer;
+    @JoinColumn(name = "job_offer_id")
+    private JobOffer jobOffer;
+
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     User user;
