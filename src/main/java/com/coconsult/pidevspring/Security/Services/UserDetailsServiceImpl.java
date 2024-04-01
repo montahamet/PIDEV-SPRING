@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.Security.services;
+package com.coconsult.pidevspring.Security.Services;
 
 import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
     logger.info("User roles size: {}", user.getRoles().size());
 
-    return UserDetailsImpl.build(user);
+    return com.coconsult.pidevspring.Security.services.UserDetailsImpl.build(user);
   }
 
   public boolean isUserFullyAuthenticated(UserDetails userDetails) {
