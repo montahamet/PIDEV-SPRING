@@ -12,4 +12,5 @@ public interface IRegistrationEventService {
 
     void deleteRegistrationEventById (Long registrationE_id);
     RegistrationEvent findOneRegistrationEvent (Long registrationE_id);
+    public RegistrationEvent registerForEvent(Long eventId, Long userId);
 }

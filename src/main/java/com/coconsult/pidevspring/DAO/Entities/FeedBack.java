@@ -29,9 +29,9 @@ public class FeedBack  implements Serializable {
 @JsonIgnore
     @ManyToOne
     User user;
-    @JsonIgnore
 
     @ManyToOne
+    @JoinColumn(name = "event_id")
     Event event;
     @JsonIgnore
 
