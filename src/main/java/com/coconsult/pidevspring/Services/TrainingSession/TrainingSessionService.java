@@ -18,18 +18,19 @@ public class TrainingSessionService implements ITrainingSessionService{
     }
 
     @Override
+    public TrainingSession UpdateTrainingSession(TrainingSession trainingSession) {
+        return trainingSessionRepository.save(trainingSession);
+    }
+
+    @Override
     public TrainingSession addTrainingSession(TrainingSession trainingSession) {
         return trainingSessionRepository.save(trainingSession);
     }
 
-    @Override
-    public TrainingSession updateTrainingSession(TrainingSession trainingSession) {
-        return trainingSessionRepository.save(trainingSession);
-    }
 
     @Override
-    public void deleteTrainingSession(TrainingSession trainingSession) {
-        trainingSessionRepository.delete(trainingSession);
+    public void deleteTrainingSessionById(Long TS_id) {
+        trainingSessionRepository.deleteById(TS_id);
     }
 
     @Override
