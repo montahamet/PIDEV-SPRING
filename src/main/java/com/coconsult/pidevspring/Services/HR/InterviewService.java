@@ -3,6 +3,7 @@ package com.coconsult.pidevspring.Services.HR;
 import com.coconsult.pidevspring.DAO.Entities.Interview;
 import com.coconsult.pidevspring.DAO.Repository.HR.InterviewRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class InterviewService implements IInterviewService{
+    @Autowired
     InterviewRepository interviewRepository;
     @Override
     public Interview addOrUpdateInterview(Interview interview) {

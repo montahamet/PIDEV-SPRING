@@ -105,6 +105,9 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
                             .requestMatchers("/TrainingSession-TrainingSession/**").permitAll()
 /////////////////////////////////// haifa /////////////////////////////////////////////////////////////////
 
+                            .requestMatchers("/JobOffer/**").permitAll()
+                            .requestMatchers("/Interview/**").permitAll()
+                            .requestMatchers("/candidacy/**").permitAll()
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().authenticated()
             );
