@@ -96,6 +96,9 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
                             .requestMatchers("/api/test/**").permitAll()
                             .requestMatchers("/user/**").permitAll()
                             .requestMatchers("/role/**").permitAll()
+                            .requestMatchers("/JobOffer/**").permitAll()
+                            .requestMatchers("/Interview/**").permitAll()
+                            .requestMatchers("/candidacy/**").permitAll()
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().authenticated()
             );

@@ -5,6 +5,7 @@ import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 import com.coconsult.pidevspring.DAO.Repository.HR.JobOfferRepository;
 import lombok.AllArgsConstructor;
 import org.springdoc.api.OpenApiResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class JobOfferService implements IJobOfferService {
+    @Autowired
     JobOfferRepository jobOfferRepository;
     @Override
     public JobOffer addJobOffer(JobOffer JobOffer) {

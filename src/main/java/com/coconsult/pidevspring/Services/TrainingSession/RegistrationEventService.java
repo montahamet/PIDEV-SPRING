@@ -3,7 +3,6 @@ package com.coconsult.pidevspring.Services.TrainingSession;
 import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
-import com.coconsult.pidevspring.DAO.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class RegistrationEventService implements IRegistrationEventService{
     RegistrationEventRepository registrationEventRepository;
-    UserRepository userRepository;
     EventRepository eventRepository;
     @Override
     public List<RegistrationEvent> findAllRegistrationEvent() {
@@ -48,12 +46,12 @@ public class RegistrationEventService implements IRegistrationEventService{
     public RegistrationEvent registerForEvent(Long eventId, Long userId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
 
         RegistrationEvent registration = new RegistrationEvent();
         registration.setEvent(event);
-        registration.setUser(user);
+//        registration.setUser(user);
         registration.setRegistration_date(LocalDateTime.now()); // Set system date as registration date
         registration.setRegistrationEvent_status(Status.PENDING);
 
