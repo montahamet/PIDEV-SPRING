@@ -1,3 +1,4 @@
+
 package com.coconsult.pidevspring.Services.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
@@ -25,4 +26,4 @@ public interface IJobOfferService {
 //    JobOffer findOneJobOffer(Long jobId);
 //    Set<Candidacy> findAllCandidaciesByJobOfferId(Long jobOfferId);
 
-    }
+}
