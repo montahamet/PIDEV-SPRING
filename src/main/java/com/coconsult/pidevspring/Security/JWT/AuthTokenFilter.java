@@ -1,8 +1,8 @@
-package com.coconsult.pidevspring.Security.jwt;
+package com.coconsult.pidevspring.Security.JWT;
 
 import java.io.IOException;
 
-import com.coconsult.pidevspring.Security.services.UserDetailsServiceImpl;
+import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

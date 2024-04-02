@@ -1,10 +1,10 @@
-package com.coconsult.pidevspring.Security.jwt;
+package com.coconsult.pidevspring.Security.JWT;
 
 import java.security.Key;
 import java.util.Date;
 
 import com.coconsult.pidevspring.DAO.Entities.User;
-import com.coconsult.pidevspring.Security.services.UserDetailsImpl;
+import com.coconsult.pidevspring.Security.Services.UserDetailsImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
