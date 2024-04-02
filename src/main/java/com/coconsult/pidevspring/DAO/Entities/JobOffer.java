@@ -2,6 +2,7 @@ package com.coconsult.pidevspring.DAO.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -43,9 +44,11 @@ public class JobOffer implements Serializable {
 
 
     ///Relations
-    @JsonBackReference
+    // JobOffer class
+    @JsonManagedReference
     @OneToMany(mappedBy = "jobOffer", cascade = CascadeType.ALL)
     private List<Candidacy> candidacies = new ArrayList<>();
+
     @JsonIgnore
     @ManyToOne
     User user;

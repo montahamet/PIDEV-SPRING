@@ -1,8 +1,9 @@
 package com.coconsult.pidevspring.Security;
 
 import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
-import com.coconsult.pidevspring.Security.jwt.AuthEntryPointJwt;
+import com.coconsult.pidevspring.Security.JWT.AuthEntryPointJwt;
 import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
+import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
