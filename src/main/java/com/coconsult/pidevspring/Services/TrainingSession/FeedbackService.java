@@ -5,6 +5,7 @@ import com.coconsult.pidevspring.DAO.Entities.FeedBack;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.FeedBackRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class FeedbackService implements IFeedBackService{
+    @Autowired
     FeedBackRepository feedBackRepository;
 EventRepository eventRepository;
     @Override

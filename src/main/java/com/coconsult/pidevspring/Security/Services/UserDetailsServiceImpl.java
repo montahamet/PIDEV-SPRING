@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.Security.services;
+package com.coconsult.pidevspring.Security.Services;
 
 import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
