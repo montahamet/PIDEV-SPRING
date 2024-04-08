@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 //@CrossOrigin("*")
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -58,6 +60,15 @@ public class ActivityRestController {
     @GetMapping("/getAllEventsWithName")
     public List<Event> getAllEventsWithName() {
         return iActivityService.getAllEventsWithName();
+    }
+
+    @GetMapping("/api/activities/search")
+    public List<Activity> searchActivities(
+            @RequestParam(value = "keywords", required = false) String keywords,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        return iActivityService.searchActivities(keywords, startDate, endDate);
     }
 
 //    @PutMapping("/activities/{id}")
