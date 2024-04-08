@@ -11,8 +11,12 @@ import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -31,6 +35,47 @@ public class EventRestController {
         boolean hasRelated = iEventService.hasRelatedActivities(eventId);
         return ResponseEntity.ok(hasRelated);
     }
+    @GetMapping("/searchLocation")
+    public ResponseEntity<String> proxySearchLocation(@RequestParam("query") String query) {
+        final String url = "https://nominatim.openstreetmap.org/search?format=json&q=" + query;
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("User-Agent", "SpringBootApp"); // Adjust this as per OpenStreetMap's requirements
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        return response;
+    }
+
+//    @GetMapping("/searchLocation")
+//    public ResponseEntity<String> proxySearchLocation(@RequestParam("query") String query) {
+//        final String url = "https://nominatim.openstreetmap.org/search?format=json&q=" + query;
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("User-Agent", "VotreApplication + http://votreDomaine.com");
+//
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+//
+//        return response;
+//    }
+
+
+//    @GetMapping("/searchLocation")
+//    public ResponseEntity<String> proxySearchLocation(@RequestParam("query") String query) {
+//        final String url = "https://nominatim.openstreetmap.org/search?format=json&q=" + query;
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("User-Agent", "SpringBootApp"); // Nominatim requiert un User-Agent personnalisé
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+//
+//        return response;
+//    }
+
     @GetMapping("/findOneEvent/{eventId}")
     public Event findOneEvent(@PathVariable("eventId") Long eventId){
         return iEventService.findOneEvent(eventId);
