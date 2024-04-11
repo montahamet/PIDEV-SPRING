@@ -90,8 +90,8 @@ public ResponseEntity<JobOffer> updateJobOffer(@PathVariable(value = "jobOfferId
 //    }
 
 
-    @GetMapping("/{jobOfferId}/candidacies")
-    public ResponseEntity<List<Candidacy>> getCandidaciesByJobOfferId(@PathVariable Long jobOfferId) {
+    @GetMapping("/findAllJobCandidacies")
+    public ResponseEntity<List<Candidacy>> getCandidaciesByJobOfferId(@RequestParam Long jobOfferId) {
         try {
             List<Candidacy> candidacies = iJobOfferService.getCandidaciesByJobOfferId(jobOfferId);
             return ResponseEntity.ok(candidacies);

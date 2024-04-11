@@ -23,8 +23,6 @@ public class Interview implements Serializable {
     Long interview_id ;
     LocalDateTime dateInterview;
     @Enumerated(EnumType.STRING)
-    TypeInterview type;
-    @Enumerated(EnumType.STRING)
     StatusInterview statusInterview;
     Boolean passed;
 
@@ -33,8 +31,10 @@ public class Interview implements Serializable {
     @JsonIgnore
     @ManyToOne
     User user;
-    @JsonIgnore
-    @ManyToOne
+
+    @JsonManagedReference
+    @OneToOne
+    @JoinColumn(name = "candidacy_id")
     Candidacy candidacy;
 
 
@@ -45,8 +45,5 @@ public class Interview implements Serializable {
         COMPLETED,
         CANCELED
     }
-    public enum TypeInterview {
-        HR,
-        TECHNICAL
-    }
+
 }
