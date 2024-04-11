@@ -1,9 +1,9 @@
 package com.coconsult.pidevspring.Services.HR.CVStorage;
 
-public class ResponseMessageHR {
+public class ResponseMessage {
     private String message;
 
-    public ResponseMessageHR(String message) {
+    public ResponseMessage(String message) {
         this.message = message;
     }
 

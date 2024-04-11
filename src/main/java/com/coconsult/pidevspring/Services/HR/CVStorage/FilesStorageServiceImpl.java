@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.Services.HR.CVStorage;
 
+import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 @Service
 
-public class FilesStorageServiceImplHR implements FilesStorageServiceHR {
+public class FilesStorageServiceImpl implements FilesStorageService {
     private final Path root = Paths.get("C:/xampp/htdocs/coconsult");
 
     @Override
