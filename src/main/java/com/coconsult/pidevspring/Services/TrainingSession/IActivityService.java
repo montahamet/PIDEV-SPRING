@@ -17,5 +17,4 @@ public interface IActivityService {
     public List<Activity> searchActivities(String keywords, LocalDate startDate, LocalDate endDate);
     void deleteActivityById (Long activity_id);
     Activity findOneActivity (Long Activity_id );
-    public List<Activity> findAllActivities() ;
-    }
+}

@@ -1,12 +1,15 @@
 package com.coconsult.pidevspring.RestControllers.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
-import com.coconsult.pidevspring.Services.HR.CVStorage.FileHRInfo;
-import com.coconsult.pidevspring.Services.HR.CVStorage.FilesHRController;
-import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageServiceHR;
-import com.coconsult.pidevspring.Services.HR.CVStorage.ResponseMessageHR;
+import com.coconsult.pidevspring.DAO.Entities.JobOffer;
+import com.coconsult.pidevspring.Services.HR.CVStorage.FileInfo;
+import com.coconsult.pidevspring.Services.HR.CVStorage.FilesController;
+import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageService;
+import com.coconsult.pidevspring.Services.HR.CVStorage.ResponseMessage;
 import com.coconsult.pidevspring.Services.HR.ICandidacyService;
 import com.coconsult.pidevspring.Services.HR.IJobOfferService;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -28,7 +31,7 @@ public class CandidacyRestController {
    // @Autowired
     ICandidacyService iCandidacyService;
     IJobOfferService iJobOfferService;
-    FilesStorageServiceHR storageService;
+    FilesStorageService storageService;
     @PostMapping("addCandidacy")
     public Candidacy addCandidacy (@RequestBody Candidacy Candidacy){
         return iCandidacyService.addOrUpdateCandidacy(Candidacy);
@@ -75,27 +78,27 @@ public class CandidacyRestController {
         return iCandidacyService.getCandidaciesByJobOfferId(jobOfferId);
     }
     @PostMapping("/upload")
-    public ResponseEntity<ResponseMessageHR> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
             storageService.save(file);
 
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessageHR(message));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessageHR(message));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
         }
     }
 
     @GetMapping("/files")
-    public ResponseEntity<List<FileHRInfo>> getListFiles() {
-        List<FileHRInfo> fileInfos = storageService.loadAll().map(path -> {
+    public ResponseEntity<List<FileInfo>> getListFiles() {
+        List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
             String filename = path.getFileName().toString();
             String url = MvcUriComponentsBuilder
-                    .fromMethodName(FilesHRController.class, "getFile", path.getFileName().toString()).build().toString();
+                    .fromMethodName(FilesController.class, "getFile", path.getFileName().toString()).build().toString();
 
-            return new FileHRInfo(filename, url);
+            return new FileInfo(filename, url);
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);

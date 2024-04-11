@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.Security.JWT;
+package com.coconsult.pidevspring.Security.jwt;
 
 import java.io.IOException;
 import java.util.HashMap;
