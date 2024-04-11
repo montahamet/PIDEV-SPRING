@@ -1,16 +1,18 @@
 package com.coconsult.pidevspring.Services.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
-import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 import com.coconsult.pidevspring.DAO.Repository.HR.CandidacyRepository;
 import com.coconsult.pidevspring.DAO.Repository.HR.JobOfferRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 @Service
 @AllArgsConstructor
 public class CandidacyService implements ICandidacyService {
@@ -53,28 +55,6 @@ public class CandidacyService implements ICandidacyService {
         candidacyRepository.deleteById(id);
 
     }
-//    @Override
-//    public List<JobOffer> getAllJobOffersWithId() {
-//        List<JobOffer> jobs = jobOfferRepository.findAll();
-//        for (JobOffer job : jobs) {
-//            job.setCandidacys(job.getCandidacys());
-//        }
-//        return jobs;
-//    }
-//    @Override
-//    public List<Candidacy> getCandidaturesParIdJob(Long jobOffer_id) {
-//        return candidacyRepository.findByJobOfferId(jobOffer_id);
-//    }
-//
-//
-//    @Override
-//    public Candidacy findOneCandidacy(Long candidacy_id) {
-//        return candidacyRepository.findById(candidacy_id)
-//                .orElseThrow(() -> new EntityNotFoundException("Candidacy with ID " + candidacy_id + " not found."));
-//    }
-//    public List<Candidacy> findCandidaciesByJobOfferTitle(String titleJobOffer) {
-//        return candidacyRepository.findByJobOfferTitle(titleJobOffer);
-//    }
 
 
     @Override
@@ -83,4 +63,28 @@ public class CandidacyService implements ICandidacyService {
         return candidacyRepository.findByJobOfferId
                 (jobOfferId);
     }
+    public List<Candidacy> findAllByJobOfferId(Long jobOfferId) {
+        return candidacyRepository.findByJobOfferId(jobOfferId);
+    }
+    @Override
+    public int countCandidaciesByJobOfferId(Long jobOfferId) {
+        return candidacyRepository.countByJobOfferId(jobOfferId);
+    }
+    public Candidacy updateCandidacyStatus(Candidacy updatedCandidacy) {
+        // Fetch the existing Candidacy object from the database
+        Candidacy existingCandidacy = candidacyRepository.findById(updatedCandidacy.getCandidacy_id()).orElse(null);
+
+        if (existingCandidacy != null) {
+            // Update the status of the existing Candidacy object
+            existingCandidacy.setCandidacystatus(updatedCandidacy.getCandidacystatus());
+
+            // Save the updated Candidacy object back to the database
+            return candidacyRepository.save(existingCandidacy);
+        } else {
+            // Handle the case where the Candidacy object is not found
+            // You may choose to throw an exception or return null
+            return null;
+        }
+    }
+
 }

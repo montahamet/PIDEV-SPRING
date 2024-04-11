@@ -38,8 +38,8 @@ public class JobOfferService implements IJobOfferService {
             existingJobOffer.setVacancy(updatedJobOffer.getVacancy());
             existingJobOffer.setMinsalary(updatedJobOffer.getMinsalary());
             existingJobOffer.setMaxsalary(updatedJobOffer.getMaxsalary());
-            existingJobOffer.setJobNature(updatedJobOffer.getJobNature());
-            existingJobOffer.setJobCategory(updatedJobOffer.getJobCategory());
+//            existingJobOffer.setJobNature(updatedJobOffer.getJobNature());
+//            existingJobOffer.setJobCategory(updatedJobOffer.getJobCategory());
             // Enregistrer les modifications dans la base de données
             return jobOfferRepository.save(existingJobOffer);
         } else {
@@ -62,6 +62,7 @@ public class JobOfferService implements IJobOfferService {
     public JobOffer findById(long id) {
         return jobOfferRepository.findById(id).orElse(null);
     }
+    @Override
     public List<Candidacy> getCandidaciesByJobOfferId(Long jobOfferId) {
         Optional<JobOffer> jobOfferOptional = jobOfferRepository.findById(jobOfferId);
         if (jobOfferOptional.isPresent()) {
