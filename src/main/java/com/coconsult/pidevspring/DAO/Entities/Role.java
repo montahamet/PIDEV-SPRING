@@ -16,7 +16,7 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
-public class Role implements Serializable , GrantedAuthority {
+public class Role implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long roleId;
@@ -25,8 +25,5 @@ public class Role implements Serializable , GrantedAuthority {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<User> users;
 
-    @Override
-    public String getAuthority() {
-        return roleName;
-    }
+
 }

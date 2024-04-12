@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RegistrationTSService implements IRegistrationTSService{
     @Autowired
+
     RegistrationTSRepository registrationTSRepository;
     @Override
     public List<RegistrationTS> findAllRegistrationTS() {

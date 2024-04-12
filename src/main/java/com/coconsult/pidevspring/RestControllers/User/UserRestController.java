@@ -44,4 +44,21 @@ public class UserRestController {
         iUserService.removeUser(userId);
 
     }
+    //malekkk
+    @GetMapping("/projectmanagers")
+    public List<User> getProjectManagers() {
+        return iUserService.getProjectManagers();
+    }
+    // malekk
+    @GetMapping("/employees")
+
+    public List<User> getEmployeesForTASKS(){
+        return iUserService.getEmployeesForTASKS();
+
+    }
+    //malekk
+    @GetMapping("/competentUsers")
+    public List<User> getCompetentUsers() {
+        return iUserService.findCompetentUsersOrderByTasks();
+    }
 }

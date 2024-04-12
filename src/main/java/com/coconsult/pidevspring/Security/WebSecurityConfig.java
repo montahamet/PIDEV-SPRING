@@ -1,6 +1,6 @@
 package com.coconsult.pidevspring.Security;
 
-import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
+
 import com.coconsult.pidevspring.Security.JWT.AuthEntryPointJwt;
 import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
 import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
@@ -97,6 +97,22 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
                             .requestMatchers("/api/test/**").permitAll()
                             .requestMatchers("/user/**").permitAll()
                             .requestMatchers("/role/**").permitAll()
+
+                            .requestMatchers("/Task/**").permitAll()
+                            .requestMatchers("/Project/**").permitAll()
+                            .requestMatchers("/mail/**").permitAll()
+                            .requestMatchers("/uploads/**").permitAll()
+                            .requestMatchers("/Contract/**").permitAll()
+                            .requestMatchers("/Invoice/**").permitAll()
+                            .requestMatchers("/Documents/**").permitAll()
+
+
+
+
+
+
+
+
 /////////////////////////////////// haifa /////////////////////////////////////////////////////////////////
                             .requestMatchers("/Activity-TrainingSession/**").permitAll()
                             .requestMatchers("/Event-TrainingSession/**").permitAll()
@@ -110,6 +126,7 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
                             .requestMatchers("/Interview/**").permitAll()
                             .requestMatchers("/candidacy/**").permitAll()
 /////////////////////////////////// montaha /////////////////////////////////////////////////////////////////
+
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().permitAll()
             );

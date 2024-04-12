@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TrainingSessionService implements ITrainingSessionService{
     @Autowired
+
     TrainingSessionRepository trainingSessionRepository;
     @Override
     public List<TrainingSession> findAllTrainingSession() {
