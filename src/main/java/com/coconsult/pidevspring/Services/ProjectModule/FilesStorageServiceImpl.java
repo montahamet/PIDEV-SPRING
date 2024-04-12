@@ -3,6 +3,7 @@ package com.coconsult.pidevspring.Services.ProjectModule;
 import com.coconsult.pidevspring.DAO.Entities.FileInfodoc;
 import com.coconsult.pidevspring.DAO.Repository.ProjectModule.FileInfodocRepository;
 import com.coconsult.pidevspring.Services.ProjectModule.FilesStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.MalformedURLException;

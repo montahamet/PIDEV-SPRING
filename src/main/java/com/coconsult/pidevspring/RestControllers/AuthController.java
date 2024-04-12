@@ -8,7 +8,7 @@ import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
-import com.coconsult.pidevspring.Security.jwt.JwtUtils;
+import com.coconsult.pidevspring.Security.JWT.JwtUtils;
 import com.coconsult.pidevspring.Security.payload.request.LoginRequest;
 import com.coconsult.pidevspring.Security.payload.request.SignupRequest;
 import com.coconsult.pidevspring.Security.payload.response.MessageResponse;

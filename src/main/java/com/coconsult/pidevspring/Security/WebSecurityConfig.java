@@ -1,8 +1,8 @@
 package com.coconsult.pidevspring.Security;
 
-import com.coconsult.pidevspring.Security.jwt.AuthEntryPointJwt;
-import com.coconsult.pidevspring.Security.jwt.AuthTokenFilter;
-import com.coconsult.pidevspring.Security.services.UserDetailsServiceImpl;
+import com.coconsult.pidevspring.Security.JWT.AuthEntryPointJwt;
+import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
+import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -96,8 +96,22 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
                             .requestMatchers("/api/test/**").permitAll()
                             .requestMatchers("/user/**").permitAll()
                             .requestMatchers("/role/**").permitAll()
+                            .requestMatchers("/Task/**").permitAll()
+                            .requestMatchers("/Project/**").permitAll()
+                            .requestMatchers("/mail/**").permitAll()
+                            .requestMatchers("/uploads/**").permitAll()
+                            .requestMatchers("/Contract/**").permitAll()
+                            .requestMatchers("/Invoice/**").permitAll()
+                            .requestMatchers("/Documents/**").permitAll()
+
+
+
+
+
+
+
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
-                            .anyRequest().authenticated()
+                            .anyRequest().permitAll()
             );
 
     http.authenticationProvider(authenticationProvider());

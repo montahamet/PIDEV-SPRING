@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/candidacy")
 public class CandidacyRestController {
-    @Autowired
+   // @Autowired
     ICandidacyService iCandidacyService;
     IJobOfferService iJobOfferService;
 

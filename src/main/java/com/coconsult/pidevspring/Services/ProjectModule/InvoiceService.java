@@ -3,6 +3,7 @@ package com.coconsult.pidevspring.Services.ProjectModule;
 import com.coconsult.pidevspring.DAO.Entities.Invoice;
 import com.coconsult.pidevspring.DAO.Repository.ProjectModule.InvoiceRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class InvoiceService implements IInvoiceService {
+    @Autowired
+
     InvoiceRepository invoiceRepository;
 
     @Override

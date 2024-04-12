@@ -15,6 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 
 public class DocumentationService implements IDocumentationService {
+    @Autowired
+
     DocumentationRepository documentationRepository;
 
     @Override

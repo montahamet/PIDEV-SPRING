@@ -3,8 +3,9 @@ package com.coconsult.pidevspring.Services.TrainingSession;
 import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
-import com.coconsult.pidevspring.DAO.Repository.UserRepository;
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,8 +16,10 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 public class RegistrationEventService implements IRegistrationEventService{
+    @Autowired
+
     RegistrationEventRepository registrationEventRepository;
-    UserRepository userRepository;
+   UserRepository userRepository;
     EventRepository eventRepository;
     @Override
     public List<RegistrationEvent> findAllRegistrationEvent() {

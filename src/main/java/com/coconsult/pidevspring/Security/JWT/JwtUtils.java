@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.Security.jwt;
+package com.coconsult.pidevspring.Security.JWT;
 
 import java.security.Key;
 import java.util.Date;
