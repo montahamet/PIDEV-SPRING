@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @AllArgsConstructor
 @RequestMapping("/JobOffer")
 public class JobOfferRestController {
@@ -20,35 +20,35 @@ public class JobOfferRestController {
 
     @PostMapping("addJobOffer")
     public JobOffer addJobOffer (@RequestBody JobOffer JobOffer){
-            return iJobOfferService.addJobOffer(JobOffer);
+        return iJobOfferService.addJobOffer(JobOffer);
     }
-//    @PutMapping ("updateJobOffer")
+    //    @PutMapping ("updateJobOffer")
 //    public JobOffer updateJobOffer (@RequestBody JobOffer JobOffer){
 //        return iJobOfferService.updateJobOffer(JobOffer);
 //    }
-@PutMapping("/{jobOfferId}")
-public ResponseEntity<JobOffer> updateJobOffer(@PathVariable(value = "jobOfferId") Long jobOfferId, @RequestBody JobOffer updatedJobOffer) {
-    JobOffer jobOffer = iJobOfferService.findById(jobOfferId);
+    @PutMapping("/{jobOfferId}")
+    public ResponseEntity<JobOffer> updateJobOffer(@PathVariable(value = "jobOfferId") Long jobOfferId, @RequestBody JobOffer updatedJobOffer) {
+        JobOffer jobOffer = iJobOfferService.findById(jobOfferId);
 
-    if (jobOffer != null) {
-        jobOffer.setTitleJobOffer(updatedJobOffer.getTitleJobOffer());
-        jobOffer.setJobLocation(updatedJobOffer.getJobLocation());
-        jobOffer.setApplicationDeadLine(updatedJobOffer.getApplicationDeadLine());
-        jobOffer.setExperience(updatedJobOffer.getExperience());
-        jobOffer.setDescription(updatedJobOffer.getDescription());
-        jobOffer.setRequiredSkills(updatedJobOffer.getRequiredSkills());
-        jobOffer.setVacancy(updatedJobOffer.getVacancy());
-        jobOffer.setMinsalary(updatedJobOffer.getMinsalary());
-        jobOffer.setMaxsalary(updatedJobOffer.getMaxsalary());
-        jobOffer.setJobNature(updatedJobOffer.getJobNature());
-        jobOffer.setJobCategory(updatedJobOffer.getJobCategory());
+        if (jobOffer != null) {
+            jobOffer.setTitleJobOffer(updatedJobOffer.getTitleJobOffer());
+            jobOffer.setJobLocation(updatedJobOffer.getJobLocation());
+            jobOffer.setApplicationDeadLine(updatedJobOffer.getApplicationDeadLine());
+            jobOffer.setExperience(updatedJobOffer.getExperience());
+            jobOffer.setDescription(updatedJobOffer.getDescription());
+            jobOffer.setRequiredSkills(updatedJobOffer.getRequiredSkills());
+            jobOffer.setVacancy(updatedJobOffer.getVacancy());
+            jobOffer.setMinsalary(updatedJobOffer.getMinsalary());
+            jobOffer.setMaxsalary(updatedJobOffer.getMaxsalary());
+            jobOffer.setJobNature(updatedJobOffer.getJobNature());
+            jobOffer.setJobCategory(updatedJobOffer.getJobCategory());
 
-        JobOffer updatedJobOfferEntity = iJobOfferService.updateJobOffer(jobOffer);
-        return ResponseEntity.ok(updatedJobOfferEntity);
-    } else {
-        throw new OpenApiResourceNotFoundException("Job offer not found for this id :: " + jobOfferId);
+            JobOffer updatedJobOfferEntity = iJobOfferService.updateJobOffer(jobOffer);
+            return ResponseEntity.ok(updatedJobOfferEntity);
+        } else {
+            throw new OpenApiResourceNotFoundException("Job offer not found for this id :: " + jobOfferId);
+        }
     }
-}
 
 
 
@@ -90,8 +90,8 @@ public ResponseEntity<JobOffer> updateJobOffer(@PathVariable(value = "jobOfferId
 //    }
 
 
-    @GetMapping("/{jobOfferId}/candidacies")
-    public ResponseEntity<List<Candidacy>> getCandidaciesByJobOfferId(@PathVariable Long jobOfferId) {
+    @GetMapping("/findAllJobCandidacies")
+    public ResponseEntity<List<Candidacy>> getCandidaciesByJobOfferId(@RequestParam Long jobOfferId) {
         try {
             List<Candidacy> candidacies = iJobOfferService.getCandidaciesByJobOfferId(jobOfferId);
             return ResponseEntity.ok(candidacies);

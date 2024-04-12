@@ -2,6 +2,7 @@ package com.coconsult.pidevspring.Services.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
 import com.coconsult.pidevspring.DAO.Entities.JobOffer;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.util.List;
 
@@ -20,6 +21,10 @@ public interface ICandidacyService {
 //     List<Candidacy> getCandidaturesParIdJob(Long jobOffer_id);
 //    List<Candidacy> findCandidaciesByJobOfferTitle(String titleJobOffer);
 List<Candidacy> getCandidaciesByJobOfferId(Long jobOfferId);
+     List<Candidacy> findAllByJobOfferId(Long jobOfferId) ;
+     int countCandidaciesByJobOfferId(Long jobOfferId) ;
+     Candidacy updateCandidacyStatus(Candidacy candidacy);
+
 
 
     }

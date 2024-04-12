@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.Security;
 
+
 import com.coconsult.pidevspring.Security.JWT.AuthEntryPointJwt;
 import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
 import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
@@ -96,6 +97,7 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
                             .requestMatchers("/api/test/**").permitAll()
                             .requestMatchers("/user/**").permitAll()
                             .requestMatchers("/role/**").permitAll()
+
                             .requestMatchers("/Task/**").permitAll()
                             .requestMatchers("/Project/**").permitAll()
                             .requestMatchers("/mail/**").permitAll()
@@ -109,6 +111,21 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
 
 
 
+
+
+/////////////////////////////////// haifa /////////////////////////////////////////////////////////////////
+                            .requestMatchers("/Activity-TrainingSession/**").permitAll()
+                            .requestMatchers("/Event-TrainingSession/**").permitAll()
+                            .requestMatchers("/FeedBack-TrainingSession/**").permitAll()
+                            .requestMatchers("/RegistrationEvent-TrainingSession/**").permitAll()
+                            .requestMatchers("/RegistrationTS-TrainingSession/**").permitAll()
+                            .requestMatchers("/TrainingSession-TrainingSession/**").permitAll()
+/////////////////////////////////// haifa /////////////////////////////////////////////////////////////////
+/////////////////////////////////// montaha /////////////////////////////////////////////////////////////////
+                            .requestMatchers("/JobOffer/**").permitAll()
+                            .requestMatchers("/Interview/**").permitAll()
+                            .requestMatchers("/candidacy/**").permitAll()
+/////////////////////////////////// montaha /////////////////////////////////////////////////////////////////
 
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().permitAll()

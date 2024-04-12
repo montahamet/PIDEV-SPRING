@@ -5,6 +5,7 @@ import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 import com.coconsult.pidevspring.DAO.Repository.HR.JobOfferRepository;
 import lombok.AllArgsConstructor;
 import org.springdoc.api.OpenApiResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class JobOfferService implements IJobOfferService {
+    @Autowired
     JobOfferRepository jobOfferRepository;
     @Override
     public JobOffer addJobOffer(JobOffer JobOffer) {
@@ -36,8 +38,8 @@ public class JobOfferService implements IJobOfferService {
             existingJobOffer.setVacancy(updatedJobOffer.getVacancy());
             existingJobOffer.setMinsalary(updatedJobOffer.getMinsalary());
             existingJobOffer.setMaxsalary(updatedJobOffer.getMaxsalary());
-            existingJobOffer.setJobNature(updatedJobOffer.getJobNature());
-            existingJobOffer.setJobCategory(updatedJobOffer.getJobCategory());
+//            existingJobOffer.setJobNature(updatedJobOffer.getJobNature());
+//            existingJobOffer.setJobCategory(updatedJobOffer.getJobCategory());
             // Enregistrer les modifications dans la base de données
             return jobOfferRepository.save(existingJobOffer);
         } else {
@@ -60,6 +62,7 @@ public class JobOfferService implements IJobOfferService {
     public JobOffer findById(long id) {
         return jobOfferRepository.findById(id).orElse(null);
     }
+    @Override
     public List<Candidacy> getCandidaciesByJobOfferId(Long jobOfferId) {
         Optional<JobOffer> jobOfferOptional = jobOfferRepository.findById(jobOfferId);
         if (jobOfferOptional.isPresent()) {

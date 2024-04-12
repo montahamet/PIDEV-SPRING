@@ -8,12 +8,13 @@ import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+
 import com.coconsult.pidevspring.Security.JWT.JwtUtils;
 import com.coconsult.pidevspring.Security.payload.request.LoginRequest;
 import com.coconsult.pidevspring.Security.payload.request.SignupRequest;
 import com.coconsult.pidevspring.Security.payload.response.MessageResponse;
 import com.coconsult.pidevspring.Security.payload.response.UserInfoResponse;
-import com.coconsult.pidevspring.Security.services.UserDetailsImpl;
+import com.coconsult.pidevspring.Security.Services.UserDetailsImpl;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
