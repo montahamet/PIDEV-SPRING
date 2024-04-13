@@ -19,6 +19,7 @@ import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@RequestMapping("/cv-files")
 public class FilesController {
     @Autowired
     FilesStorageService storageService;

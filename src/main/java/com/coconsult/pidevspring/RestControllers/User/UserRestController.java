@@ -130,6 +130,7 @@ public class UserRestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving users: " + e.getMessage());
         }
+    }
 
     //malekkk
     @GetMapping("/projectmanagers")
