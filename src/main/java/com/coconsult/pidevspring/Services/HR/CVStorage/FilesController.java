@@ -3,6 +3,8 @@ package com.coconsult.pidevspring.Services.HR.CVStorage;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.coconsult.pidevspring.Services.User.Image.FileInfo;
+import com.coconsult.pidevspring.Services.User.Image.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -13,16 +15,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import com.coconsult.pidevspring.Services.HR.CVStorage.FileInfo;
-import com.coconsult.pidevspring.Services.HR.CVStorage.ResponseMessage;
-import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageService;
+import com.coconsult.pidevspring.Services.HR.CVStorage.FileHRInfo;
+import com.coconsult.pidevspring.Services.HR.CVStorage.ResponseMessageHR;
+import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageServiceHR;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RequestMapping("/cv-files")
 public class FilesController {
     @Autowired
-    FilesStorageService storageService;
+    FilesStorageServiceHR storageService;
 
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
