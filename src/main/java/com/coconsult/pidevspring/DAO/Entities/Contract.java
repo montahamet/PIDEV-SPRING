@@ -23,7 +23,6 @@ public class Contract implements Serializable {
     ContractStatus contractStatus;
     LocalDate startDateContract;
     LocalDate endDateContract;
-    String paymentMethods;
     @ManyToOne
     Project projetContract;
 

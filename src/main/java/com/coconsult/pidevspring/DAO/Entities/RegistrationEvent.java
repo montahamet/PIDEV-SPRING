@@ -17,11 +17,16 @@ public class RegistrationEvent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long registrationE_id ;
+
     @Enumerated(EnumType.STRING)
     Status RegistrationEvent_status;
+
     LocalDateTime registration_date;
+
     @ManyToOne
     User user;
+
+
     @ManyToOne
     Event event;
 }

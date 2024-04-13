@@ -6,9 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IInterviewService {
-    Interview addInterview(Interview interview);
+    Interview addOrUpdateInterview(Interview interview);
     List<Interview> addAllInterviews(List<Interview> interviews);
-    Interview updateInterview(Interview interview);
     List<Interview> findAllInterviews();
     Interview findInterviewById(long id);
     void deleteInterview(Interview interview);

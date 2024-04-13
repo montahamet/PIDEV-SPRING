@@ -69,12 +69,17 @@ public class    User implements   Serializable , UserDetails {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<RegistrationEvent> RegistationEvents;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Event> Events = new HashSet<>();
+
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "likedByUsers", cascade = CascadeType.ALL)
+//    private Set<Event> likedEvents;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Event> Events;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<RegistrationTS> RegistationTSs;
+    private Set<RegistrationEvent> RegistationTSs;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<TrainingSession> TrainingSessions;
