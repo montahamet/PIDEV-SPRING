@@ -121,6 +121,7 @@ public class UserRestController {
     }
 
 
+
     @PostMapping("/save")
     public ResponseEntity<String> saveUsers(@RequestBody List<User> users) {
         try {
@@ -129,5 +130,23 @@ public class UserRestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving users: " + e.getMessage());
         }
+
+    //malekkk
+    @GetMapping("/projectmanagers")
+    public List<User> getProjectManagers() {
+        return iUserService.getProjectManagers();
+    }
+    // malekk
+    @GetMapping("/employees")
+
+    public List<User> getEmployeesForTASKS(){
+        return iUserService.getEmployeesForTASKS();
+
+    }
+    //malekk
+    @GetMapping("/competentUsers")
+    public List<User> getCompetentUsers() {
+        return iUserService.findCompetentUsersOrderByTasks();
+
     }
 }
