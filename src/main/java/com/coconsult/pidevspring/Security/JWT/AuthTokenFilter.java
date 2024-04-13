@@ -1,8 +1,8 @@
-package com.coconsult.pidevspring.Security.jwt;
+package com.coconsult.pidevspring.Security.JWT;
 
 import java.io.IOException;
 
-import com.coconsult.pidevspring.Security.services.UserDetailsServiceImpl;
+import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +27,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
   private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
+
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
@@ -36,7 +37,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-     //   logger.info("Roles for user {}: {} ", username, userDetails.getAuthorities());
+        logger.info( "----------"+jwt+"****"+ userDetails.getAuthorities());
 
 
 

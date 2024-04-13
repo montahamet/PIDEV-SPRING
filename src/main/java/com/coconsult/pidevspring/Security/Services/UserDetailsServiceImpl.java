@@ -1,6 +1,5 @@
-package com.coconsult.pidevspring.Security.services;
+package com.coconsult.pidevspring.Security.Services;
 
-import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
@@ -12,9 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -34,13 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     return UserDetailsImpl.build(user);
   }
 
-  public boolean isUserFullyAuthenticated(UserDetails userDetails) {
-    return userDetails != null &&
-            userDetails.isEnabled() &&
-            userDetails.isAccountNonLocked() &&
-            userDetails.isAccountNonExpired() &&
-            userDetails.isCredentialsNonExpired();
-  }
+
 
 
 }

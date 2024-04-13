@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.Security.services;
+package com.coconsult.pidevspring.Security.Services;
 
 import java.util.Collection;
 import java.util.List;
