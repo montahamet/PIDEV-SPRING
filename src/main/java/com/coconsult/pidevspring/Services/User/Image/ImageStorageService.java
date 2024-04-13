@@ -7,14 +7,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import com.coconsult.pidevspring.Services.User.Image.FilesStorageServiceImpl;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 @Service
-public class ImageStorageService implements FilesStorageServiceImpl {
+public class ImageStorageService implements FilesStorageServiceImplTH {
 
     private final Path root = Paths.get("C:/xampp/htdocs/coconsult");
 
