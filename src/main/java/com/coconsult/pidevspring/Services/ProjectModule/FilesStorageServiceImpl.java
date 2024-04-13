@@ -1,9 +1,5 @@
 package com.coconsult.pidevspring.Services.ProjectModule;
 
-import com.coconsult.pidevspring.DAO.Entities.FileInfodoc;
-import com.coconsult.pidevspring.DAO.Repository.ProjectModule.FileInfodocRepository;
-import com.coconsult.pidevspring.Services.ProjectModule.FilesStorageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,10 +12,10 @@ import java.util.stream.Stream;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 @Service("projectFilesStorageService")
-public class FilesStorageServiceImpl implements FilesStorageService {
+public class FilesStorageServiceImpl implements FilesProjectService {
+
 
     private final Path root = Paths.get("C:/xampp/htdocs/coconsult");
 

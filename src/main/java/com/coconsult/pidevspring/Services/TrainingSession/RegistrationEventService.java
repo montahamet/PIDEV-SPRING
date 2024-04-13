@@ -23,6 +23,7 @@ public class RegistrationEventService implements IRegistrationEventService{
    UserRepository userRepository;
 
 
+
     EventRepository eventRepository;
     @Override
     public List<RegistrationEvent> findAllRegistrationEvent() {

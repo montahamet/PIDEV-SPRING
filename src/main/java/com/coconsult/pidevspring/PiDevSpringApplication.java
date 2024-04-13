@@ -1,10 +1,15 @@
 package com.coconsult.pidevspring;
 
 
-import com.coconsult.pidevspring.Services.User.Image.FilesStorageServiceImpl;
+
+import com.coconsult.pidevspring.Services.ProjectModule.FilesProjectService;
+
+
+import com.coconsult.pidevspring.Services.User.Image.FilesStorageServiceImplTH;
+
 import jakarta.annotation.Resource;
 
-import com.coconsult.pidevspring.Services.ProjectModule.FilesStorageService;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,11 +18,11 @@ import org.springframework.boot.CommandLineRunner;
 @SpringBootApplication
 public class PiDevSpringApplication implements CommandLineRunner {
     @Resource
-    FilesStorageServiceImpl storageServiceth;
+    FilesStorageServiceImplTH storageServiceth;
 
 
     @Resource
-    FilesStorageService storageService;
+    FilesProjectService storageService;
     public static void main(String[] args) {
         SpringApplication.run(PiDevSpringApplication.class, args);
     }

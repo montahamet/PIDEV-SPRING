@@ -20,7 +20,7 @@ public class FilesControllers {
 
     @Autowired
 
-    FilesStorageServiceImpl storageService ;
+    FilesStorageServiceImplTH storageService ;
 
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
