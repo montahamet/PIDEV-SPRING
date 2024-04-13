@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 @Service
-public class ImageStorageService implements FilesStorageServiceImplTH {
+public class ImageStorageService implements FilesStorageServiceImpl {
 
     private final Path root = Paths.get("C:/xampp/htdocs/coconsult");
 

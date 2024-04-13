@@ -1,11 +1,10 @@
-package com.coconsult.pidevspring.Services.User.Image;
+package com.coconsult.pidevspring.Services.HR.CVStorage;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
-
-public interface FilesStorageServiceImplTH {
+public interface FilesStorageService {
     public void init();
 
     public void save(MultipartFile file);
@@ -16,4 +15,3 @@ public interface FilesStorageServiceImplTH {
 
     public Stream<Path> loadAll();
 }
-

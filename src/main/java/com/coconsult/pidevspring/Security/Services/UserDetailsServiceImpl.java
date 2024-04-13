@@ -27,7 +27,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
     logger.info("User roles size: {}", user.getRoles().size());
 
-    return UserDetailsImpl.build(user);
+
+    return com.coconsult.pidevspring.Security.Services.UserDetailsImpl.build(user);
+
   }
 
 

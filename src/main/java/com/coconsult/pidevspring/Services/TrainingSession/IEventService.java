@@ -23,4 +23,8 @@ public interface IEventService {
     public Set<User> getRelatedUsers(Long eventId);
     public Set<Activity> getRelatedActivities(Long eventId);
     public void updateEventAverageRating(Long eventId);
+    public List<Event> getUpcomingEvents() ;
+    public Page<Event> findAllEventsAfterToday(Pageable pageable) ;
+
+
     }

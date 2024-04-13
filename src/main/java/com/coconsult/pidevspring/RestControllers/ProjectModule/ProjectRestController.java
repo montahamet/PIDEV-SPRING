@@ -9,7 +9,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+
 @RequestMapping("/Project")
 public class ProjectRestController {
     IProjectService iProjectService;
@@ -39,4 +41,8 @@ public class ProjectRestController {
         iProjectService.deleteProject(project);
 
     }
-}
+    @GetMapping("/searchProject")
+    public List<Project> searchProjects(@RequestParam String keyword) {
+        return iProjectService.searchProjects(keyword);
+    }
+    }

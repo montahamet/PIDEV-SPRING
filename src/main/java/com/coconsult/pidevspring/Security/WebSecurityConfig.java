@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.Security;
 
+
 import com.coconsult.pidevspring.Security.JWT.AuthEntryPointJwt;
 import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
 import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
@@ -97,6 +98,7 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
             .authorizeHttpRequests(auth ->
                     auth.requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/api/test/**").permitAll()
+
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().permitAll()
 
@@ -107,6 +109,8 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
                             .userAuthoritiesMapper(grantedAuthoritiesMapper())
             )
     );
+
+
 
     http.authenticationProvider(authenticationProvider());
 

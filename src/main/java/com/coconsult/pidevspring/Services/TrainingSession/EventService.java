@@ -4,13 +4,20 @@ import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.FeedBackRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
+
+
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+
+
+
 import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +25,7 @@ import java.util.Set;
 
 @Service
 public class EventService implements IEventService {
+    @Autowired
     private final EventRepository eventRepository;
     private final FeedBackRepository feedbackRepository;
     private final RegistrationEventRepository registrationEventRepository;
@@ -37,7 +45,11 @@ public class EventService implements IEventService {
     public Event saveEventWithLocation(Event event) {
         return eventRepository.save(event);
     }
-
+    @Override
+    public Page<Event> findAllEventsAfterToday(Pageable pageable) {
+        LocalDate today = LocalDate.now();
+        return eventRepository.findAllWithDateAfter(today, pageable);
+    }
     @Override
     public Page<Event> findAllEvent(Pageable pageable) {
         return eventRepository.findAll(pageable);
@@ -119,6 +131,11 @@ public Event UpdateEvent(Event event) {
             event.setAverageRating(averageRating);
             eventRepository.save(event);
         }
+    }
+    @Override
+    public List<Event> getUpcomingEvents() {
+        LocalDate today = LocalDate.now();
+        return eventRepository.findUpcomingEvents(today);
     }
 
 //    @Override

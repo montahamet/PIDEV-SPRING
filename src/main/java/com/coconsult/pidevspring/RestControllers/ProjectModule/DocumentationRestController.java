@@ -10,7 +10,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+
 @RequestMapping("/Documents")
 public class DocumentationRestController {
     IDocumentationService iDocumentationService;
@@ -39,4 +41,7 @@ public class DocumentationRestController {
     public void deleteDoc(Documentation doc){
         iDocumentationService.deleteDoc(doc);
     }
+
+
+
 }

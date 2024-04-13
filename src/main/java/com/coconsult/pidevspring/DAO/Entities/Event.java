@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.context.annotation.Bean;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -20,12 +21,14 @@ import java.util.Set;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Event implements Serializable {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long eventId ;
 
     String event_name;
-    LocalDate event_date;
+    LocalDateTime event_date;
     String event_description;
     String place;
     Double latitude;
