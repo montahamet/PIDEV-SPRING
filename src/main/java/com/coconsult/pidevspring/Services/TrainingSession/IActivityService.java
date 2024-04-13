@@ -18,4 +18,6 @@ public interface IActivityService {
     void deleteActivityById (Long activity_id);
     Activity findOneActivity (Long Activity_id );
     public List<Activity> findAllActivities() ;
+    public  List<Activity> getActivitiesByEventId(Long eventId) ;
+
     }
