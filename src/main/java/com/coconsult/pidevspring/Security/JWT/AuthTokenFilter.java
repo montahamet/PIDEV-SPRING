@@ -20,7 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
   @Autowired
-  private com.coconsult.pidevspring.Security.jwt.JwtUtils jwtUtils;
+  private com.coconsult.pidevspring.Security.JWT.JwtUtils jwtUtils;
 @Autowired
   private UserDetailsServiceImpl userDetailsService;
 

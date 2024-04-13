@@ -36,7 +36,11 @@ public class ActivityService implements IActivityService {
     public Page<Activity> findAllActivities(Pageable pageable) {
         return activityRepository.findAll(pageable);
     }
+    @Override
 
+    public List<Activity> findAllActivities() {
+        return activityRepository.findAll();
+    }
     @Override
     public Activity addActivity(Activity activity) {
         return activityRepository.save(activity);

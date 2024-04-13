@@ -33,7 +33,7 @@ public class Event implements Serializable {
     String place;
     Double latitude;
     Double longitude;
-   double averageRating;
+   Double averageRating;
 
 @JsonIgnore
 
