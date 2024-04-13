@@ -131,7 +131,11 @@ public Event UpdateEvent(Event event) {
         LocalDate today = LocalDate.now();
         return eventRepository.findUpcomingEvents(today);
     }
-
+//    public List<Event> searchEvents(String query) {
+//        // Utilisez le repository pour rechercher les événements en fonction de la requête
+//        return eventRepository.findByEventNameContainingIgnoreCaseOrEventDescriptionContainingIgnoreCaseOrPlaceContainingIgnoreCase(query, query, query);
+//        // Assurez-vous d'ajuster cette méthode de recherche en fonction de vos besoins spécifiques
+//    }
 //    @Override
 //    public void likeEvent(Long eventId, Long userId) {
 //        Event event = eventRepository.findById(eventId)

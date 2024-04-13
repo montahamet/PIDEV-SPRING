@@ -126,4 +126,7 @@ public class ActivityService implements IActivityService {
 
         return query.getResultList();
     }
+    public List<Activity> getActivitiesByEventId(Long eventId) {
+        return activityRepository.findByEvent_EventId(eventId);
+    }
 }

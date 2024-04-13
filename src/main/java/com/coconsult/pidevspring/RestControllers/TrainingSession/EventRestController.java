@@ -3,6 +3,7 @@ package com.coconsult.pidevspring.RestControllers.TrainingSession;
 import com.coconsult.pidevspring.DAO.Entities.Activity;
 import com.coconsult.pidevspring.DAO.Entities.Event;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
+import com.coconsult.pidevspring.Services.TrainingSession.IActivityService;
 import com.coconsult.pidevspring.Services.TrainingSession.IEventService;
 import com.coconsult.pidevspring.Services.TrainingSession.IFeedBackService;
 import jakarta.websocket.server.PathParam;
@@ -31,6 +32,7 @@ public class EventRestController {
     IEventService iEventService;
     EventRepository eventRepository;
     IFeedBackService iFeedBackService;
+    IActivityService iActivityService;
     @GetMapping("/{eventId}/hasRelatedActivities")
     public ResponseEntity<Boolean> checkEventRelatedActivities(@PathVariable Long eventId) {
         boolean hasRelated = iEventService.hasRelatedActivities(eventId);
@@ -48,6 +50,14 @@ public class EventRestController {
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
         return response;
+    }
+    @GetMapping("/getRelatedActivities/{eventId}")
+    public ResponseEntity<List<Activity>> getActivitiesByEventId(@PathVariable Long eventId) {
+        List<Activity> activities = iActivityService.getActivitiesByEventId(eventId); // Correctly calling on the instance
+        if (activities.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(activities);
     }
 
 //    @GetMapping("/searchLocation")
