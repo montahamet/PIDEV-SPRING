@@ -24,7 +24,7 @@ public class RegistrationEventService implements IRegistrationEventService{
     RegistrationEventRepository registrationEventRepository;
    UserRepository userRepository;
 
-    RegistrationEventRepository registrationEventRepository;
+
 
     EventRepository eventRepository;
     @Override

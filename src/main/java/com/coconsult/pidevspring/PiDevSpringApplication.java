@@ -1,6 +1,6 @@
 package com.coconsult.pidevspring;
 
-import com.coconsult.pidevspring.Services.ProjectModule.FilesStorageService;
+import com.coconsult.pidevspring.Services.ProjectModule.FilesProjectService;
 import jakarta.annotation.Resource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class PiDevSpringApplication implements CommandLineRunner{
     @Resource
-    FilesStorageService storageService;
+    FilesProjectService storageService;
     public static void main(String[] args) {
         SpringApplication.run(PiDevSpringApplication.class, args);
     }
