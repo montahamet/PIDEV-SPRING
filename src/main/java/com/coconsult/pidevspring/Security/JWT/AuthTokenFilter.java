@@ -26,6 +26,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
   private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
+
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
@@ -35,7 +36,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-     //   logger.info("Roles for user {}: {} ", username, userDetails.getAuthorities());
+        logger.info( "----------"+jwt+"****"+ userDetails.getAuthorities());
 
 
 
