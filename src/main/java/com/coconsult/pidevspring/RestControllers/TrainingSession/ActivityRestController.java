@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/Activity-TrainingSession")
 
 public class ActivityRestController {
-    @Autowired
+   // @Autowired
     IActivityService iActivityService;
     IEventService iEventService;
 

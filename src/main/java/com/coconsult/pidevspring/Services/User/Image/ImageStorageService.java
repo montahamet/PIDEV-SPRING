@@ -1,9 +1,4 @@
-package com.coconsult.pidevspring.Services.ProjectModule;
-
-import com.coconsult.pidevspring.DAO.Entities.FileInfodoc;
-import com.coconsult.pidevspring.DAO.Repository.ProjectModule.FileInfodocRepository;
-import com.coconsult.pidevspring.Services.ProjectModule.FilesStorageService;
-import org.springframework.stereotype.Service;
+package com.coconsult.pidevspring.Services.User.Image;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.FileAlreadyExistsException;
@@ -14,11 +9,11 @@ import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 @Service
-public class FilesStorageServiceImpl implements FilesStorageService {
+public class ImageStorageService implements FilesStorageServiceImplTH {
 
     private final Path root = Paths.get("C:/xampp/htdocs/coconsult");
 
@@ -43,6 +38,8 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+
 
     @Override
     public Resource load(String filename) {
@@ -73,18 +70,4 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             throw new RuntimeException("Could not load the files!");
         }
     }
-
-    @Override
-    public boolean delete(String filename) {
-        try {
-            Path file = root.resolve(filename);
-            return Files.deleteIfExists(file);
-        } catch (IOException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
-        }
-    }
-
-
 }
-
-

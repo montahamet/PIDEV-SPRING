@@ -33,12 +33,14 @@ public class    User implements   Serializable , UserDetails {
     Integer phonenumber ;
     @Enumerated(EnumType.STRING)
     Gender gender;
+    String image ;
     Boolean locked = true;
     Boolean enabled = true;
-    String resetPasswordToken;
+
+   // String resetPasswordToken;
     /////////////////////// Thamer /////////////////////
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
     @JsonIgnore
@@ -56,7 +58,7 @@ public class    User implements   Serializable , UserDetails {
     List<Project> projects=new ArrayList<>();
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "employeeTask")
-    List<Task> employeeTask=new ArrayList<>();
+    List<Task> employeeTasks=new ArrayList<>();
     /////////////////////// Malek //////////////////////
 
 
@@ -113,10 +115,13 @@ public class    User implements   Serializable , UserDetails {
     public User(String encode) {
     }
 
+    public User(String email, String firstname, String lastname, LocalDate birthdate, Gender gender, Integer phonenumber, String adresse, String encode) {
+    }
+
 
     /////////////////////////////////CONFIG////////////////////
 
-    @Override
+   @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName()))

@@ -16,4 +16,15 @@ public interface IUserService {
     User retrieveUser(Long userId);
 
     void removeUser(Long userId);
+
+   // List<User> saveusers();
+
+    //malekkk
+    List<User> getProjectManagers();
+    //malekkkk
+    List<User> getEmployeesForTASKS();
+    // malekk
+    List<User> findCompetentUsersOrderByTasks();
+
+
 }

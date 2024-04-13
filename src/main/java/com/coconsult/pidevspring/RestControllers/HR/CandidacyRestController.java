@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RequestMapping("/candidacy")
 public class CandidacyRestController {
-    @Autowired
+   // @Autowired
     ICandidacyService iCandidacyService;
     IJobOfferService iJobOfferService;
     FilesStorageServiceHR storageService;

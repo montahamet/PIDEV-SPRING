@@ -44,4 +44,25 @@ public class UserService implements IUserService {
         userRepository.deleteById(userID);
 
     }
+
+    ///malekkk
+    @Override
+    public List<User> getProjectManagers() {
+        return userRepository.findByRolesRoleName("PROJECT_MANAGER");
+    }
+    // malekkk
+
+    @Override
+    public List<User> getEmployeesForTASKS() {
+        return userRepository.findByRolesRoleName("EMPLOYEE");
+    }
+    //malekk
+    @Override
+    public List<User> findCompetentUsersOrderByTasks() {
+        return userRepository.findCompetentUsersOrderByTasks();
+    }
+
+
+
+
 }

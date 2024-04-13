@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.Services.HR.CVStorage;
+package com.coconsult.pidevspring.Services.User.Image;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,21 +8,19 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import com.coconsult.pidevspring.Services.HR.CVStorage.FileInfo;
-import com.coconsult.pidevspring.Services.HR.CVStorage.ResponseMessage;
-import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
-@RequestMapping("/cv-files")
-public class FilesController {
+@RequestMapping("user/files")
+public class FilesControllers {
+
     @Autowired
-    FilesStorageService storageService;
+
+    FilesStorageServiceImplTH storageService ;
 
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
@@ -38,12 +36,12 @@ public class FilesController {
         }
     }
 
-    @GetMapping("/files")
+    @GetMapping("")
     public ResponseEntity<List<FileInfo>> getListFiles() {
         List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
             String filename = path.getFileName().toString();
             String url = MvcUriComponentsBuilder
-                    .fromMethodName(FilesController.class, "getFile", path.getFileName().toString()).build().toString();
+                    .fromMethodName(FilesControllers.class, "getFile", path.getFileName().toString()).build().toString();
 
             return new FileInfo(filename, url);
         }).collect(Collectors.toList());
@@ -51,7 +49,7 @@ public class FilesController {
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.load(filename);
