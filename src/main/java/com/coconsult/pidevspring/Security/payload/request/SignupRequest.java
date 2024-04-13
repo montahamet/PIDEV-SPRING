@@ -6,7 +6,6 @@ import java.util.Set;
 import com.coconsult.pidevspring.DAO.Entities.Gender;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +15,7 @@ import lombok.Setter;
 public class SignupRequest {
 
 
+    Long userId ;
     String email;
     String firstname;
     String lastname;
@@ -25,7 +25,8 @@ public class SignupRequest {
     Integer phonenumber ;
     @Enumerated(EnumType.STRING)
     Gender gender;
-    private Set<String> role;
+    Set<String> roles ;
+    String image ;
   
 
  

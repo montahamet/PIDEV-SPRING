@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("/api/test")
 public class TestController {
     @GetMapping("/all")
+    @PreAuthorize("hasRole('admin')")
     public String allAccess() {
         return "Public Content.";
     }
@@ -33,13 +34,13 @@ public class TestController {
     }
 
     @GetMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String moderatorAccess() {
         return "Moderator Board.";
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('admin')")
     public String adminAccess() {
         return "Admin Board.";
     }
