@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.Security;
+package com.coconsult.pidevspring.Security.Oauth;
 
 public record UserInfo   (
         String sub,
