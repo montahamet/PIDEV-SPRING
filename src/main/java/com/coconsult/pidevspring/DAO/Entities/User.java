@@ -37,7 +37,7 @@ public class    User implements   Serializable , UserDetails {
     Boolean locked = true;
     Boolean enabled = true;
 
-   // String resetPasswordToken;
+    String resetPasswordToken;
     /////////////////////// Thamer /////////////////////
 
     @ManyToMany(fetch = FetchType.EAGER)
