@@ -2,23 +2,20 @@ package com.coconsult.pidevspring.RestControllers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.security.GeneralSecurityException;
 import java.util.*;
 import java.util.stream.Collectors;
 import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
-import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
-import com.google.api.client.googleapis.auth.oauth2.*;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.servlet.http.HttpServletResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.coconsult.pidevspring.Security.JWT.JwtUtils;
-import com.coconsult.pidevspring.Security.TokenDto;
-import com.coconsult.pidevspring.Security.UrlDto;
+import com.coconsult.pidevspring.Security.Oauth.TokenDto;
+import com.coconsult.pidevspring.Security.Oauth.UrlDto;
 import com.coconsult.pidevspring.Security.payload.request.ForgotPasswordRequest;
 
 import com.coconsult.pidevspring.Security.payload.request.LoginRequest;
@@ -44,29 +41,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.http.HttpRequestInitializer;
 
 
 //for Angular Client (withCredentials)
@@ -131,15 +113,15 @@ public class AuthController {
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
-User user = new User();
-      user.setEmail(signUpRequest.getEmail());
+        User user = new User();
+        user.setEmail(signUpRequest.getEmail());
         user.setFirstname(signUpRequest.getFirstname());
         user.setLastname(signUpRequest.getLastname());
         user.setBirthdate(signUpRequest.getBirthdate());
         user.setGender(signUpRequest.getGender());
         user.setPhonenumber(signUpRequest.getPhonenumber());
         user.setAdresse(signUpRequest.getAdresse());
-        user.setPassword(encoder.encode(signUpRequest.getPassword())    );
+        user.setPassword(encoder.encode(signUpRequest.getPassword()));
 
         Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
@@ -184,16 +166,17 @@ User user = new User();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new MessageResponse("You've been signed out!"));
     }
+
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest request) {
         // Check if the email exists in your user database
         String userEmail = request.getEmail();
-User user = new User();
+        User user = new User();
         // Your logic to check if the email exists in your database
 
         // If the email exists, generate a new password and send it to the user's email
         if (userRepository.existsByEmail(userEmail)) {
-            user =userRepository.findUserByEmail(userEmail);
+            user = userRepository.findUserByEmail(userEmail);
             String newPassword = PasswordGenerator.generateNewPassword();
             // Implement this method to generate a new password
             user.setPassword(encoder.encode(newPassword));
@@ -205,6 +188,7 @@ User user = new User();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found.");
         }
     }
+
     @GetMapping("/auth/url")
     public ResponseEntity<UrlDto> auth() {
         String url = new GoogleAuthorizationCodeRequestUrl(clientId,
@@ -213,27 +197,59 @@ User user = new User();
                         "email",
                         "profile",
                         "openid")).build();
+        logger.info("+++++++++");
 
         return ResponseEntity.ok(new UrlDto(url));
+
     }
+
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
     @GetMapping("/auth/callback")
-    public ResponseEntity<TokenDto> callback(@RequestParam("code") String code) throws URISyntaxException {
+    public ResponseEntity<?> callback(@RequestParam("code") String code) throws URISyntaxException {
 
         String token;
         try {
-            token = new GoogleAuthorizationCodeTokenRequest(
-                    new NetHttpTransport(), new GsonFactory(),
+            // Exchange authorization code for access token
+            GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
+                    new NetHttpTransport(),
+                    new GsonFactory(),
                     clientId,
                     clientSecret,
                     code,
-                    "http://localhost:4200"
-            ).execute().getAccessToken();
+                    "http://localhost:4200")
+                    .execute();
+
+            String accessToken = tokenResponse.getAccessToken();
+
+            // Use access token to retrieve user information
+            GoogleIdToken idToken = tokenResponse.parseIdToken();
+            GoogleIdToken.Payload payload = idToken.getPayload();
+            String email = payload.getEmail();
+            logger.info(email);
+            User user = userRepository.findUserByEmail(email);
+            if (user!= null){
+                UserDetailsImpl userDetails = UserDetailsImpl.build(user);
+
+                // You can also retrieve other user information such as name, profile picture, etc. from the payload
+
+                List<String> roles = userDetails.getAuthorities().stream()
+                        .map(item -> item.getAuthority())
+                        .collect(Collectors.toList());
+
+                return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, accessToken)
+                        .body(new UserInfoResponse(accessToken,
+                        userDetails.getId(),
+                        userDetails.getEmail(),
+                        roles
+                ));}
+            else
+                return ResponseEntity.badRequest().build();
         } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            // Handle exceptions
+            logger.error("Error exchanging authorization code for token: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        logger.info(token+"---------------------");
-        return ResponseEntity.ok(new TokenDto(token));
     }
+
 }
