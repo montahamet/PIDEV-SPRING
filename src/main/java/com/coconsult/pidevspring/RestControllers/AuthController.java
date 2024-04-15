@@ -1,15 +1,24 @@
 package com.coconsult.pidevspring.RestControllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.*;
 import java.util.stream.Collectors;
 import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
-
+import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
+import com.google.api.client.googleapis.auth.oauth2.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.coconsult.pidevspring.Security.JWT.JwtUtils;
+import com.coconsult.pidevspring.Security.TokenDto;
+import com.coconsult.pidevspring.Security.UrlDto;
 import com.coconsult.pidevspring.Security.payload.request.ForgotPasswordRequest;
 
 import com.coconsult.pidevspring.Security.payload.request.LoginRequest;
@@ -22,9 +31,12 @@ import com.coconsult.pidevspring.Security.Services.UserDetailsImpl;
 import com.coconsult.pidevspring.Services.User.EmailService;
 import com.coconsult.pidevspring.Services.User.UserService;
 
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -32,9 +44,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.http.HttpRequestInitializer;
+
 
 //for Angular Client (withCredentials)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -60,6 +93,13 @@ public class AuthController {
     private UserService userService;
     @Autowired
     private EmailService emailService;
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    private String clientId;
+
+    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
+    private String clientSecret;
+    @Value("${coconsult.app.jwtSecret}")
+    private String jwtSecret;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -165,8 +205,35 @@ User user = new User();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found.");
         }
     }
-    @GetMapping
-    public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("Hell OAuth2");
+    @GetMapping("/auth/url")
+    public ResponseEntity<UrlDto> auth() {
+        String url = new GoogleAuthorizationCodeRequestUrl(clientId,
+                "http://localhost:4200",
+                Arrays.asList(
+                        "email",
+                        "profile",
+                        "openid")).build();
+
+        return ResponseEntity.ok(new UrlDto(url));
+    }
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+    @GetMapping("/auth/callback")
+    public ResponseEntity<TokenDto> callback(@RequestParam("code") String code) throws URISyntaxException {
+
+        String token;
+        try {
+            token = new GoogleAuthorizationCodeTokenRequest(
+                    new NetHttpTransport(), new GsonFactory(),
+                    clientId,
+                    clientSecret,
+                    code,
+                    "http://localhost:4200"
+            ).execute().getAccessToken();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        logger.info(token+"---------------------");
+        return ResponseEntity.ok(new TokenDto(token));
     }
 }
