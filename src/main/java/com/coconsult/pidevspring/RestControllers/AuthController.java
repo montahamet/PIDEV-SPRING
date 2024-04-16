@@ -2,19 +2,19 @@ package com.coconsult.pidevspring.RestControllers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.security.GeneralSecurityException;
 import java.util.*;
 import java.util.stream.Collectors;
 import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+import com.coconsult.pidevspring.Security.Password.UserDTO;
+import com.coconsult.pidevspring.Security.Password.UserDetailsServiceImplmdp;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.coconsult.pidevspring.Security.JWT.JwtUtils;
-import com.coconsult.pidevspring.Security.Oauth.TokenDto;
 import com.coconsult.pidevspring.Security.Oauth.UrlDto;
 import com.coconsult.pidevspring.Security.payload.request.ForgotPasswordRequest;
 
@@ -42,7 +42,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -68,6 +70,8 @@ public class AuthController {
 
     @Autowired
     PasswordEncoder encoder;
+    @Autowired
+    UserDetailsServiceImplmdp userDetailsService;
 
     @Autowired
     JwtUtils jwtUtils;
