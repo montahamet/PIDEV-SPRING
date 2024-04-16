@@ -4,12 +4,14 @@ package com.coconsult.pidevspring.Security;
 import com.coconsult.pidevspring.Security.JWT.AuthEntryPointJwt;
 import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
 import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,20 +24,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Configuration
-//@EnableWebSecurity
 @EnableMethodSecurity
-//(securedEnabled = true,
-//jsr250Enabled = true,
-//prePostEnabled = true) // by default
-public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
+@RequiredArgsConstructor
+public class WebSecurityConfig{
+
+  private final WebClient userInfoClient;
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
@@ -104,11 +108,7 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
 
 
             )
-    .oauth2Login((oauth2Login) -> oauth2Login
-            .userInfoEndpoint((userInfo) -> userInfo
-                            .userAuthoritiesMapper(grantedAuthoritiesMapper())
-            )
-    );
+    .oauth2ResourceServer(c-> c.opaqueToken(Customizer.withDefaults()));
 
 
 
@@ -129,7 +129,7 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
         if (authority instanceof OidcUserAuthority) {
           OidcUserAuthority userAuthority = (OidcUserAuthority) authority;
           mappedAuthority = new OidcUserAuthority(
-                  "ROLE_USER", userAuthority.getIdToken(), userAuthority.getUserInfo());
+                  "admin", userAuthority.getIdToken(), userAuthority.getUserInfo());
         } else if (authority instanceof OAuth2UserAuthority) {
           OAuth2UserAuthority userAuthority = (OAuth2UserAuthority) authority;
           mappedAuthority = new OAuth2UserAuthority(
@@ -143,5 +143,10 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
 
       return mappedAuthorities;
     };
+  }
+
+  @Bean
+  public OpaqueTokenIntrospector introspector() {
+    return new GoogleOpaqueTokenIntrospector(userInfoClient);
   }
 }
