@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -28,7 +27,7 @@ public class Event implements Serializable {
     Long eventId ;
 
     String event_name;
-    LocalDateTime event_date;
+    LocalDate event_date;
     String event_description;
     String place;
     Double latitude;

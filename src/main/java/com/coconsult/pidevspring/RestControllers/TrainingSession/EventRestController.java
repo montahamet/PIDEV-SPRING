@@ -4,8 +4,10 @@ import com.coconsult.pidevspring.DAO.Entities.Activity;
 import com.coconsult.pidevspring.DAO.Entities.Event;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.Services.TrainingSession.IActivityService;
+import com.coconsult.pidevspring.Services.TrainingSession.IEmailEventService;
 import com.coconsult.pidevspring.Services.TrainingSession.IEventService;
 import com.coconsult.pidevspring.Services.TrainingSession.IFeedBackService;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springdoc.api.OpenApiResourceNotFoundException;
@@ -16,6 +18,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +36,7 @@ public class EventRestController {
     EventRepository eventRepository;
     IFeedBackService iFeedBackService;
     IActivityService iActivityService;
+    IEmailEventService iEmailEventService;
     @GetMapping("/{eventId}/hasRelatedActivities")
     public ResponseEntity<Boolean> checkEventRelatedActivities(@PathVariable Long eventId) {
         boolean hasRelated = iEventService.hasRelatedActivities(eventId);
@@ -86,6 +90,10 @@ public class EventRestController {
 //
 //        return response;
 //    }
+@PostMapping("/sendConfirmation")
+public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam String eventName) {
+    iEmailEventService.sendEventConfirmationEmail(userId, eventName);
+}
 
     @GetMapping("/findOneEvent/{eventId}")
     public Event findOneEvent(@PathVariable("eventId") Long eventId){
@@ -96,11 +104,15 @@ public class EventRestController {
         Pageable pageable = PageRequest.of(page, size);
         return iEventService.findAllEvent(pageable);
     }
-
     @PostMapping("/addEvent")
-    public  Event addEvent(@RequestBody Event event) {
-        return iEventService.addEvent(event);
+    public ResponseEntity<?> addEvent(@Valid @RequestBody Event event, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+        Event newEvent = iEventService.addEvent(event);
+        return ResponseEntity.ok(newEvent);
     }
+
     @PutMapping("/events/{eventId}")
     public ResponseEntity<Event> updateEvent(@PathVariable(value = "eventId") Long eventId, @RequestBody Event eventDetails) {
         Event updatedEvent = iEventService.UpdateEvent(eventDetails); // Utiliser la méthode appropriée du service

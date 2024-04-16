@@ -3,11 +3,11 @@ package com.coconsult.pidevspring.Services.User;
 import com.coconsult.pidevspring.DAO.Entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IUserService {
 
     List<User> retrieveAllUser();
-
     User addUser(User u);
 
     User updateUser(User u);
