@@ -108,6 +108,11 @@ public class UserRestController {
     public User updateUser(@RequestBody User u) {
         return iUserService.updateUser(u);
     }
+    @PutMapping("/updateUsermdp")
+    public User updateUserMdp(@RequestBody User u) {
+        u.setPassword(encoder.encode(u.getPassword())    );
+        return iUserService.updateUsermdp(u);
+    }
 
     @GetMapping("/retrieveOneUser/{userId}")
     public User retrieveOneUser(@PathVariable Long userId) {

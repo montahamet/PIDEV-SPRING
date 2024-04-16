@@ -14,8 +14,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     User findUserByEmail(String email) ;
     Boolean existsByEmail(String email);
+    User findUserByResetPasswordToken(String token);
     ///malekkk
     List<User> findByRolesRoleName(String roleName);
+
     ///malekkk
   /*  @Query("SELECT u FROM User u " +
             "JOIN FETCH u.employeeTasks t " +

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,7 @@ public class    User implements   Serializable , UserDetails {
     Boolean enabled = true;
 
     String resetPasswordToken;
+    private LocalDateTime expiryDateToken;
     /////////////////////// Thamer /////////////////////
 
     @ManyToMany(fetch = FetchType.EAGER)

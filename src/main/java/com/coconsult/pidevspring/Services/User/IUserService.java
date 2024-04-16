@@ -11,7 +11,7 @@ public interface IUserService {
     User addUser(User u);
 
     User updateUser(User u);
-
+    User updateUsermdp(User u);
     User retrieveOneUser(Long userId);
     User retrieveUser(Long userId);
 
