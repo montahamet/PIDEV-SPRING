@@ -2,7 +2,8 @@ package com.coconsult.pidevspring.RestControllers.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
 import com.coconsult.pidevspring.Services.HR.CVStorage.FileHRInfo;
-import com.coconsult.pidevspring.Services.HR.CVStorage.FilesHRController;
+//import com.coconsult.pidevspring.Services.HR.CVStorage.FilesHRController;
+import com.coconsult.pidevspring.Services.HR.CVStorage.FilesController;
 import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageServiceHR;
 import com.coconsult.pidevspring.Services.HR.CVStorage.ResponseMessageHR;
 import com.coconsult.pidevspring.Services.HR.ICandidacyService;
@@ -93,7 +94,7 @@ public class CandidacyRestController {
         List<FileHRInfo> fileInfos = storageService.loadAll().map(path -> {
             String filename = path.getFileName().toString();
             String url = MvcUriComponentsBuilder
-                    .fromMethodName(FilesHRController.class, "getFile", path.getFileName().toString()).build().toString();
+                    .fromMethodName(FilesController.class, "getFile", path.getFileName().toString()).build().toString();
 
             return new FileHRInfo(filename, url);
         }).collect(Collectors.toList());
