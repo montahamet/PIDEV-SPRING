@@ -16,7 +16,8 @@ import java.util.List;
 
 public class TrainingSessionRestController {
     ITrainingSessionService iTrainingSessionService;
-
+////////////
+    //
     @GetMapping("/findOneTrainingSession")
     public TrainingSession findOneTrainingSession(@PathParam("TS_id") Long TS_id){
         return iTrainingSessionService.findOneTrainingSession(TS_id);
