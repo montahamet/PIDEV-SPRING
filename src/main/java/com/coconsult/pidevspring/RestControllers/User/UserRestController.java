@@ -6,6 +6,8 @@ import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import com.coconsult.pidevspring.Security.payload.request.SignupRequest;
 import com.coconsult.pidevspring.Security.payload.response.MessageResponse;
+import com.coconsult.pidevspring.Services.TrainingSession.EmailEventService;
+import com.coconsult.pidevspring.Services.TrainingSession.IEmailEventService;
 import com.coconsult.pidevspring.Services.User.IUserService;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
@@ -36,6 +38,8 @@ public class UserRestController {
     RoleRepository roleRepository ;
     @Autowired
     PasswordEncoder encoder;
+    @Autowired
+    IEmailEventService emailEventService;
     @GetMapping("/retrieveAllUser")
     public List<User> retrieveAllUser() {
         List<User> users= iUserService.retrieveAllUser();
@@ -155,4 +159,11 @@ public class UserRestController {
         return iUserService.findCompetentUsersOrderByTasks();
 
     }
-}
+
+
+    //haifa ///
+
+
+
+    }
+
