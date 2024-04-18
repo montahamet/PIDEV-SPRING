@@ -4,7 +4,17 @@ import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.FeedBackRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
+<<<<<<< HEAD
 import jakarta.persistence.EntityNotFoundException;
+=======
+
+
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+
+
+
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
 import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -130,7 +140,11 @@ public Event UpdateEvent(Event event) {
         LocalDate today = LocalDate.now();
         return eventRepository.findUpcomingEvents(today);
     }
-
+//    public List<Event> searchEvents(String query) {
+//        // Utilisez le repository pour rechercher les événements en fonction de la requête
+//        return eventRepository.findByEventNameContainingIgnoreCaseOrEventDescriptionContainingIgnoreCaseOrPlaceContainingIgnoreCase(query, query, query);
+//        // Assurez-vous d'ajuster cette méthode de recherche en fonction de vos besoins spécifiques
+//    }
 //    @Override
 //    public void likeEvent(Long eventId, Long userId) {
 //        Event event = eventRepository.findById(eventId)

@@ -25,6 +25,7 @@ public class Project implements Serializable {
     String projectDescription;
     LocalDate startdateProject;
     LocalDate enddateProject;
+    String fileName;
     @Enumerated(EnumType.STRING)
     StatusProject projectStatus;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetT")

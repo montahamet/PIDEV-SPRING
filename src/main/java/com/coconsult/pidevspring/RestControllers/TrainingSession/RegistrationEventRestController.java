@@ -4,6 +4,8 @@ import com.coconsult.pidevspring.DAO.Entities.RegistrationEvent;
 import com.coconsult.pidevspring.Services.TrainingSession.IRegistrationEventService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import org.springdoc.api.OpenApiResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +31,18 @@ public class RegistrationEventRestController {
     public List<RegistrationEvent> findAllRegistrationEvent() {
         return  iRegistrationEventService.findAllRegistrationEvent();
     }
-    @PostMapping("/addRegistrationEvent")
-    public  RegistrationEvent addRegistrationEvent(@RequestBody RegistrationEvent registrationEvent) {
-        return iRegistrationEventService.addRegistrationEvent(registrationEvent);
+    @PostMapping("/addRegistrationEvent/{eventId}/{userId}")
+    public ResponseEntity<?> addRegistrationEvent(@PathVariable Long eventId, @PathVariable Long userId) {
+        try {
+            RegistrationEvent registrationEvent = iRegistrationEventService.addRegistrationEvent(eventId, userId);
+            return ResponseEntity.ok().build(); // Return 200 OK with an empty body
+        } catch (OpenApiResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+        }
     }
 
     @PostMapping("/UpdateRegistrationEvent")

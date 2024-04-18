@@ -11,6 +11,11 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class RegistrationTSService implements IRegistrationTSService{
+<<<<<<< HEAD
+=======
+    @Autowired
+
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
     RegistrationTSRepository registrationTSRepository;
     @Override
     public List<RegistrationTS> findAllRegistrationTS() {

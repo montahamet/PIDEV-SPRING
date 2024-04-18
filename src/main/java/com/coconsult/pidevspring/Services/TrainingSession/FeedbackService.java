@@ -14,6 +14,11 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class FeedbackService implements IFeedBackService{
+<<<<<<< HEAD
+=======
+    @Autowired
+
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
     FeedBackRepository feedBackRepository;
 EventRepository eventRepository;
     @Override

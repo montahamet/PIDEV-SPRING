@@ -4,7 +4,10 @@ import com.coconsult.pidevspring.DAO.Entities.Activity;
 import com.coconsult.pidevspring.DAO.Entities.Event;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.ActivityRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -20,6 +25,8 @@ import java.util.List;
 public class ActivityService implements IActivityService {
     ActivityRepository activityRepository;
     EventRepository eventRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
     private static final Logger logger = LoggerFactory.getLogger(ActivityService.class);
 
 
@@ -27,12 +34,15 @@ public class ActivityService implements IActivityService {
     public Page<Activity> findAllActivities(Pageable pageable) {
         return activityRepository.findAll(pageable);
     }
+    @Override
 
+    public List<Activity> findAllActivities() {
+        return activityRepository.findAll();
+    }
     @Override
     public Activity addActivity(Activity activity) {
         return activityRepository.save(activity);
     }
-
 
 
     @Override
@@ -58,10 +68,6 @@ public class ActivityService implements IActivityService {
     }
 
 
-
-
-
-
     @Override
     public void deleteActivityById(Long activity_id) {
         activityRepository.deleteById(activity_id);
@@ -81,5 +87,44 @@ public class ActivityService implements IActivityService {
     public Activity findOneActivity(Long Activity_id) {
         return activityRepository.findById(Activity_id)
                 .orElseThrow(() -> new EntityNotFoundException("Activity with ID " + Activity_id + " not found."));
+    }
+
+    @Override
+    public List<Activity> searchActivities(String keywords, LocalDate startDate, LocalDate endDate) {
+        String jpql = "select a from Activity a where ";
+        boolean firstCondition = true;
+
+        if (keywords != null && !keywords.isEmpty()) {
+            // Assurez-vous que le nom du champ est correct. Basé sur votre classe, cela devrait être `Activity_name` et non `name`.
+            jpql += "lower(a.Activity_name) like lower(concat('%', :keywords, '%')) ";
+            firstCondition = false;
+        }
+        if (startDate != null) {
+            if (!firstCondition) jpql += "and ";
+            jpql += "a.startTime >= :startDate ";
+            firstCondition = false;
+        }
+        if (endDate != null) {
+            if (!firstCondition) jpql += "and ";
+            // Utilisez le nom correct `finishTime` correspondant à votre entité
+            jpql += "a.finishTime <= :endDate";
+        }
+
+        TypedQuery<Activity> query = entityManager.createQuery(jpql, Activity.class);
+
+        if (keywords != null && !keywords.isEmpty()) {
+            query.setParameter("keywords", keywords);
+        }
+        if (startDate != null) {
+            query.setParameter("startDate", startDate.atStartOfDay());
+        }
+        if (endDate != null) {
+            query.setParameter("endDate", endDate.atTime(LocalTime.MAX));
+        }
+
+        return query.getResultList();
+    }
+    public List<Activity> getActivitiesByEventId(Long eventId) {
+        return activityRepository.findByEvent_EventId(eventId);
     }
 }

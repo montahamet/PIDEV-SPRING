@@ -2,10 +2,9 @@ package com.coconsult.pidevspring.RestControllers.ProjectModule;
 
 import com.coconsult.pidevspring.DAO.Entities.FileInfodoc;
 import com.coconsult.pidevspring.filesupload.message.ResponseMessagedoc;
-import com.coconsult.pidevspring.Services.ProjectModule.FilesStorageService;
+import com.coconsult.pidevspring.Services.ProjectModule.FilesProjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,13 +16,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 @RestController
 @AllArgsConstructor
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+
 @RequestMapping("/uploads")
 public class FilesControllerdoc {
 
 
         @Autowired
-        FilesStorageService storageService;
+        FilesProjectService storageService;
 
         @PostMapping("/upload")
         public ResponseEntity<ResponseMessagedoc> uploadFile(@RequestParam("file") MultipartFile file) {

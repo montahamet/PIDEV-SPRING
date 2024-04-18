@@ -1,12 +1,11 @@
 package com.coconsult.pidevspring.Services.ProjectModule;
 
-import com.coconsult.pidevspring.DAO.Entities.FileInfodoc;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
-public interface FilesStorageService {
+public interface FilesProjectService {
     public void init();
 
     public void save(MultipartFile file);

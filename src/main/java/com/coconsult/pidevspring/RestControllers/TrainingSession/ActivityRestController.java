@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 @CrossOrigin("*")
 @RestController
@@ -20,7 +22,7 @@ import java.util.List;
 @RequestMapping("/Activity-TrainingSession")
 
 public class ActivityRestController {
-    @Autowired
+   // @Autowired
     IActivityService iActivityService;
     IEventService iEventService;
 
@@ -34,6 +36,10 @@ public class ActivityRestController {
     public Page<Activity> findAllActivities(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return iActivityService.findAllActivities(pageable);
+    }
+    @GetMapping("/all")
+    public List<Activity> getAllActivities() {
+        return iActivityService.findAllActivities();
     }
     @PostMapping("/addActivity/{event_id}")
     public  Activity addActivity(@RequestBody Activity activity, @PathVariable("event_id") long event_id) {
@@ -57,6 +63,15 @@ public class ActivityRestController {
     @GetMapping("/getAllEventsWithName")
     public List<Event> getAllEventsWithName() {
         return iActivityService.getAllEventsWithName();
+    }
+
+    @GetMapping("/api/activities/search")
+    public List<Activity> searchActivities(
+            @RequestParam(value = "keywords", required = false) String keywords,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        return iActivityService.searchActivities(keywords, startDate, endDate);
     }
 
 //    @PutMapping("/activities/{id}")

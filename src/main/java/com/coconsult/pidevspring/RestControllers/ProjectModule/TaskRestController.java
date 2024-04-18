@@ -6,11 +6,14 @@ import com.coconsult.pidevspring.Services.ProjectModule.ITaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+
 @RequestMapping("/Task")
 public class TaskRestController {
     ITaskService iTaskService;
@@ -59,12 +62,31 @@ public class TaskRestController {
     }
 
     @PutMapping("/affecterTaskaunprojet")
-    public void addTaskWithProject(@RequestBody Task task,@RequestParam String projectName) {
-        iTaskService.affecterTaskAuProjet(task,projectName);
+    public void addTaskWithProject(@RequestBody Task task, @RequestParam String projectName) {
+        iTaskService.affecterTaskAuProjet(task, projectName);
     }
+
     @GetMapping("/getprojectNames")
     public List<String> getAllProjectNames() {
         return iTaskService.getAllProjectNames();
 
     }
+<<<<<<< HEAD
+=======
+
+    @GetMapping("/tasks")
+    public List<Task> getTasksByStatus(@RequestParam String status) {
+        return iTaskService.getTasksByStatus(StatusTask.valueOf(status.toUpperCase()));
     }
+
+    @GetMapping("/countByEmployeeTask")
+    public long countByEmployeeTaskUserId(long userId) {
+        return iTaskService.countByEmployeeTaskUserId(userId);
+
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
+    }
+    @GetMapping("/available")
+    public boolean existsByEmployeeTaskUserIdAndDueDateTaskAfter(long userId){
+        return iTaskService.existsByEmployeeTaskUserIdAndDueDateTaskAfter(userId);
+    }
+}

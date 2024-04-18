@@ -3,7 +3,9 @@ package com.coconsult.pidevspring.Security.JWT;
 import java.security.Key;
 import java.util.Date;
 
+
 import com.coconsult.pidevspring.DAO.Entities.User;
+
 import com.coconsult.pidevspring.Security.Services.UserDetailsImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,6 +45,11 @@ public class JwtUtils {
 
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
     String jwt = generateTokenFromUsername(userPrincipal.getEmail());
+    ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
+    return cookie;
+  }
+  public ResponseCookie generateJwtCookie(String userEmail) {
+    String jwt = generateTokenFromUsername(userEmail);
     ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
     return cookie;
   }

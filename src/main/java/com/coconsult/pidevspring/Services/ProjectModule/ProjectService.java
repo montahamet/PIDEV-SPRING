@@ -3,6 +3,7 @@ package com.coconsult.pidevspring.Services.ProjectModule;
 import com.coconsult.pidevspring.DAO.Entities.Project;
 import com.coconsult.pidevspring.DAO.Repository.ProjectModule.ProjectRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ProjectService implements IProjectService {
+@Autowired
     ProjectRepository projectRepository;
 
     @Override

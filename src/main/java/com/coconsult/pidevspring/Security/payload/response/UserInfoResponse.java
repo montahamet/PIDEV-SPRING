@@ -16,6 +16,7 @@ public class UserInfoResponse {
 		this.roles = roles;
 	}
 
+
 	public String getAccessToken() {
 		return token;
 	}
