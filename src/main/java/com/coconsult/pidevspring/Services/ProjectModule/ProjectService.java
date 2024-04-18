@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Service
@@ -61,21 +59,4 @@ public class ProjectService implements IProjectService {
         return projectRepository.findByProjectName(projectName);
     }
 
-    @Override
-    public List<Project> searchProjects(String keyword) {
-        LocalDate startDate = null;
-        try {
-            startDate = LocalDate.parse(keyword);
-        } catch (DateTimeParseException e) {
-        }
-
-        if (startDate != null) {
-            return projectRepository.findByProjectNameContainingIgnoreCaseOrStartdateProject(keyword, startDate);
-        } else {
-            return projectRepository.findByProjectNameContainingIgnoreCaseOrStartdateProject(keyword,startDate);
-        }
-    }
-
-    }
-
-
+}

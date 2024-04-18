@@ -1,10 +1,10 @@
 package com.coconsult.pidevspring.Services.User.Image;
 
-public class FileInfo {
+public class FileHRInfo {
     private String name;
     private String url;
 
-    public FileInfo(String name, String url) {
+    public FileHRInfo(String name, String url) {
         this.name = name;
         this.url = url;
     }

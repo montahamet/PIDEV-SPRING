@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface IInterviewService {
     Interview addOrUpdateInterview(Interview interview);
@@ -16,5 +17,12 @@ public interface IInterviewService {
     void deleteInterviewById(long id);
     List<Interview> findByDateInterview(LocalDateTime dateInterview);
      Interview addInterviewByCandidacyId(Long candidacyId, @RequestBody Interview interview);
+     Map<String, Double> calculateSuccessRate() ;
+     List<Interview> findInterviewsByCandidacyId(Long candidacyId);
+     List<Interview> findAllInterviewsWithCandidateNames();
+     List<Interview> findAllInterviewsWithCandidateNamesAndEmail();
+
+
+
 
     }

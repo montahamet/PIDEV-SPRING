@@ -1,7 +1,6 @@
 package com.coconsult.pidevspring.RestControllers.ProjectModule;
 
 import com.coconsult.pidevspring.DAO.Entities.Project;
-import com.coconsult.pidevspring.DAO.Entities.StatusTask;
 import com.coconsult.pidevspring.DAO.Entities.Task;
 import com.coconsult.pidevspring.Services.ProjectModule.ITaskService;
 import lombok.AllArgsConstructor;
@@ -72,6 +71,8 @@ public class TaskRestController {
         return iTaskService.getAllProjectNames();
 
     }
+<<<<<<< HEAD
+=======
 
     @GetMapping("/tasks")
     public List<Task> getTasksByStatus(@RequestParam String status) {
@@ -82,6 +83,7 @@ public class TaskRestController {
     public long countByEmployeeTaskUserId(long userId) {
         return iTaskService.countByEmployeeTaskUserId(userId);
 
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
     }
     @GetMapping("/available")
     public boolean existsByEmployeeTaskUserIdAndDueDateTaskAfter(long userId){

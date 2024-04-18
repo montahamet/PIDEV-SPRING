@@ -1,9 +1,9 @@
 package com.coconsult.pidevspring.Services.User.Image;
 
-public class ResponseMessage {
+public class ResponseMessageHR {
     private String message;
 
-    public ResponseMessage(String message) {
+    public ResponseMessageHR(String message) {
         this.message = message;
     }
 

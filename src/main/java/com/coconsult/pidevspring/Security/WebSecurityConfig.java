@@ -1,7 +1,11 @@
 package com.coconsult.pidevspring.Security;
 
+<<<<<<< HEAD
+import com.coconsult.pidevspring.Security.jwt.AuthEntryPointJwt;
+=======
 
 import com.coconsult.pidevspring.Security.JWT.AuthEntryPointJwt;
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
 import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
 import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -102,7 +106,15 @@ public class WebSecurityConfig{
             .authorizeHttpRequests(auth ->
                     auth.requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/api/test/**").permitAll()
+<<<<<<< HEAD
+                            .requestMatchers("/user/**").permitAll()
+                            .requestMatchers("/role/**").permitAll()
+                            .requestMatchers("/JobOffer/**").permitAll()
+                            .requestMatchers("/Interview/**").permitAll()
+                            .requestMatchers("/candidacy/**").permitAll()
+=======
 
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().permitAll()
 

@@ -4,6 +4,9 @@ import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.FeedBackRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
+<<<<<<< HEAD
+import jakarta.persistence.EntityNotFoundException;
+=======
 
 
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
@@ -11,6 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 
 
 
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
 import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +29,6 @@ import java.util.Set;
 
 @Service
 public class EventService implements IEventService {
-    @Autowired
     private final EventRepository eventRepository;
     private final FeedBackRepository feedbackRepository;
     private final RegistrationEventRepository registrationEventRepository;

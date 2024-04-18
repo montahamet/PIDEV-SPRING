@@ -1,4 +1,4 @@
-package com.coconsult.pidevspring.Services.HR.CVStorage;
+package com.coconsult.pidevspring.Services.User.Image;
 
 public class FileHRInfo {
     private String name;

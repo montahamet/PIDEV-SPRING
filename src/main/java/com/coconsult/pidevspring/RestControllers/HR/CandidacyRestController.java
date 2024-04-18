@@ -1,13 +1,21 @@
 package com.coconsult.pidevspring.RestControllers.HR;
-
+//import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.JsonNode;
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
 import com.coconsult.pidevspring.Services.HR.CVStorage.FileHRInfo;
+<<<<<<< HEAD
+=======
 //import com.coconsult.pidevspring.Services.HR.CVStorage.FilesHRController;
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
 import com.coconsult.pidevspring.Services.HR.CVStorage.FilesHRController;
 import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageServiceHR;
 import com.coconsult.pidevspring.Services.HR.CVStorage.ResponseMessageHR;
 import com.coconsult.pidevspring.Services.HR.ICandidacyService;
 import com.coconsult.pidevspring.Services.HR.IJobOfferService;
+<<<<<<< HEAD
+//import com.mashape.unirest.http.exceptions.UnirestException;
+=======
+>>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -18,7 +26,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,27 +42,16 @@ public class CandidacyRestController {
     FilesStorageServiceHR storageService;
     @PostMapping("addCandidacy")
     public Candidacy addCandidacy (@RequestBody Candidacy Candidacy){
-        return iCandidacyService.addOrUpdateCandidacy(Candidacy);
+        return iCandidacyService.addCandidate(Candidacy);
     }
-
-//    @PostMapping("/addCandidacy/{jobOffer_id}")
-//    public Candidacy addCandidacy(@RequestBody Candidacy candidacy, @PathVariable("jobOffer_id") long jobOffer_id) {
-//        JobOffer job = iJobOfferService.findOneJobOffer(jobOffer_id);
-//        candidacy.setJob_offer(job);
-//        return iCandidacyService.addCandidate(candidacy);
-//    }
-
     @PutMapping ("updateCandidacy")
     public Candidacy updateCandidacy (@RequestBody Candidacy Candidacy){
         return iCandidacyService.addOrUpdateCandidacy(Candidacy);
     }
-
-
     @PostMapping("addAll")
     public List<Candidacy> addAllCandidacies(@RequestBody List<Candidacy> Candidacys){
         return iCandidacyService.addAllCandidacies(Candidacys);
     }
-
     @GetMapping("getCandidacy/{id}")
     public Candidacy getCandidacy(@PathVariable("id") long id){
         return iCandidacyService.findCandidacyById(id);
@@ -122,6 +121,57 @@ public class CandidacyRestController {
         Candidacy updatedCandidacy = iCandidacyService.updateCandidacyStatus(candidacy);
         return ResponseEntity.ok(updatedCandidacy);
     }
+//    @GetMapping("/updateLinkedinData")
+//    public ResponseEntity<String> updateCandidaciesWithLinkedInData() {
+//        try {
+//            // Call the service method to update candidacies with LinkedIn data
+//            iCandidacyService.updateCandidaciesWithLinkedInData();
+//            return ResponseEntity.ok("LinkedIn data updated successfully");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update LinkedIn data");
+//        }
+//    }
 
+//    @GetMapping("/linkedin")
+//    public ResponseEntity<String> getCandidacyInfoFromLinkedIn(@RequestParam String linkedinUrl) {
+//        try {
+//            // Call your service method to fetch information from LinkedIn using the provided URL
+//            String response = iCandidacyService.getCandidacyInfoFromLinkedIn(linkedinUrl);
+//
+//            // Check if the response is valid
+//            if (response != null) {
+//                return ResponseEntity.ok(response);
+//            } else {
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve LinkedIn information");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace(); // Print the stack trace for debugging purposes
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve LinkedIn information due to an error");
+//        }
+//    }
+    @GetMapping("/candidateStatisticsByCountry")
+    public ResponseEntity<List<Object[]>> getCandidateStatisticsByCountry() {
+        try {
+            // Invoke the service method to get candidate statistics by country
+            List<Object[]> candidateStatistics = iCandidacyService.getCandidatesByCountryStatistics();
 
+            // Return the fetched statistics as the HTTP response
+            return ResponseEntity.ok(candidateStatistics);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @GetMapping("/mostQualifiedCandidatesStatistics")
+    public ResponseEntity<List<Map<String, Object>>> getMostQualifiedCandidatesStatistics() {
+        try {
+            // Call the service method to get statistics on the most qualified candidates
+            List<Map<String, Object>> statistics = iCandidacyService.getMostQualifiedCandidatesStatistics();
+            return ResponseEntity.ok(statistics);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

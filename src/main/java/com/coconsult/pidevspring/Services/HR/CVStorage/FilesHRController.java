@@ -3,6 +3,9 @@ package com.coconsult.pidevspring.Services.HR.CVStorage;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageServiceHR;
+import com.coconsult.pidevspring.Services.User.Image.FileHRInfo;
+import com.coconsult.pidevspring.Services.User.Image.ResponseMessageHR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 public class FilesHRController {
     @Autowired
     FilesStorageServiceHR storageService;
+
 
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessageHR> uploadFile(@RequestParam("file") MultipartFile file) {
@@ -39,13 +43,14 @@ public class FilesHRController {
             String url = MvcUriComponentsBuilder
                     .fromMethodName(FilesHRController.class, "getFile", path.getFileName().toString()).build().toString();
 
+
             return new FileHRInfo(filename, url);
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.load(filename);

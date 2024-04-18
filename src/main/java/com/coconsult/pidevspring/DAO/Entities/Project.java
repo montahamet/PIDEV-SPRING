@@ -47,5 +47,4 @@ public class Project implements Serializable {
     @JsonIgnore
     ProjectOffer projectoffer;
 
-
 }
