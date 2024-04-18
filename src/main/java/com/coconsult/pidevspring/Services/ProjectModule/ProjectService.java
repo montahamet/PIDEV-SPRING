@@ -2,6 +2,7 @@ package com.coconsult.pidevspring.Services.ProjectModule;
 
 import com.coconsult.pidevspring.DAO.Entities.Project;
 import com.coconsult.pidevspring.DAO.Repository.ProjectModule.ProjectRepository;
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,8 @@ import java.util.List;
 public class ProjectService implements IProjectService {
 @Autowired
     ProjectRepository projectRepository;
-
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
