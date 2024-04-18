@@ -6,12 +6,10 @@ import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEven
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-<<<<<<< HEAD
-=======
+
 import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
->>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,14 +23,12 @@ import java.util.logging.Logger;
 @Service
 @AllArgsConstructor
 public class RegistrationEventService implements IRegistrationEventService{
-<<<<<<< HEAD
-=======
+
     private static final Logger log = Logger.getLogger(RegistrationEventService.class.getName());
 
     @Autowired
 
 
->>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
     RegistrationEventRepository registrationEventRepository;
    UserRepository userRepository;
 

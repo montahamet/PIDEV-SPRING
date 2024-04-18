@@ -3,19 +3,14 @@ package com.coconsult.pidevspring.RestControllers.HR;
 //import com.fasterxml.jackson.databind.JsonNode;
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
 import com.coconsult.pidevspring.Services.HR.CVStorage.FileHRInfo;
-<<<<<<< HEAD
-=======
-//import com.coconsult.pidevspring.Services.HR.CVStorage.FilesHRController;
->>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
+
 import com.coconsult.pidevspring.Services.HR.CVStorage.FilesHRController;
 import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageServiceHR;
 import com.coconsult.pidevspring.Services.HR.CVStorage.ResponseMessageHR;
 import com.coconsult.pidevspring.Services.HR.ICandidacyService;
 import com.coconsult.pidevspring.Services.HR.IJobOfferService;
-<<<<<<< HEAD
 //import com.mashape.unirest.http.exceptions.UnirestException;
-=======
->>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
+
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

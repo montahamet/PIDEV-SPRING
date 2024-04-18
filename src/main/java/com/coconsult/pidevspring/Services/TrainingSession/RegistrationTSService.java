@@ -4,6 +4,7 @@ import com.coconsult.pidevspring.DAO.Entities.RegistrationEvent;
 import com.coconsult.pidevspring.DAO.Entities.RegistrationTS;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationTSRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +12,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class RegistrationTSService implements IRegistrationTSService{
-<<<<<<< HEAD
-=======
+
     @Autowired
 
->>>>>>> 340bb1611de4d28d73c923a57941f8b1cd8d1183
     RegistrationTSRepository registrationTSRepository;
     @Override
     public List<RegistrationTS> findAllRegistrationTS() {

@@ -3,9 +3,6 @@ package com.coconsult.pidevspring.Services.HR.CVStorage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.coconsult.pidevspring.Services.HR.CVStorage.FilesStorageServiceHR;
-import com.coconsult.pidevspring.Services.User.Image.FileHRInfo;
-import com.coconsult.pidevspring.Services.User.Image.ResponseMessageHR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
