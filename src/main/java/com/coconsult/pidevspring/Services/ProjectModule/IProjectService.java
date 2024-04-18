@@ -18,8 +18,6 @@ public interface IProjectService {
     void deleteProject(Project project);
     List<String> getAllProjectNames();
     Project findByProjectName(String projectName);
-    List<Project> searchProjects(String keyword);
-
 
 
 

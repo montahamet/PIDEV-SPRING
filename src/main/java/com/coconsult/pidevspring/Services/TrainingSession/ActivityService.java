@@ -6,7 +6,6 @@ import com.coconsult.pidevspring.DAO.Repository.TrainingSession.ActivityReposito
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ActivityService implements IActivityService {
-    @Autowired
     ActivityRepository activityRepository;
     EventRepository eventRepository;
     private static final Logger logger = LoggerFactory.getLogger(ActivityService.class);

@@ -1,7 +1,6 @@
 package com.coconsult.pidevspring.RestControllers.ProjectModule;
 
 import com.coconsult.pidevspring.DAO.Entities.Project;
-import com.coconsult.pidevspring.DAO.Entities.StatusTask;
 import com.coconsult.pidevspring.DAO.Entities.Task;
 import com.coconsult.pidevspring.Services.ProjectModule.ITaskService;
 import lombok.AllArgsConstructor;
@@ -67,9 +66,5 @@ public class TaskRestController {
     public List<String> getAllProjectNames() {
         return iTaskService.getAllProjectNames();
 
-    }
-    @GetMapping("/tasks")
-    public List<Task> getTasksByStatus(@RequestParam String status) {
-        return iTaskService.getTasksByStatus(StatusTask.valueOf(status.toUpperCase()));
     }
     }

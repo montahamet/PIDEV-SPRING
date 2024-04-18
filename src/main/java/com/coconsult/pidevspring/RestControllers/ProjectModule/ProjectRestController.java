@@ -39,8 +39,4 @@ public class ProjectRestController {
         iProjectService.deleteProject(project);
 
     }
-    @GetMapping("/searchProject")
-    public List<Project> searchProjects(@RequestParam String keyword) {
-        return iProjectService.searchProjects(keyword);
-    }
-    }
+}

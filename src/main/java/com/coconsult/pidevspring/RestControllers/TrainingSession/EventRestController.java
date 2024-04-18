@@ -18,10 +18,6 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-<<<<<<< HEAD
-=======
-//@CrossOrigin("*")
->>>>>>> 1849512c85bbcb1632e101ffc72c0958eaafd8df
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RequestMapping("/Event-TrainingSession")
 

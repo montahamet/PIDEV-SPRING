@@ -1,7 +1,6 @@
 package com.coconsult.pidevspring.Services.ProjectModule;
 
 import com.coconsult.pidevspring.DAO.Entities.Project;
-import com.coconsult.pidevspring.DAO.Entities.StatusTask;
 import com.coconsult.pidevspring.DAO.Entities.Task;
 import com.coconsult.pidevspring.DAO.Repository.ProjectModule.ProjectRepository;
 import com.coconsult.pidevspring.DAO.Repository.ProjectModule.TaskRepository;
@@ -78,10 +77,5 @@ public class TaskService implements ITaskService {
 
     public List<String> getAllProjectNames() {
         return projectService.getAllProjectNames();
-    }
-
-    @Override
-    public List<Task> getTasksByStatus(StatusTask status) {
-        return taskRepository.findByTaskStatus(status);
     }
 }

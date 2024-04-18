@@ -16,7 +16,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -45,7 +44,8 @@ public class JobOffer implements Serializable {
 
     ///Relations
     // JobOffer class
-    @JsonManagedReference
+//    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "jobOffer", cascade = CascadeType.ALL)
     private List<Candidacy> candidacies = new ArrayList<>();
 

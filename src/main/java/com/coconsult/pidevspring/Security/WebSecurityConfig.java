@@ -1,7 +1,6 @@
 package com.coconsult.pidevspring.Security;
 
-import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
-import com.coconsult.pidevspring.Security.JWT.AuthEntryPointJwt;
+import com.coconsult.pidevspring.Security.jwt.AuthEntryPointJwt;
 import com.coconsult.pidevspring.Security.JWT.AuthTokenFilter;
 import com.coconsult.pidevspring.Security.Services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,19 +96,9 @@ public class WebSecurityConfig{// WebSecurityConfigurerAdapter {
                             .requestMatchers("/api/test/**").permitAll()
                             .requestMatchers("/user/**").permitAll()
                             .requestMatchers("/role/**").permitAll()
-/////////////////////////////////// haifa /////////////////////////////////////////////////////////////////
-                            .requestMatchers("/Activity-TrainingSession/**").permitAll()
-                            .requestMatchers("/Event-TrainingSession/**").permitAll()
-                            .requestMatchers("/FeedBack-TrainingSession/**").permitAll()
-                            .requestMatchers("/RegistrationEvent-TrainingSession/**").permitAll()
-                            .requestMatchers("/RegistrationTS-TrainingSession/**").permitAll()
-                            .requestMatchers("/TrainingSession-TrainingSession/**").permitAll()
-/////////////////////////////////// haifa /////////////////////////////////////////////////////////////////
-/////////////////////////////////// montaha /////////////////////////////////////////////////////////////////
                             .requestMatchers("/JobOffer/**").permitAll()
                             .requestMatchers("/Interview/**").permitAll()
                             .requestMatchers("/candidacy/**").permitAll()
-/////////////////////////////////// montaha /////////////////////////////////////////////////////////////////
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().permitAll()
             );

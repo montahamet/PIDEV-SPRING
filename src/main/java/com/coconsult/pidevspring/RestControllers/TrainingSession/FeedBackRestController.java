@@ -14,8 +14,7 @@ import java.util.Map;
 
 @RestController
 @AllArgsConstructor
-//@CrossOrigin("*")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin("*")
 @RequestMapping("/FeedBack-TrainingSession")
 public class FeedBackRestController {
     IFeedBackService iFeedBackService;
