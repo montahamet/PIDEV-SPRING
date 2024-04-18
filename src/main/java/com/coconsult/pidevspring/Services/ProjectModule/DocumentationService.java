@@ -3,6 +3,7 @@ package com.coconsult.pidevspring.Services.ProjectModule;
 import com.coconsult.pidevspring.DAO.Entities.Documentation;
 import com.coconsult.pidevspring.DAO.Repository.ProjectModule.DocumentationRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

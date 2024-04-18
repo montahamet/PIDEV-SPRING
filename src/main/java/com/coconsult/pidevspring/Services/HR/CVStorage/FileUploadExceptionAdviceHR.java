@@ -1,6 +1,5 @@
 package com.coconsult.pidevspring.Services.HR.CVStorage;
 
-import com.coconsult.pidevspring.Services.User.Image.ResponseMessageHR;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
