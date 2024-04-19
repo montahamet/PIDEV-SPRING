@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class RegistrationTSService implements IRegistrationTSService{
+
     @Autowired
 
     RegistrationTSRepository registrationTSRepository;

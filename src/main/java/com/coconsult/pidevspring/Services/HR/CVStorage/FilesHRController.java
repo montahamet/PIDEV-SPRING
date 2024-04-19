@@ -18,6 +18,7 @@ public class FilesHRController {
     @Autowired
     FilesStorageServiceHR storageService;
 
+
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessageHR> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
@@ -39,13 +40,14 @@ public class FilesHRController {
             String url = MvcUriComponentsBuilder
                     .fromMethodName(FilesHRController.class, "getFile", path.getFileName().toString()).build().toString();
 
+
             return new FileHRInfo(filename, url);
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.load(filename);

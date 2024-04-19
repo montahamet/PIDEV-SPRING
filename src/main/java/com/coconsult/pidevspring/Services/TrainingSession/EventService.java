@@ -4,6 +4,7 @@ import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.FeedBackRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
@@ -25,7 +26,6 @@ import java.util.Set;
 
 @Service
 public class EventService implements IEventService {
-    @Autowired
     private final EventRepository eventRepository;
     private final FeedBackRepository feedbackRepository;
     private final RegistrationEventRepository registrationEventRepository;

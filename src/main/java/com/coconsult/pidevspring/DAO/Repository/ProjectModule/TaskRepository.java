@@ -14,6 +14,7 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task,Long> {
     @Query("SELECT t FROM Task t WHERE t.projetT.projectId = :projectId")
     List<Task> findByProjetTProjectId(Long projectId);
+
     List<Task> findByTaskStatus(StatusTask status);
     @Query("SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END FROM Task t WHERE t.employeeTask.userId = :userId AND t.dueDateTask > CURRENT_DATE")
     boolean existsByEmployeeTaskUserIdAndDueDateTaskAfter(@Param("userId") long userId);

@@ -16,6 +16,7 @@ import java.util.List;
 public class TrainingSessionService implements ITrainingSessionService{
     private final Logger logger = LoggerFactory.getLogger(TrainingSessionService.class);
 
+
     @Autowired
     TrainingSessionRepository trainingSessionRepository;
     @Override

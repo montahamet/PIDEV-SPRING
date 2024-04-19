@@ -73,6 +73,7 @@ public class TaskRestController {
 
     }
 
+
     @GetMapping("/tasks")
     public List<Task> getTasksByStatus(@RequestParam String status) {
         return iTaskService.getTasksByStatus(StatusTask.valueOf(status.toUpperCase()));

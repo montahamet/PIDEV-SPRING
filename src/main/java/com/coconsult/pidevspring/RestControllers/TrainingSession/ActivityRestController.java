@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-//@CrossOrigin("*")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin("*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/Activity-TrainingSession")

@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -33,6 +32,12 @@ public class Candidacy implements Serializable {
     String coverLetter;
     LocalDateTime submissionDate;
     int candidacystatus =0;
+    @Column(columnDefinition = "TEXT")
+    String linkedinData;
+    String skills;
+    String country;
+    String educationHistory;
+
 
 
     @Builder
@@ -52,7 +57,8 @@ public class Candidacy implements Serializable {
     }
 
     ///Relations
-    @JsonBackReference
+//    @JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "job_offer_id")
     private JobOffer jobOffer;
@@ -61,7 +67,7 @@ public class Candidacy implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     User user;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToOne(mappedBy = "candidacy", cascade = CascadeType.ALL)
     Interview interview;
 

@@ -41,11 +41,10 @@ public class Project implements Serializable {
     @JsonIgnore
     List<Invoice> invoices=new ArrayList<>();
     @ManyToOne
-    @JsonIgnore
+
     User projectManager;
     @ManyToOne
     @JsonIgnore
     ProjectOffer projectoffer;
-
 
 }
