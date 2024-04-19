@@ -4,6 +4,8 @@ import com.coconsult.pidevspring.DAO.Entities.RegistrationTS;
 import com.coconsult.pidevspring.DAO.Entities.TrainingSession;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.TrainingSessionRepository;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +14,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class TrainingSessionService implements ITrainingSessionService{
-    @Autowired
+    private final Logger logger = LoggerFactory.getLogger(TrainingSessionService.class);
 
+    @Autowired
     TrainingSessionRepository trainingSessionRepository;
     @Override
     public List<TrainingSession> findAllTrainingSession() {
@@ -27,7 +30,13 @@ public class TrainingSessionService implements ITrainingSessionService{
 
     @Override
     public TrainingSession addTrainingSession(TrainingSession trainingSession) {
-        return trainingSessionRepository.save(trainingSession);
+        logger.info("Adding new training session: {}", trainingSession);
+        try {
+            return trainingSessionRepository.save(trainingSession);
+        } catch (Exception e) {
+            logger.error("Error saving training session: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to save the training session: " + e.getMessage(), e);
+        }
     }
 
 
