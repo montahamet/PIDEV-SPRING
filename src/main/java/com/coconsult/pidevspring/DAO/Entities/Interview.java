@@ -1,5 +1,7 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,6 +10,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,12 +23,27 @@ public class Interview implements Serializable {
     Long interview_id ;
     LocalDateTime dateInterview;
     @Enumerated(EnumType.STRING)
-    TypeInterview type;
-    @Enumerated(EnumType.STRING)
     StatusInterview statusInterview;
     Boolean passed;
+
+
+    ///Relations
+    @JsonIgnore
     @ManyToOne
-    User userHR;
-    @ManyToOne
-    User userCANDIDATE;
+    User user;
+
+    @JsonManagedReference
+    @OneToOne
+    @JoinColumn(name = "candidacy_id")
+    Candidacy candidacy;
+
+
+    ///Enum
+    public enum StatusInterview {
+        SCHEDULED,
+        IN_PROGRESS,
+        COMPLETED,
+        CANCELED
+    }
+
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -11,31 +12,33 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ProjectOffer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long offer_id ;
-    private String ProjectTitle;
-    private String description;
-    private LocalDate postedDate;
+    Long offerId ;
+    String projectTitle;
+    String description;
+    LocalDate postedDate;
 
     @Enumerated(EnumType.STRING)
-    private ProjectOfferStatus status_offer;
+    ProjectOfferStatus status;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="projectofferquote")
-    private Set<Quote> Quotes=new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="projectofferquote", fetch = FetchType.LAZY)
+    Set<Quote> Quotes=new HashSet<>();
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="projectoffer")
-    private Set<Project> Projects=new HashSet<>();
+    Set<Project> Projects=new HashSet<>();
 
     @JsonIgnore
     @ManyToOne
-    private User user;
+    User user;
 }

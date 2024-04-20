@@ -21,7 +21,6 @@ public class Chat implements Serializable {
     Long chatId ;
     String name ;
     LocalDateTime createdAt;
-    @JsonIgnore
     @ManyToMany(mappedBy="chats", cascade = CascadeType.ALL)
     private Set<User> users;
 }

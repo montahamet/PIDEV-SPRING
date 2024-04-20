@@ -21,8 +21,7 @@ public class Attendence {
     private boolean approved ;
     private String reason ;
     private LocalDateTime date ;
-    @Enumerated(EnumType.STRING)
-    private TypeAttendence typeAttendence ;
+    private String typeAttendence ;
     @JsonIgnore
     @ManyToOne
     private User employee;

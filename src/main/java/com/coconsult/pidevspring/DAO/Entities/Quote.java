@@ -10,24 +10,26 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Quote implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long quote_id ;
-    private LocalDate issuanceDate;
-    private String description;
-    private Integer quantity;
-    private Double UnitPrice;
-    private Double TotalAmount;
+    Long quote_id ;
+    LocalDate issuanceDate;
+    String description;
+    Integer quantity;
+    Double unitprice;
+    Double totalamount;
+
+    Long projectOfferId;
 
 
-    @JsonIgnore
     @ManyToOne
-    private ProjectOffer projectofferquote;
+    ProjectOffer projectofferquote;
 }

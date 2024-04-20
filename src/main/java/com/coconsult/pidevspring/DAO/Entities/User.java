@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -17,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User implements   Serializable {
+public class    User implements   Serializable , UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long userId ;
@@ -27,12 +29,19 @@ public class User implements   Serializable {
     String lastname;
     String password;
     String Adresse;
+    LocalDate birthdate ;
+    Integer phonenumber ;
     @Enumerated(EnumType.STRING)
     Gender gender;
+    String image ;
+    Boolean locked = true;
+    Boolean enabled = true;
+
+   // String resetPasswordToken;
     /////////////////////// Thamer /////////////////////
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Role> Roles = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
@@ -49,7 +58,7 @@ public class User implements   Serializable {
     List<Project> projects=new ArrayList<>();
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "employeeTask")
-    List<Task> employeeTask=new ArrayList<>();
+    List<Task> employeeTasks=new ArrayList<>();
     /////////////////////// Malek //////////////////////
 
 
@@ -59,13 +68,18 @@ public class User implements   Serializable {
     private Set<FeedBack> FeedBacks;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<RegistationEvent> RegistationEvents;
+    private Set<RegistrationEvent> RegistationEvents;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Event> Events = new HashSet<>();
+
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "likedByUsers", cascade = CascadeType.ALL)
+//    private Set<Event> likedEvents;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Event> Events;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<RegistationTS> RegistationTSs;
+    private Set<RegistrationEvent> RegistationTSs;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<TrainingSession> TrainingSessions;
@@ -75,13 +89,10 @@ public class User implements   Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<JobOffer> Job_Offers;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="userHR")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Interview> InterviewsHR;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="userCANDIDATE")
-    private Set<Interview> InterviewsCandidate;
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<ProjectOffer> ProjectOffers;
     @JsonIgnore
@@ -97,5 +108,49 @@ public class User implements   Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="admin")
     private Set<Attendence> Attendence = new HashSet<>();
+
+    public User(String email, String encode) {
+    }
+
+    public User(String encode) {
+    }
+
+    public User(String email, String firstname, String lastname, LocalDate birthdate, Gender gender, Integer phonenumber, String adresse, String encode) {
+    }
+
+
+    /////////////////////////////////CONFIG////////////////////
+
+   @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 }
 
