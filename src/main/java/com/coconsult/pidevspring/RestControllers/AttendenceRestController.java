@@ -1,50 +1,48 @@
 package com.coconsult.pidevspring.RestControllers;
 
 import com.coconsult.pidevspring.DAO.Entities.Attendence;
-import com.coconsult.pidevspring.DAO.Entities.ProjectOffer;
 import com.coconsult.pidevspring.Services.IAttendenceService;
-import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
-@RequestMapping("/attendence")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@RequestMapping("/attendance") // Change endpoint to singular form
 public class AttendenceRestController {
-    IAttendenceService iAttendenceService;
+    private final IAttendenceService attendenceService;
 
+    public AttendenceRestController(IAttendenceService attendenceService) {
+        this.attendenceService = attendenceService;
+    }
 
-    @GetMapping("/retrieve-attendences")
+    @GetMapping("/all") // Endpoint to retrieve all attendance records
     public List<Attendence> retrieveAllAttendence() {
-        List<Attendence> attendences= iAttendenceService.retrieveAllAttendence();
-        return attendences;
+        return attendenceService.retrieveAllAttendence();
     }
 
-    @PostMapping("/add-attendence")
-    public Attendence addAttendence(@RequestBody Attendence attendence) {
-        Attendence attendence1 = iAttendenceService.addAttendence(attendence);
+        @PostMapping("/add") // Endpoint to add attendance
+        public Attendence addAttendence(@RequestBody Attendence attendance) {
+            attendance.setDate(LocalDateTime.now());
+            return attendenceService.addAttendence(attendance);
+        }
 
-        return attendence1 ;
+    @PutMapping("/update/{id}") // Endpoint to update attendance (if needed)
+    public Attendence updateAttendence(@PathVariable("id") Long id, @RequestBody Attendence attendance) {
+        // You can implement this method if you need to update attendance
+        // Note: You may need to handle security and validation checks here
+        return attendenceService.modifyAttendence(attendance);
     }
 
-    @PutMapping("/update-attendence")
-    public Attendence updateAttendence(@RequestBody Attendence attendence) {
-
-        return iAttendenceService.modifyAttendence(attendence);
+    @GetMapping("/get/{id}") // Endpoint to retrieve a specific attendance record by ID (if needed)
+    public Attendence retrieveAttendence(@PathVariable("id") Long id) {
+        return attendenceService.retrieveAttendence(id);
     }
 
-    @GetMapping("/retrieve-attendence")
-    public Attendence retrieveProjectOffer(@PathParam("attendenceid") Long attendenceid) {
-        Attendence attendence = iAttendenceService.retrieveAttendence(attendenceid);
-        return attendence;
+    @DeleteMapping("/remove/{id}") // Endpoint to remove attendance by ID (if needed)
+    public void removeAttendence(@PathVariable("id") Long id) {
+        attendenceService.removeAttendence(id);
     }
-
-    @DeleteMapping("/remove-attendence")
-    public void removeAttendence(@PathParam("attendenceid") Long attendenceid) {
-        iAttendenceService.removeAttendence(attendenceid);
-    }
-
-
 }
