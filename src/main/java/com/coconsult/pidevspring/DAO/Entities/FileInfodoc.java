@@ -1,20 +1,11 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-public class FileInfodoc implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long fileid;
+
+public class FileInfodoc  {
+
     private String name;
     private String url;
 

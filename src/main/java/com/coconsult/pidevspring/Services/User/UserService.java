@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +27,12 @@ public class UserService implements IUserService {
 
     @Override
     public User updateUser(User u) {
+
+        return userRepository.save(u);
+    }
+    @Override
+    public User updateUsermdp(User u) {
+
         return userRepository.save(u);
     }
 
@@ -59,7 +66,7 @@ public class UserService implements IUserService {
     //malekk
     @Override
     public List<User> findCompetentUsersOrderByTasks() {
-        return userRepository.findCompetentUsersOrderByTasks();
+        return null ;//userRepository.findCompetentUsersOrderByTasks();
     }
 
 

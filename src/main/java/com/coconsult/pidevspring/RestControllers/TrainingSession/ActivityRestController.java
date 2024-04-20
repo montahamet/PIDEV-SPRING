@@ -38,6 +38,10 @@ public class ActivityRestController {
         Pageable pageable = PageRequest.of(page, size);
         return iActivityService.findAllActivities(pageable);
     }
+    @GetMapping("/all")
+    public List<Activity> getAllActivities() {
+        return iActivityService.findAllActivities();
+    }
     @PostMapping("/addActivity/{event_id}")
     public  Activity addActivity(@RequestBody Activity activity, @PathVariable("event_id") long event_id) {
         Event event = iEventService.findOneEvent(event_id);

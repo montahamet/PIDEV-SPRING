@@ -25,6 +25,7 @@ public interface ITaskService {
     List<Task> getTasksByProjectId(Long projectId);
     void affecterTaskAuProjet(Task task, String projectName);
     List<String> getAllProjectNames();
+
     List<Task> getTasksByStatus(StatusTask status);
     long countByEmployeeTaskUserId(long userId);
     boolean existsByEmployeeTaskUserIdAndDueDateTaskAfter(@Param("userId") long userId);

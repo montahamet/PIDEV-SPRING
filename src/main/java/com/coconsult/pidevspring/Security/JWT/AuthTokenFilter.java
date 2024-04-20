@@ -20,8 +20,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
   @Autowired
-  private com.coconsult.pidevspring.Security.JWT.JwtUtils jwtUtils;
+
+  private JwtUtils jwtUtils;
+
 @Autowired
+
   private UserDetailsServiceImpl userDetailsService;
 
   private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
@@ -36,10 +39,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        logger.info( "----------"+jwt+"****"+ userDetails.getAuthorities());
-
-
-
         UsernamePasswordAuthenticationToken authentication = 
             new UsernamePasswordAuthenticationToken(userDetails,
                                                     null,
