@@ -41,7 +41,4 @@ public class DocumentationRestController {
     public void deleteDoc(Documentation doc){
         iDocumentationService.deleteDoc(doc);
     }
-
-
-
 }

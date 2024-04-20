@@ -14,7 +14,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 @Service("projectFilesStorageService")
-public class FilesStorageServiceImpl implements FilesProjectService {
+public class FilesStorageProjectImpl implements FilesProjectService {
 
 
     private final Path root = Paths.get("C:/xampp/htdocs/coconsult");

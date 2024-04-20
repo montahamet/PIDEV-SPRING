@@ -4,6 +4,7 @@ import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.FeedBackRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
@@ -25,7 +26,6 @@ import java.util.Set;
 
 @Service
 public class EventService implements IEventService {
-    @Autowired
     private final EventRepository eventRepository;
     private final FeedBackRepository feedbackRepository;
     private final RegistrationEventRepository registrationEventRepository;
@@ -137,7 +137,11 @@ public Event UpdateEvent(Event event) {
         LocalDate today = LocalDate.now();
         return eventRepository.findUpcomingEvents(today);
     }
-
+//    public List<Event> searchEvents(String query) {
+//        // Utilisez le repository pour rechercher les événements en fonction de la requête
+//        return eventRepository.findByEventNameContainingIgnoreCaseOrEventDescriptionContainingIgnoreCaseOrPlaceContainingIgnoreCase(query, query, query);
+//        // Assurez-vous d'ajuster cette méthode de recherche en fonction de vos besoins spécifiques
+//    }
 //    @Override
 //    public void likeEvent(Long eventId, Long userId) {
 //        Event event = eventRepository.findById(eventId)

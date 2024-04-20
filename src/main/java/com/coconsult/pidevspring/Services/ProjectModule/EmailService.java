@@ -1,11 +1,13 @@
 package com.coconsult.pidevspring.Services.ProjectModule;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-@Service("projectModuleEmailService")
+@Service
+@Component("projectEmailService")
 public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;

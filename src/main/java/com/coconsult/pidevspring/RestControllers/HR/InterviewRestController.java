@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -28,7 +29,11 @@ public class InterviewRestController {
         return iInterviewService.addOrUpdateInterview(Interview);
     }
 
-
+        @GetMapping("/success-rate")
+        public ResponseEntity<Map<String, Double>> getSuccessRate() {
+            Map<String, Double> successRates = iInterviewService.calculateSuccessRate();
+            return ResponseEntity.ok(successRates);
+        }
 
 
     @PostMapping("addAllInterviews")
@@ -70,4 +75,33 @@ public class InterviewRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping("/findInterviewsByCandidacyId/{candidacyId}")
+    public ResponseEntity<List<Interview>> findInterviewsByCandidacyId(@PathVariable Long candidacyId) {
+        List<Interview> interviews = iInterviewService.findInterviewsByCandidacyId(candidacyId);
+        if (!interviews.isEmpty()) {
+            return ResponseEntity.ok(interviews); // Return interviews if found
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 Not Found if interviews not found
+        }
+    }
+    @GetMapping("findAllInterviewsWithCandidateNames")
+    public ResponseEntity<List<Interview>> findAllInterviewsWithCandidateNames() {
+        List<Interview> interviews = iInterviewService.findAllInterviewsWithCandidateNames();
+        if (!interviews.isEmpty()) {
+            return ResponseEntity.ok(interviews); // Return interviews with candidate names if found
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 Not Found if interviews not found
+        }
+    }
+    @GetMapping("findAllInterviewsWithCandidateNamesAndEmail")
+    public ResponseEntity<List<Interview>> findAllInterviewsWithCandidateNamesAndEmail() {
+        List<Interview> interviews = iInterviewService.findAllInterviewsWithCandidateNamesAndEmail();
+        if (!interviews.isEmpty()) {
+            return ResponseEntity.ok(interviews); // Return interviews with candidate names and emails if found
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 Not Found if interviews not found
+        }
+    }
+
+
 }

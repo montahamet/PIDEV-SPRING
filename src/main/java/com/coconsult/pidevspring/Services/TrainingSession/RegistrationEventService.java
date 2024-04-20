@@ -4,18 +4,28 @@ import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+
+import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 @AllArgsConstructor
 public class RegistrationEventService implements IRegistrationEventService{
+
+    private static final Logger log = Logger.getLogger(RegistrationEventService.class.getName());
+
     @Autowired
 
 
@@ -30,10 +40,48 @@ public class RegistrationEventService implements IRegistrationEventService{
         return registrationEventRepository.findAll();
     }
 
+
     @Override
-    public RegistrationEvent addRegistrationEvent(RegistrationEvent registrationEvent) {
-        return registrationEventRepository.save(registrationEvent);
+    @Transactional
+    public RegistrationEvent addRegistrationEvent(Long eventId, Long userId) {
+        log.log(Level.INFO, "Attempting to add registration event for eventId: {0} and userId: {1}", new Object[]{eventId, userId});
+
+        Optional<Event> event = eventRepository.findById(eventId);
+        Optional<User> user = userRepository.findById(userId);
+
+        if (event.isEmpty() || user.isEmpty()) {
+            log.log(Level.WARNING, "Event or User not found for eventId: {0} and userId: {1}", new Object[]{eventId, userId});
+            throw new OpenApiResourceNotFoundException("Event or User not found");
+        }
+
+        boolean exists = registrationEventRepository.existsByEvent_EventIdAndUser_UserId(eventId, userId);
+        if (exists) {
+            log.log(Level.WARNING, "User already registered for event. EventId: {0}, UserId: {1}", new Object[]{eventId, userId});
+            throw new IllegalStateException("User is already registered for this event");
+        }
+
+        // Create a new RegistrationEvent object
+        RegistrationEvent registrationEvent = new RegistrationEvent();
+
+        // Set the event and user for the registration event
+        registrationEvent.setEvent(event.get());
+        registrationEvent.setUser(user.get());
+
+        // Set the locked field to false
+        registrationEvent.setLocked(false);
+
+        // Save the RegistrationEvent object
+        RegistrationEvent savedRegistrationEvent = registrationEventRepository.save(registrationEvent);
+
+        log.log(Level.INFO, "Registration successful for eventId: {0}, userId: {1}", new Object[]{eventId, userId});
+
+        // Return the saved RegistrationEvent object
+        return savedRegistrationEvent;
     }
+
+
+
+
 
     @Override
     public RegistrationEvent UpdateRegistrationEvent(RegistrationEvent registrationEvent) {
@@ -55,12 +103,12 @@ public class RegistrationEventService implements IRegistrationEventService{
     public RegistrationEvent registerForEvent(Long eventId, Long userId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
-       // User user = userRepository.findById(userId)
-             //   .orElseThrow(() -> new RuntimeException("User not found"));
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
 
         RegistrationEvent registration = new RegistrationEvent();
         registration.setEvent(event);
-       // registration.setUser(user);
+//        registration.setUser(user);
         registration.setRegistration_date(LocalDateTime.now()); // Set system date as registration date
         registration.setRegistrationEvent_status(Status.PENDING);
 

@@ -12,4 +12,6 @@ public interface IQuoteService {
     public Quote addQuote(Quote quote);
     public void removeQuote(Long quoteId);
     public Quote modifyQuote(Quote quote);
+    public long countQuotesByProjectOffer(Long projectOfferId);
+    public List<Quote> retrieveAllQuoteNotNull();
 }
