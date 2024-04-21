@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //import com.fasterxml.jackson.databind.JsonNode;
 //import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,11 +72,17 @@ public class CandidacyService implements ICandidacyService {
     }
     public Candidacy updateCandidacyStatus(Candidacy updatedCandidacy) {
         // Fetch the existing Candidacy object from the database
-        Candidacy existingCandidacy = candidacyRepository.findById(updatedCandidacy.getCandidacy_id()).orElse(null);
+        Optional<Candidacy> optionalCandidacy = candidacyRepository.findById(updatedCandidacy.getCandidacy_id());
 
-        if (existingCandidacy != null) {
+        if (optionalCandidacy.isPresent()) {
             // Update the status of the existing Candidacy object
+            Candidacy existingCandidacy = optionalCandidacy.get();
             existingCandidacy.setCandidacystatus(updatedCandidacy.getCandidacystatus());
+
+            // If the status is for archiving (-1), set isArchived to true
+            if (updatedCandidacy.getCandidacystatus() == -1) {
+                existingCandidacy.setArchived(true);
+            }
 
             // Save the updated Candidacy object back to the database
             return candidacyRepository.save(existingCandidacy);
@@ -89,6 +92,7 @@ public class CandidacyService implements ICandidacyService {
             return null;
         }
     }
+
 //    @Override
 //    public String getCandidacyInfoFromLinkedIn(String linkedinUrl) {
 //        try {
