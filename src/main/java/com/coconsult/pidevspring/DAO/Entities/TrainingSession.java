@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -19,7 +20,7 @@ import java.util.Set;
 public class TrainingSession implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long TS_id ;
+    Long ts_id ;
     String title;
     LocalDateTime  start_Date;
     @JsonProperty("Finish_Date")
@@ -47,6 +48,9 @@ public class TrainingSession implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="trainingsession")
     private Set<FeedBack> FeedBacks;
 
+    @ManyToOne
+    @JoinColumn(name = "room_id") // Adjust column name as necessary
+    private Room room;
 
 
 }
