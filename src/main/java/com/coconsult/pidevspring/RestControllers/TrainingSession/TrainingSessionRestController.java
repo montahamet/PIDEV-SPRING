@@ -19,9 +19,9 @@ public class TrainingSessionRestController {
     private final ITrainingSessionService iTrainingSessionService;
     private static final Logger logger = LoggerFactory.getLogger(TrainingSessionRestController.class); // Logger added here
 
-    @GetMapping("/findOneTrainingSession/{TS_id}")
-    public TrainingSession findOneTrainingSession(@PathVariable("TS_id") Long TS_id) {
-        return iTrainingSessionService.findOneTrainingSession(TS_id);
+    @GetMapping("/findOneTrainingSession/{ts_id}")
+    public TrainingSession findOneTrainingSession(@PathVariable("ts_id") Long ts_id) {
+        return iTrainingSessionService.findOneTrainingSession(ts_id);
     }
 
     @GetMapping("/findAllTrainingSession")
@@ -46,9 +46,9 @@ public class TrainingSessionRestController {
         return iTrainingSessionService.UpdateTrainingSession(trainingSession);
     }
 
-    @DeleteMapping("/deleteTrainingSessionById/{TS_id}")
-    public void deleteTrainingSessionById(@PathVariable("TS_id") Long TS_id) {
-        logger.debug("Deleting training session with ID: {}", TS_id);
-        iTrainingSessionService.deleteTrainingSessionById(TS_id);
+    @DeleteMapping("/deleteTrainingSessionById/{ts_id}")
+    public void deleteTrainingSessionById(@PathVariable("ts_id") Long ts_id) {
+        logger.debug("Deleting training session with ID: {}", ts_id);
+        iTrainingSessionService.deleteTrainingSessionById(ts_id);
     }
 }

@@ -42,12 +42,12 @@ public class TrainingSessionService implements ITrainingSessionService{
 
 
     @Override
-    public void deleteTrainingSessionById(Long TS_id) {
-        trainingSessionRepository.deleteById(TS_id);
+    public void deleteTrainingSessionById(Long ts_id) {
+        trainingSessionRepository.deleteById(ts_id);
     }
 
     @Override
-    public TrainingSession findOneTrainingSession(Long TS_id) {
-        return trainingSessionRepository.findById(TS_id).get();
+    public TrainingSession findOneTrainingSession(Long ts_id) {
+        return trainingSessionRepository.findById(ts_id).get();
     }
 }
