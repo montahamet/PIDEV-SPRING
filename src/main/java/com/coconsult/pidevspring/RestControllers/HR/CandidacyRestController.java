@@ -1,6 +1,6 @@
 package com.coconsult.pidevspring.RestControllers.HR;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
 import com.coconsult.pidevspring.DAO.Entities.SendEmailRequest;
 import com.coconsult.pidevspring.DAO.Repository.HR.CandidacyRepository;
@@ -12,7 +12,7 @@ import com.coconsult.pidevspring.Services.HR.CVStorage.ResponseMessageHR;
 import com.coconsult.pidevspring.Services.HR.EmailInterviewService;
 import com.coconsult.pidevspring.Services.HR.ICandidacyService;
 import com.coconsult.pidevspring.Services.HR.IJobOfferService;
-//import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 import com.coconsult.pidevspring.Services.User.EmailService;
 import lombok.AllArgsConstructor;
@@ -124,35 +124,35 @@ public class CandidacyRestController {
         Candidacy updatedCandidacy = iCandidacyService.updateCandidacyStatus(candidacy);
         return ResponseEntity.ok(updatedCandidacy);
     }
-//    @GetMapping("/updateLinkedinData")
-//    public ResponseEntity<String> updateCandidaciesWithLinkedInData() {
-//        try {
-//            // Call the service method to update candidacies with LinkedIn data
-//            iCandidacyService.updateCandidaciesWithLinkedInData();
-//            return ResponseEntity.ok("LinkedIn data updated successfully");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update LinkedIn data");
-//        }
-//    }
+    @GetMapping("/updateLinkedinData")
+    public ResponseEntity<String> updateCandidaciesWithLinkedInData() {
+        try {
+            // Call the service method to update candidacies with LinkedIn data
+            iCandidacyService.updateCandidaciesWithLinkedInData();
+            return ResponseEntity.ok("LinkedIn data updated successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update LinkedIn data");
+        }
+    }
 
-//    @GetMapping("/linkedin")
-//    public ResponseEntity<String> getCandidacyInfoFromLinkedIn(@RequestParam String linkedinUrl) {
-//        try {
-//            // Call your service method to fetch information from LinkedIn using the provided URL
-//            String response = iCandidacyService.getCandidacyInfoFromLinkedIn(linkedinUrl);
-//
-//            // Check if the response is valid
-//            if (response != null) {
-//                return ResponseEntity.ok(response);
-//            } else {
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve LinkedIn information");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace(); // Print the stack trace for debugging purposes
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve LinkedIn information due to an error");
-//        }
-//    }
+    @GetMapping("/linkedin")
+    public ResponseEntity<String> getCandidacyInfoFromLinkedIn(@RequestParam String linkedinUrl) {
+        try {
+            // Call your service method to fetch information from LinkedIn using the provided URL
+            String response = iCandidacyService.getCandidacyInfoFromLinkedIn(linkedinUrl);
+
+            // Check if the response is valid
+            if (response != null) {
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve LinkedIn information");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Print the stack trace for debugging purposes
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve LinkedIn information due to an error");
+        }
+    }
     @GetMapping("/candidateStatisticsByCountry")
     public ResponseEntity<List<Object[]>> getCandidateStatisticsByCountry() {
         try {
@@ -356,6 +356,17 @@ public class CandidacyRestController {
         }
     }
 
+    @GetMapping("/updateVerifEmail")
+    public ResponseEntity<String> updateVerifEmailForAllCandidacies() {
+        try {
+            // Call the service method to update verifEmail for all candidacies
+            iCandidacyService.updateVerifEmailForAllCandidacies();
+            return ResponseEntity.ok("verifEmail updated successfully for all candidacies");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update verifEmail for all candidacies");
+        }
+    }
 
 
 }
