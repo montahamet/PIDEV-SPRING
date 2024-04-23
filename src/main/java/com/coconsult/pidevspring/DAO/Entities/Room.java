@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -34,7 +35,8 @@ public class Room implements Serializable {
     @Column(name = "equipmentr")
     List<String> equipmentR;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.PERSIST, orphanRemoval = true) // Changed CascadeType
-    private Set<TrainingSession> trainingSessions = new HashSet<>();
+    @OneToMany(mappedBy = "room")
+    @JsonIgnore
+    private List<TrainingSession> trainingSessions;
 
 }
