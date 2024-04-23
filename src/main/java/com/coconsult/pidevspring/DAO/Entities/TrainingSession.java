@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,17 +23,10 @@ public class TrainingSession implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long ts_id ;
     String title;
-    LocalDateTime  start_Date;
-    @JsonProperty("Finish_Date")
-
-    LocalDateTime finish_Date;
-    @JsonProperty("Topic")
+    LocalDateTime  start_date;
+    LocalDateTime finish_date;
      String topic;
-
-    @JsonProperty("Place")
      String place;
-    @JsonProperty("Capacity")
-
     long capacity;
     @Enumerated(EnumType.STRING)
     TypeTS typeTS;
@@ -48,9 +42,12 @@ public class TrainingSession implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="trainingsession")
     private Set<FeedBack> FeedBacks;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id") // Adjust column name as necessary
+    @JsonInclude(JsonInclude.Include.NON_NULL) // Include room details in the JSON unless null
     private Room room;
 
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PlaceType placeType;
 }
