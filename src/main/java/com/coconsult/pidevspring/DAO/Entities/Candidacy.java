@@ -38,6 +38,8 @@ public class Candidacy implements Serializable {
     String country;
     String educationHistory;
     boolean isArchived=false;
+    String verifEmail;
+    String emailStatus;
 
 
 
