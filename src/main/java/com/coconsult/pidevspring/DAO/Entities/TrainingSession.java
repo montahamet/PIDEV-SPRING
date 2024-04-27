@@ -1,8 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,17 +15,26 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TrainingSession implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long ts_id ;
     String title;
-    LocalDateTime  start_date;
+    String target_audience;
+    String session_outline;
+    String expected_outcomes;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    LocalDateTime start_date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     LocalDateTime finish_date;
      String topic;
+    @Column(nullable = true)
      String place;
-    long capacity;
+    int capacity;
     @Enumerated(EnumType.STRING)
     TypeTS typeTS;
     @Enumerated(EnumType.STRING)
@@ -43,11 +50,11 @@ public class TrainingSession implements Serializable {
     private Set<FeedBack> FeedBacks;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "room_id") // Adjust column name as necessary
-    @JsonInclude(JsonInclude.Include.NON_NULL) // Include room details in the JSON unless null
+    @JsonIgnore
+    @JoinColumn(name = "room_id", nullable = true)
     private Room room;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private PlaceType placeType;
 }
