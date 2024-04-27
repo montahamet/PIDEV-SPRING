@@ -3,6 +3,7 @@ package com.coconsult.pidevspring.Services;
 
 import com.coconsult.pidevspring.DAO.Entities.Attendence;
 import com.coconsult.pidevspring.DAO.Repository.AttendenceRepository;
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class AttendenceService implements IAttendenceService {
 
     AttendenceRepository attendenceRepository;
+
     @Override
     public List<Attendence> retrieveAllAttendence() {
         return attendenceRepository.findAll();

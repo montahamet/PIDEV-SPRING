@@ -6,24 +6,25 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Attendence implements Serializable {
+public class Leaves implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long attendenceId ;
-    private boolean presence;
-    private boolean approved ;
-    private String reason ;
-    private LocalDateTime date ;
-    @Enumerated(EnumType.STRING)
-    private TypeAttendence typeAttendence ;
+     Long leaveId ;
+     String duration ;
+     boolean approved ;
+     String reason ;
+     LocalDate date ;
+
     @JsonIgnore
     @ManyToOne
     private User employee;
