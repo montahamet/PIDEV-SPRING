@@ -1,6 +1,5 @@
 package com.coconsult.pidevspring.Services.TrainingSession;
 
-import com.coconsult.pidevspring.DAO.Entities.RegistrationTS;
 import com.coconsult.pidevspring.DAO.Entities.Room;
 import com.coconsult.pidevspring.DAO.Entities.TrainingSession;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RoomRepository;
@@ -32,21 +31,58 @@ public class TrainingSessionService implements ITrainingSessionService{
     public TrainingSession UpdateTrainingSession(TrainingSession trainingSession) {
         return trainingSessionRepository.save(trainingSession);
     }
-    @Override
-    public TrainingSession addTrainingSession(TrainingSession trainingSession, int roomId) {
-        logger.info("Adding new training session: {}", trainingSession);
-        try {
-            // Fetch the corresponding room by roomId (not from within the trainingSession)
-            Room room = roomRepository.findById((long)roomId)
-                    .orElseThrow(() -> new RuntimeException("Room with ID " + roomId + " not found"));
-            trainingSession.setRoom(room); // Setting the correct room based on roomId
 
-            return trainingSessionRepository.save(trainingSession);
-        } catch (Exception e) {
-            logger.error("Error saving training session: {}", e.getMessage(), e);
-            throw new RuntimeException("Failed to save the training session: " + e.getMessage(), e);
-        }
+    @Override
+    public TrainingSession addTrainingSessionWithRoom(TrainingSession trainingSession, Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found"));
+        trainingSession.setRoom(room);
+        return trainingSessionRepository.save(trainingSession);
     }
+
+    @Override
+    public TrainingSession addTrainingSessionWithoutRoom(TrainingSession trainingSession) {
+        trainingSession.setRoom(null);
+        return trainingSessionRepository.save(trainingSession);
+    }
+//    public TrainingSession addTrainingSession(TrainingSession trainingSession, Integer roomId) {
+//        logger.info("Adding new training session, Type: {}, Room ID: {}", trainingSession.getTypeTS(), roomId);
+//        try {
+//            if (!trainingSession.getTypeTS().equals("ONLINE")) {
+//                if (trainingSession.getTypeTS().equals("INTERNAL")) {
+//                    if (roomId == null) {
+//                        throw new IllegalArgumentException("Room ID must be provided for internal sessions");
+//                    }
+//                    Room room = roomRepository.findById((long) roomId)
+//                            .orElseThrow(() -> new RuntimeException("Room with ID " + roomId + " not found"));
+//                    trainingSession.setRoom(room);
+//                } else if (trainingSession.getTypeTS().equals("EXTERNAL")) {
+//                    trainingSession.setRoom(null); // No room needed for external
+//                }
+//            } else {
+//                trainingSession.setRoom(null); // No room needed for online sessions
+//            }
+//            return trainingSessionRepository.save(trainingSession);
+//        } catch (Exception e) {
+//            logger.error("Error adding training session: {}", e.getMessage(), e);
+//            throw new RuntimeException("Failed to add the training session: " + e.getMessage(), e);
+//        }
+//    }
+//
+//    @Override
+//    public TrainingSession addTrainingSessionWithRoom(TrainingSession trainingSession, Integer roomId) {
+//        logger.info("Adding new training session with room ID: {}", roomId);
+//        try {
+//            Room room = roomRepository.findById((long) roomId)
+//                    .orElseThrow(() -> new RuntimeException("Room with ID " + roomId + " not found"));
+//            trainingSession.setRoom(room);
+//            return trainingSessionRepository.save(trainingSession);
+//        } catch (Exception e) {
+//            logger.error("Error adding training session with room: {}", e.getMessage(), e);
+//            throw new RuntimeException("Failed to add the training session with room: " + e.getMessage(), e);
+//        }
+//    }
+
 
     @Override
     public void deleteTrainingSessionById(Long ts_id) {

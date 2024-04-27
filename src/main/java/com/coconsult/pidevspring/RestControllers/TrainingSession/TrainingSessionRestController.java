@@ -35,19 +35,88 @@ public class TrainingSessionRestController {
     public List<TrainingSession> findAllActivities() {
         return iTrainingSessionService.findAllTrainingSession();
     }
-    @PostMapping("/addTrainingSession/{id}")
-    public ResponseEntity<?> addTrainingSession(@RequestBody @Valid TrainingSession trainingSession, @PathVariable("id") int roomId) {
-        try {
-            // Get the room and handle it properly
-            Room room = roomService.getRoomById((long) roomId)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+//    @PostMapping("/addTrainingSession/{id}")
+//    public ResponseEntity<?> addTrainingSession(@RequestBody @Valid TrainingSession trainingSession, @PathVariable("id") int roomId) {
+//        try {
+//            // Get the room and handle it properly
+//            Room room = roomService.getRoomById((long) roomId)
+//                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+//
+//            TrainingSession createdSession = iTrainingSessionService.addTrainingSession(trainingSession, roomId);
+//            return ResponseEntity.ok(createdSession);
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body("Failed to save training session: " + e.getMessage());
+//        }
+//    }
+//    @PostMapping({"/addTrainingSession", "/addTrainingSession/{id}"})
+//    public ResponseEntity<?> addTrainingSession(@RequestBody @Valid TrainingSession trainingSession,
+//                                                @PathVariable(required = false) Integer roomId) {
+//        try {
+//            if (roomId != null) {
+//                // Si roomId est fourni, vérifiez l'existence de la salle
+//                Room room = roomService.getRoomById((long) roomId)
+//                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+//
+//                // Ajoutez la session de formation avec le roomId spécifié
+//                TrainingSession createdSession = iTrainingSessionService.addTrainingSession(trainingSession, roomId);
+//                return ResponseEntity.ok(createdSession);
+//            } else {
+//                // Si aucun roomId n'est fourni, ajoutez la session de formation sans spécifier de salle
+//                TrainingSession createdSession = iTrainingSessionService.addTrainingSession(trainingSession, null);
+//                return ResponseEntity.ok(createdSession);
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body("Failed to save training session: " + e.getMessage());
+//        }
+//    }
 
-            TrainingSession createdSession = iTrainingSessionService.addTrainingSession(trainingSession, roomId);
+
+    // ce que je veux faire est que il y'a deux methode pour ajouter une formation l'une qui est en ligne donc il peut ne pas ajouter une room mais si ce n'est pas en ligne donc il vas choisir si c'est internal il vas devoir choisir une salle mais si external il va pas choisir une salle
+//@PostMapping("/addTrainingSession")
+//public ResponseEntity<?> addTrainingSession(@RequestParam(required = false) Integer roomId, @RequestBody @Valid TrainingSession trainingSession) {
+//    try {
+//        TrainingSession createdSession = iTrainingSessionService.addTrainingSession(trainingSession, roomId);
+//        return ResponseEntity.ok(createdSession);
+//    } catch (Exception e) {
+//        return ResponseEntity.badRequest().body("Failed to save training session: " + e.getMessage());
+//    }
+//}
+//
+//
+//
+//    // Endpoint pour ajouter une session de formation avec roomId
+//    @PostMapping("/addTrainingSession/{roomId}")
+//    public ResponseEntity<?> addTrainingSessionWithRoom(
+//            @PathVariable("roomId") int roomId,
+//            @RequestBody @Valid TrainingSession trainingSession) {
+//        try {
+//            Room room = roomService.getRoomById((long) roomId)
+//                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+//            TrainingSession createdSession = iTrainingSessionService.addTrainingSession(trainingSession, roomId);
+//            return ResponseEntity.ok(createdSession);
+//        } catch (ResponseStatusException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body("Failed to save training session: " + e.getMessage());
+//        }
+//    }
+    @PostMapping("/with-room/{roomId}")
+    public TrainingSession addTrainingSessionWithRoom(@RequestBody TrainingSession trainingSession, @PathVariable Long roomId) {
+        return iTrainingSessionService.addTrainingSessionWithRoom(trainingSession, roomId);
+    }
+
+    @PostMapping("/without-room")
+    public ResponseEntity<?> addTrainingSessionWithoutRoom(@RequestBody @Valid TrainingSession trainingSession) {
+        try {
+            logger.info("Received training session request: {}", trainingSession);
+            TrainingSession createdSession = iTrainingSessionService.addTrainingSessionWithoutRoom(trainingSession);
             return ResponseEntity.ok(createdSession);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to save training session: " + e.getMessage());
+            logger.error("Error adding training session without room: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Failed to add training session without room: " + e.toString());
         }
     }
+
 
     @PutMapping("/UpdateTrainingSession")
     public TrainingSession UpdateTrainingSession(@RequestBody TrainingSession trainingSession) {
