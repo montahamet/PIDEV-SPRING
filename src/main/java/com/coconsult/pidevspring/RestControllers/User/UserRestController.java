@@ -8,6 +8,7 @@ import com.coconsult.pidevspring.Security.payload.request.SignupRequest;
 import com.coconsult.pidevspring.Security.payload.response.MessageResponse;
 import com.coconsult.pidevspring.Security.payload.response.PasswordGenerator;
 import com.coconsult.pidevspring.Services.User.EmailService;
+
 import com.coconsult.pidevspring.Services.User.IUserService;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
@@ -41,6 +42,7 @@ public class UserRestController {
     PasswordEncoder encoder;
     @Autowired
     private EmailService emailService;
+
     @GetMapping("/retrieveAllUser")
     public List<User> retrieveAllUser() {
         List<User> users= iUserService.retrieveAllUser();
@@ -198,4 +200,11 @@ public class UserRestController {
         return iUserService.findCompetentUsersOrderByTasks();
 
     }
-}
+
+
+    //haifa ///
+
+
+
+    }
+

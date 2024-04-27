@@ -5,54 +5,52 @@ import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 import com.coconsult.pidevspring.Services.HR.IJobOfferService;
 import lombok.AllArgsConstructor;
 import org.springdoc.api.OpenApiResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @AllArgsConstructor
-@RequestMapping("/JobOffer")
+@RequestMapping( "/JobOffer")
 public class JobOfferRestController {
     IJobOfferService iJobOfferService;
 
     @PostMapping("addJobOffer")
     public JobOffer addJobOffer (@RequestBody JobOffer JobOffer){
-        return iJobOfferService.addJobOffer(JobOffer);
+            return iJobOfferService.addJobOffer(JobOffer);
     }
-    //    @PutMapping ("updateJobOffer")
-//    public JobOffer updateJobOffer (@RequestBody JobOffer JobOffer){
-//        return iJobOfferService.updateJobOffer(JobOffer);
+    @PutMapping ("updateJobOffer")
+    public JobOffer updateJobOffer (@RequestBody JobOffer JobOffer){
+        return iJobOfferService.updateJobOffer(JobOffer);
+    }
+//@PutMapping("/{jobOfferId}")
+//public ResponseEntity<JobOffer> updateJobOffer(@PathVariable(value = "jobOfferId") Long jobOfferId, @RequestBody JobOffer updatedJobOffer) {
+//    JobOffer jobOffer = iJobOfferService.findById(jobOfferId);
+//
+//    if (jobOffer != null) {
+//        jobOffer.setTitleJobOffer(updatedJobOffer.getTitleJobOffer());
+//        jobOffer.setJobLocation(updatedJobOffer.getJobLocation());
+//        jobOffer.setApplicationDeadLine(updatedJobOffer.getApplicationDeadLine());
+//        jobOffer.setExperience(updatedJobOffer.getExperience());
+//        jobOffer.setDescription(updatedJobOffer.getDescription());
+//        jobOffer.setRequiredSkills(updatedJobOffer.getRequiredSkills());
+//        jobOffer.setVacancy(updatedJobOffer.getVacancy());
+//        jobOffer.setMinsalary(updatedJobOffer.getMinsalary());
+//        jobOffer.setMaxsalary(updatedJobOffer.getMaxsalary());
+//        jobOffer.setJobNature(updatedJobOffer.getJobNature());
+//        jobOffer.setJobCategory(updatedJobOffer.getJobCategory());
+//
+//        JobOffer updatedJobOfferEntity = iJobOfferService.updateJobOffer(jobOffer);
+//        return ResponseEntity.ok(updatedJobOfferEntity);
+//    } else {
+//        throw new OpenApiResourceNotFoundException("Job offer not found for this id :: " + jobOfferId);
 //    }
-    @PutMapping("/{jobOfferId}")
-    public ResponseEntity<JobOffer> updateJobOffer(@PathVariable(value = "jobOfferId") Long jobOfferId, @RequestBody JobOffer updatedJobOffer) {
-        JobOffer jobOffer = iJobOfferService.findById(jobOfferId);
-
-        if (jobOffer != null) {
-            jobOffer.setTitleJobOffer(updatedJobOffer.getTitleJobOffer());
-            jobOffer.setJobLocation(updatedJobOffer.getJobLocation());
-            jobOffer.setApplicationDeadLine(updatedJobOffer.getApplicationDeadLine());
-            jobOffer.setExperience(updatedJobOffer.getExperience());
-            jobOffer.setDescription(updatedJobOffer.getDescription());
-            jobOffer.setRequiredSkills(updatedJobOffer.getRequiredSkills());
-            jobOffer.setVacancy(updatedJobOffer.getVacancy());
-            jobOffer.setMinsalary(updatedJobOffer.getMinsalary());
-            jobOffer.setMaxsalary(updatedJobOffer.getMaxsalary());
-            jobOffer.setJobNature(updatedJobOffer.getJobNature());
-            jobOffer.setJobCategory(updatedJobOffer.getJobCategory());
-
-            JobOffer updatedJobOfferEntity = iJobOfferService.updateJobOffer(jobOffer);
-            return ResponseEntity.ok(updatedJobOfferEntity);
-        } else {
-            throw new OpenApiResourceNotFoundException("Job offer not found for this id :: " + jobOfferId);
-        }
-    }
-
-
-
-
+//}
     @PostMapping("addAllJobOffers")
     public List<JobOffer> addAllJobOffers(@RequestBody List<JobOffer> JobOffers){
         return iJobOfferService.addAllJobOffers(JobOffers);
@@ -84,11 +82,6 @@ public class JobOfferRestController {
     public List<JobOffer> findByRequiredSkills(@RequestParam String requiredSkills) {
         return iJobOfferService.findByRequiredSkills(requiredSkills);
     }
-//    @GetMapping("/{jobOfferId}/candidacies")
-//    public Set<Candidacy> findAllCandidaciesByJobOfferId(@PathVariable Long jobOfferId) {
-//        return iJobOfferService.findAllCandidaciesByJobOfferId(jobOfferId);
-//    }
-
 
     @GetMapping("/findAllJobCandidacies")
     public ResponseEntity<List<Candidacy>> getCandidaciesByJobOfferId(@RequestParam Long jobOfferId) {
@@ -100,4 +93,15 @@ public class JobOfferRestController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/getJobOfferStatistics")
+    public ResponseEntity<List<Map<String, Object>>> getJobOfferStatistics() {
+        try {
+            List<Map<String, Object>> statistics = iJobOfferService.getJobOfferStatistics();
+            return ResponseEntity.ok(statistics);
+        } catch (Exception e) {
+            // Handle the case when an error occurs
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

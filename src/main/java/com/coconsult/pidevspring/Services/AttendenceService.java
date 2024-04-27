@@ -1,19 +1,24 @@
 package com.coconsult.pidevspring.Services;
 
-
 import com.coconsult.pidevspring.DAO.Entities.Attendence;
 import com.coconsult.pidevspring.DAO.Repository.AttendenceRepository;
+
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class AttendenceService implements IAttendenceService {
 
-    AttendenceRepository attendenceRepository;
+
+    private final AttendenceRepository attendenceRepository;
+
+    public AttendenceService(AttendenceRepository attendenceRepository) {
+        this.attendenceRepository = attendenceRepository;
+    }
 
     @Override
     public List<Attendence> retrieveAllAttendence() {
@@ -22,12 +27,13 @@ public class AttendenceService implements IAttendenceService {
 
     @Override
     public Attendence retrieveAttendence(Long attendenceId) {
-        return attendenceRepository.findById(attendenceId).get();
+        return attendenceRepository.findById(attendenceId).orElse(null);
     }
 
     @Override
-    public Attendence addAttendence(Attendence a) {
-        return attendenceRepository.save(a);
+    public Attendence addAttendence(Attendence attendence) {
+        // Optionally, you can add validation logic here before saving the attendance record
+        return attendenceRepository.save(attendence);
     }
 
     @Override
@@ -37,7 +43,7 @@ public class AttendenceService implements IAttendenceService {
 
     @Override
     public Attendence modifyAttendence(Attendence attendence) {
-        Attendence attendence1=attendenceRepository.save(attendence);
-        return attendence1;
+        // Optionally, you can add validation logic here before modifying the attendance record
+        return attendenceRepository.save(attendence);
     }
 }

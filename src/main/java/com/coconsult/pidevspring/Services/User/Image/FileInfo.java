@@ -9,6 +9,7 @@ public class FileInfo {
         this.url = url;
     }
 
+
     public String getName() {
         return this.name;
     }

@@ -84,6 +84,7 @@ public class TaskService implements ITaskService {
         return projectService.getAllProjectNames();
     }
 
+
     @Override
     public List<Task> getTasksByStatus(StatusTask status) {
         return taskRepository.findByTaskStatus(status);
