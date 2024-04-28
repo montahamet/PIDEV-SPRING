@@ -3,6 +3,7 @@ package com.coconsult.pidevspring.RestControllers.HR;
 import com.coconsult.pidevspring.DAO.Entities.QuizQuestion;
 import com.coconsult.pidevspring.Services.HR.QuizQuestionService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,16 +13,24 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping( "/quiz")
 public class QuizQuestionRestController {
-    private final QuizQuestionService quizQuestionService;
+    @Autowired
+    private QuizQuestionService quizQuestionService;
 
-    @PostMapping("/question")
-    public QuizQuestion createQuizQuestion(@RequestBody QuizQuestion quizQuestion) {
-        return quizQuestionService.saveQuizQuestion(quizQuestion);
+    @PostMapping("/add")
+    public QuizQuestion addQuizQuestion(@RequestBody QuizQuestion quizQuestion) {
+        return quizQuestionService.addQuizQuestion(quizQuestion);
     }
 
     @GetMapping("/questions")
     public List<QuizQuestion> getAllQuizQuestions() {
         return quizQuestionService.getAllQuizQuestions();
     }
-
+    @DeleteMapping("/delete/{questionId}")
+    public void deleteQuizQuestion(@PathVariable Long questionId) {
+        quizQuestionService.deleteQuizQuestion(questionId);
+    }
+    @PutMapping("/edit/{questionId}")
+    public QuizQuestion editQuizQuestion(@PathVariable Long questionId, @RequestBody QuizQuestion updatedQuizQuestion) {
+        return quizQuestionService.editQuizQuestion(questionId, updatedQuizQuestion);
+    }
 }

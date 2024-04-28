@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.Services.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
+import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 import com.coconsult.pidevspring.DAO.Repository.HR.CandidacyRepository;
 import com.coconsult.pidevspring.DAO.Repository.HR.JobOfferRepository;
 import com.mashape.unirest.http.*;
@@ -32,8 +33,12 @@ public class CandidacyService implements ICandidacyService {
         return candidacyRepository.save(candidacy);
     }
     @Override
-    public Candidacy addCandidate(Candidacy candidacy) {
-        return candidacyRepository.save(candidacy);
+    public Candidacy addCandidate(Candidacy candidacy,Long id) {
+        JobOffer j=new JobOffer();
+        j=jobOfferRepository.findById(id).get();
+        //parent candidacy Job offer child 5ater candidat ye5ou l id mte3 job offer
+        candidacy.setJobOffer(j);
+       return candidacyRepository.save(candidacy);
     }
 
     @Override
@@ -251,26 +256,6 @@ private void extractAndStoreLinkedInData(Candidacy candidacy, String linkedInDat
         return result;
     }
 
-//    public void updateVerifEmailForAllCandidacies() {
-//        // Retrieve all candidacies
-//        List<Candidacy> allCandidacies = candidacyRepository.findAll();
-//
-//        // Iterate over each candidacy
-//        for (Candidacy candidacy : allCandidacies) {
-//            try {
-//                // Retrieve verification result for the email address
-//                String verificationResult = emailVerificationService.verifyEmailAddress(candidacy.getEmail());
-//
-//                // Update the verifEmail attribute of the candidacy
-//                candidacy.setVerifEmail(verificationResult);
-//
-//                // Save the updated candidacy to the database
-//                candidacyRepository.save(candidacy);
-//            } catch (Exception e) {
-//                e.printStackTrace(); // Handle the exception as needed
-//            }
-//        }
-//    }
 public void updateVerifEmailForAllCandidacies() {
     // Retrieve all candidacies
     List<Candidacy> allCandidacies = candidacyRepository.findAll();

@@ -14,7 +14,7 @@ import java.util.Collections;
 @Service
 public class EmailVerificationService {
     private final String EMAIL_VALIDATION_API_URL = "https://emailvalidation.abstractapi.com/v1";
-    private final String API_KEY = "f266c29f04394a5ba4719817d92f8047";
+    private final String API_KEY = "0b130fd510b248bd9f50f1df696e8c48";
 
     public String verifyEmailAddress(String email) {
         // Construct the URL with the email to verify
