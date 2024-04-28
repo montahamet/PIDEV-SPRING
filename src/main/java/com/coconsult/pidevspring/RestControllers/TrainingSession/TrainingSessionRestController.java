@@ -9,6 +9,9 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +35,9 @@ public class TrainingSessionRestController {
         return ResponseEntity.ok(dto);
     }
     @GetMapping("/findAllTrainingSession")
-    public List<TrainingSession> findAllActivities() {
-        return iTrainingSessionService.findAllTrainingSession();
+    public Page<TrainingSession> findAllActivities(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return iTrainingSessionService.findAllTrainingSession(pageable);
     }
 //    @PostMapping("/addTrainingSession/{id}")
 //    public ResponseEntity<?> addTrainingSession(@RequestBody @Valid TrainingSession trainingSession, @PathVariable("id") int roomId) {
@@ -118,10 +122,34 @@ public class TrainingSessionRestController {
     }
 
 
-    @PutMapping("/UpdateTrainingSession")
-    public TrainingSession UpdateTrainingSession(@RequestBody TrainingSession trainingSession) {
-        logger.debug("Updating training session: {}", trainingSession);
-        return iTrainingSessionService.UpdateTrainingSession(trainingSession);
+    @PutMapping("/UpdateTrainingSession/{ts_id}")
+    public ResponseEntity<?> updateTrainingSession(@RequestBody @Valid TrainingSession updatedTrainingSession, @PathVariable Long ts_id) {
+        try {
+            TrainingSession existingSession = iTrainingSessionService.findOneTrainingSession(ts_id);
+
+            if (existingSession == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Training session not found with id: " + ts_id);
+            }
+
+            // Update the existing fields with those from updatedTrainingSession
+            existingSession.setTitle(updatedTrainingSession.getTitle());
+            existingSession.setStart_date(updatedTrainingSession.getStart_date());
+            existingSession.setFinish_date(updatedTrainingSession.getFinish_date());
+            existingSession.setTopic(updatedTrainingSession.getTopic());
+            existingSession.setCapacity(updatedTrainingSession.getCapacity());
+            existingSession.setPlace(updatedTrainingSession.getPlace());
+            existingSession.setTypeTS(updatedTrainingSession.getTypeTS());
+            existingSession.setTsStatus(updatedTrainingSession.getTsStatus());
+            existingSession.setRoom(updatedTrainingSession.getRoom()); // Make sure room handling is correct
+
+            TrainingSession savedSession = iTrainingSessionService.UpdateTrainingSession(existingSession);
+            return ResponseEntity.ok(savedSession);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getMessage());
+        } catch (Exception e) {
+            logger.error("Failed to update training session", e);
+            return ResponseEntity.badRequest().body("Failed to update training session: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/deleteTrainingSessionById/{ts_id}")

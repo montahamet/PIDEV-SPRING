@@ -71,6 +71,7 @@ public Event UpdateEvent(Event event) {
                 existingEvent.setEvent_name(event.getEvent_name());
                 existingEvent.setEvent_description(event.getEvent_description());
                 existingEvent.setEvent_date(event.getEvent_date());
+                existingEvent.setFinishevent_date(event.getFinishevent_date());
                 existingEvent.setPlace(event.getPlace());
                 return eventRepository.save(existingEvent);
             })
@@ -136,6 +137,10 @@ public Event UpdateEvent(Event event) {
     public List<Event> getUpcomingEvents() {
         LocalDate today = LocalDate.now();
         return eventRepository.findUpcomingEvents(today);
+    }
+
+    public List<Event> findEventsBetweenDates(LocalDate startDate, LocalDate endDate) {
+        return eventRepository.findEventsBetweenDates(startDate, endDate);
     }
 //    public List<Event> searchEvents(String query) {
 //        // Utilisez le repository pour rechercher les événements en fonction de la requête

@@ -7,11 +7,17 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -28,8 +34,8 @@ public class RoomRestController {
 
 
     @GetMapping("/getAll")
-    public List<Room> getAllRooms() {
-        return roomService.getAllRooms();
+    public Page<Room> getAllRooms(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return roomService.getAllRooms((Pageable) PageRequest.of(page, size));
     }
 
     @GetMapping("/{id}")
@@ -83,5 +89,13 @@ public class RoomRestController {
             logger.error("Failed to delete room: {}", e.getMessage(), e);
             return ResponseEntity.badRequest().body("Failed to delete room: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/{roomId}/availability")
+    public ResponseEntity<Boolean> checkRoomAvailability(@PathVariable Long roomId,
+                                                         @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+                                                         @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+        boolean isAvailable = roomService.isRoomAvailable(roomId, start, end);
+        return ResponseEntity.ok(isAvailable);
     }
 }
