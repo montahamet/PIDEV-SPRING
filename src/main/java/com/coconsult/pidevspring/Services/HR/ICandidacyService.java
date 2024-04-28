@@ -14,7 +14,7 @@ public interface ICandidacyService {
     Candidacy findCandidacyById(long id);
     void deleteCandidacy(Candidacy candidacy);
     void deleteCandidacyById(long id);
-Candidacy addCandidate(Candidacy candidacy);
+Candidacy addCandidate(Candidacy candidacy,Long id);
 
 List<Candidacy> getCandidaciesByJobOfferId(Long jobOfferId);
      List<Candidacy> findAllByJobOfferId(Long jobOfferId) ;

@@ -21,11 +21,5 @@ public class QuizQuestion implements Serializable {
 
     @ElementCollection
     @CollectionTable(name = "options", joinColumns = @JoinColumn(name = "question_id"))
-    @Column(name = "answer")
-    private List<String> options;
-
-    @ElementCollection
-    @CollectionTable(name = "options", joinColumns = @JoinColumn(name = "question_id"))
-    @Column(name = "is_correct")
-    private List<Boolean> isCorrect;
+    private List<Option> options;
 }
