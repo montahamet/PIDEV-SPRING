@@ -18,11 +18,9 @@ public class Attendence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long attendenceId ;
     private boolean presence;
-    private boolean approved ;
-    private String reason ;
-    private LocalDateTime date ;
-    private String typeAttendence ;
-    @JsonIgnore
+    private LocalDateTime start ;
+    private LocalDateTime end ;
+    private Double workedHours;
     @ManyToOne
     private User employee;
     @JsonIgnore
