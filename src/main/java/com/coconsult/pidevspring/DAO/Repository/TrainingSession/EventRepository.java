@@ -20,5 +20,6 @@ List<Event> findUpcomingEvents(LocalDate today);
     @Query("SELECT e FROM Event e WHERE e.event_date > :date")
     Page<Event> findAllWithDateAfter(@Param("date") LocalDate date, Pageable pageable);
 
-
+    @Query("SELECT e FROM Event e WHERE e.event_date >= :start AND e.finishevent_date <= :end")
+    List<Event> findEventsBetweenDates(LocalDate start, LocalDate end);
 }
