@@ -5,6 +5,7 @@ import com.coconsult.pidevspring.DAO.Entities.Attendence;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.AttendenceRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Service
 public class AttendenceService implements IAttendenceService {
+
 
     private final AttendenceRepository attendenceRepository;
     private final UserRepository userRepository;

@@ -15,7 +15,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -110,6 +111,7 @@ public class    User implements   Serializable , UserDetails {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="admin")
     private Set<Attendence> Attendence = new HashSet<>();
+
 
     public User(String email, String encode) {
     }

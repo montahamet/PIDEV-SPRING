@@ -1,24 +1,22 @@
 package com.coconsult.pidevspring.Services.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
+import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 import com.coconsult.pidevspring.DAO.Repository.HR.CandidacyRepository;
 import com.coconsult.pidevspring.DAO.Repository.HR.JobOfferRepository;
-//import com.mashape.unirest.http.*;
-//import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.http.*;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-//import com.fasterxml.jackson.databind.JsonNode;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.mashape.unirest.http.Unirest;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mashape.unirest.http.Unirest;
 @Service
 @AllArgsConstructor
 public class CandidacyService implements ICandidacyService {
@@ -26,6 +24,8 @@ public class CandidacyService implements ICandidacyService {
     CandidacyRepository candidacyRepository;
     JobOfferRepository jobOfferRepository;
     private final LinkedInScraperService linkedInScraperService;
+    private EmailVerificationService emailVerificationService;
+
 
 
     @Override
@@ -33,8 +33,12 @@ public class CandidacyService implements ICandidacyService {
         return candidacyRepository.save(candidacy);
     }
     @Override
-    public Candidacy addCandidate(Candidacy candidacy) {
-        return candidacyRepository.save(candidacy);
+    public Candidacy addCandidate(Candidacy candidacy,Long id) {
+        JobOffer j=new JobOffer();
+        j=jobOfferRepository.findById(id).get();
+        //parent candidacy Job offer child 5ater candidat ye5ou l id mte3 job offer
+        candidacy.setJobOffer(j);
+       return candidacyRepository.save(candidacy);
     }
 
     @Override
@@ -75,11 +79,17 @@ public class CandidacyService implements ICandidacyService {
     }
     public Candidacy updateCandidacyStatus(Candidacy updatedCandidacy) {
         // Fetch the existing Candidacy object from the database
-        Candidacy existingCandidacy = candidacyRepository.findById(updatedCandidacy.getCandidacy_id()).orElse(null);
+        Optional<Candidacy> optionalCandidacy = candidacyRepository.findById(updatedCandidacy.getCandidacy_id());
 
-        if (existingCandidacy != null) {
+        if (optionalCandidacy.isPresent()) {
             // Update the status of the existing Candidacy object
+            Candidacy existingCandidacy = optionalCandidacy.get();
             existingCandidacy.setCandidacystatus(updatedCandidacy.getCandidacystatus());
+
+            // If the status is for archiving (-1), set isArchived to true
+            if (updatedCandidacy.getCandidacystatus() == -1) {
+                existingCandidacy.setArchived(true);
+            }
 
             // Save the updated Candidacy object back to the database
             return candidacyRepository.save(existingCandidacy);
@@ -89,40 +99,41 @@ public class CandidacyService implements ICandidacyService {
             return null;
         }
     }
-//    @Override
-//    public String getCandidacyInfoFromLinkedIn(String linkedinUrl) {
-//        try {
-//            // Call the LinkedInScraperService to get information from LinkedIn API
-//            String scrapedInfo = linkedInScraperService.enrichCandidacyWithLinkedInData(linkedinUrl);
-//            // You can store the scraped information in a suitable data structure or return it directly
-//            return scrapedInfo;
-//        } catch (UnirestException e) {
-//            e.printStackTrace(); // Handle the exception as needed
-//            return null;
-//        }
-//    }
 
-//    @Override
-//    public void updateCandidaciesWithLinkedInData() {
-//        // Retrieve all candidacies with LinkedIn links
-//        List<Candidacy> candidaciesWithLinkedInLinks = candidacyRepository.findAll();
-//
-//        // Iterate over each candidacy
-//        for (Candidacy candidacy : candidaciesWithLinkedInLinks) {
-//            try {
-//                // Retrieve LinkedIn data for the current candidacy
-//                String linkedInData = linkedInScraperService.enrichCandidacyWithLinkedInData(candidacy.getLinkedin());
-//
-//                // Extract and store the country, skills, and geographic area
-//                extractAndStoreLinkedInData(candidacy, linkedInData);
-//
-//                // Save the updated candidacy to the database
-//                candidacyRepository.save(candidacy);
-//            } catch (UnirestException e) {
-//                e.printStackTrace(); // Handle the exception as needed
-//            }
-//        }
-//    }
+    @Override
+    public String getCandidacyInfoFromLinkedIn(String linkedinUrl) {
+        try {
+            // Call the LinkedInScraperService to get information from LinkedIn API
+            String scrapedInfo = linkedInScraperService.enrichCandidacyWithLinkedInData(linkedinUrl);
+            // You can store the scraped information in a suitable data structure or return it directly
+            return scrapedInfo;
+        } catch (UnirestException e) {
+            e.printStackTrace(); // Handle the exception as needed
+            return null;
+        }
+    }
+
+    @Override
+    public void updateCandidaciesWithLinkedInData() {
+        // Retrieve all candidacies with LinkedIn links
+        List<Candidacy> candidaciesWithLinkedInLinks = candidacyRepository.findAll();
+
+        // Iterate over each candidacy
+        for (Candidacy candidacy : candidaciesWithLinkedInLinks) {
+            try {
+                // Retrieve LinkedIn data for the current candidacy
+                String linkedInData = linkedInScraperService.enrichCandidacyWithLinkedInData(candidacy.getLinkedin());
+
+                // Extract and store the country, skills, and geographic area
+                extractAndStoreLinkedInData(candidacy, linkedInData);
+
+                // Save the updated candidacy to the database
+                candidacyRepository.save(candidacy);
+            } catch (UnirestException e) {
+                e.printStackTrace(); // Handle the exception as needed
+            }
+        }
+    }
 //    private void extractAndStoreLinkedInData(Candidacy candidacy, String linkedInData) {
 //        try {
 //            // Parse the JSON response
@@ -172,40 +183,40 @@ public class CandidacyService implements ICandidacyService {
 //            e.printStackTrace();
 //        }
 //    }
-//private void extractAndStoreLinkedInData(Candidacy candidacy, String linkedInData) {
-//    try {
-//        // Parse the JSON response
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        JsonNode rootNode = objectMapper.readTree(linkedInData);
-//
-//        // Extract necessary information
-//        JsonNode personNode = rootNode.path("person");
-//        if (personNode != null) {
-//            // Extract location
-//            String location = personNode.path("location").asText();
-//
-//            // Extract skills
-//            JsonNode skillsNode = personNode.path("skills");
-//            if (skillsNode.isArray()) {
-//                StringBuilder skillsBuilder = new StringBuilder();
-//                for (JsonNode skillNode : skillsNode) {
-//                    skillsBuilder.append(skillNode.asText()).append(", ");
-//                }
-//                String skills = skillsBuilder.toString();
-//                if (!skills.isEmpty()) {
-//                    skills = skills.substring(0, skills.length() - 2); // Remove the trailing comma and space
-//                }
-//
-//                // Update the candidacy attributes
-//                candidacy.setCountry(location); // Assuming location contains the country
-//                candidacy.setSkills(skills);
-//            }
-//        }
-//    } catch (IOException e) {
-//        // Handle JSON parsing exception
-//        e.printStackTrace();
-//    }
-//}
+private void extractAndStoreLinkedInData(Candidacy candidacy, String linkedInData) {
+    try {
+        // Parse the JSON response
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(linkedInData);
+
+        // Extract necessary information
+        JsonNode personNode = rootNode.path("person");
+        if (personNode != null) {
+            // Extract location
+            String location = personNode.path("location").asText();
+
+            // Extract skills
+            JsonNode skillsNode = personNode.path("skills");
+            if (skillsNode.isArray()) {
+                StringBuilder skillsBuilder = new StringBuilder();
+                for (JsonNode skillNode : skillsNode) {
+                    skillsBuilder.append(skillNode.asText()).append(", ");
+                }
+                String skills = skillsBuilder.toString();
+                if (!skills.isEmpty()) {
+                    skills = skills.substring(0, skills.length() - 2); // Remove the trailing comma and space
+                }
+
+                // Update the candidacy attributes
+                candidacy.setCountry(location); // Assuming location contains the country
+                candidacy.setSkills(skills);
+            }
+        }
+    } catch (IOException e) {
+        // Handle JSON parsing exception
+        e.printStackTrace();
+    }
+}
 
 
     @Override
@@ -245,6 +256,82 @@ public class CandidacyService implements ICandidacyService {
         return result;
     }
 
+public void updateVerifEmailForAllCandidacies() {
+    // Retrieve all candidacies
+    List<Candidacy> allCandidacies = candidacyRepository.findAll();
+
+    // Iterate over each candidacy
+    for (Candidacy candidacy : allCandidacies) {
+        try {
+            // Retrieve verification result for the email address
+            String verificationResult = emailVerificationService.verifyEmailAddress(candidacy.getEmail());
+
+            // Parse the verification result to extract deliverability
+            String[] lines = verificationResult.split("\n");
+            String deliverability = null;
+            for (String line : lines) {
+                if (line.startsWith("Deliverability:")) {
+                    deliverability = line.substring(line.indexOf(":") + 1).trim();
+                    break;
+                }
+            }
+
+            // Update the verifEmail attribute of the candidacy
+            candidacy.setVerifEmail(verificationResult);
+            // Set the emailStatus based on deliverability
+            candidacy.setEmailStatus(deliverability);
+
+            // Save the updated candidacy to the database
+            candidacyRepository.save(candidacy);
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle the exception as needed
+        }
+    }
+}
+
+//public void updateVerifEmailForAllCandidacies() {
+//    // Retrieve all candidacies
+//    List<Candidacy> allCandidacies = candidacyRepository.findAll();
+//
+//    // Iterate over each candidacy
+//    for (Candidacy candidacy : allCandidacies) {
+//        try {
+//            // Retrieve verification result for the email address
+//            String verificationResult = emailVerificationService.verifyEmailAddress(candidacy.getEmail());
+//
+//            // Update the verifEmail attribute of the candidacy
+//            candidacy.setVerifEmail(verificationResult);
+//
+//            // Extract emailStatus from the verificationResult
+//            String emailStatus = extractEmailStatus(verificationResult);
+//
+//            // Update the emailStatus attribute of the candidacy
+//            candidacy.setEmailStatus(emailStatus);
+//
+//            // Save the updated candidacy to the database
+//            candidacyRepository.save(candidacy);
+//        } catch (Exception e) {
+//            e.printStackTrace(); // Handle the exception as needed
+//        }
+//    }
+//}
+//
+//    // Helper method to extract email status from the verification result
+//    private String extractEmailStatus(String verificationResult) {
+//        // Split the verificationResult by line separator
+//        String[] lines = verificationResult.split(System.lineSeparator());
+//
+//        // Iterate over each line to find the line containing "Deliverability:"
+//        for (String line : lines) {
+//            if (line.startsWith("Deliverability:")) {
+//                // Extract the email status from the line (after ": ")
+//                return line.substring("Deliverability: ".length()).trim();
+//            }
+//        }
+//
+//        // If "Deliverability:" line is not found, return null or handle it as needed
+//        return null;
+//    }
 
 
 }

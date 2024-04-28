@@ -2,6 +2,7 @@ package com.coconsult.pidevspring.Services.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
 import com.coconsult.pidevspring.DAO.Entities.Interview;
+import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 import com.coconsult.pidevspring.DAO.Repository.HR.CandidacyRepository;
 import com.coconsult.pidevspring.DAO.Repository.HR.InterviewRepository;
 import lombok.AllArgsConstructor;
@@ -18,13 +19,20 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class InterviewService implements IInterviewService{
-    @Autowired
+//    @Autowired
     InterviewRepository interviewRepository;
     CandidacyRepository candidacyRepository;
 
     @Override
-    public Interview addOrUpdateInterview(Interview interview) {
+    public Interview addOrUpdateInterview(Interview interview,Long id) {
+        Candidacy c=new Candidacy();
+        c=candidacyRepository.findById(id).get();
+        interview.setCandidacy(c);
         return interviewRepository.save(interview);
+//        // Set the candidacy_id on the Interview object
+//        interview.getCandidacy().setCandidacy_id(interview.getCandidacy().getCandidacy_id());
+//        // Save or update the Interview entity
+//        return interviewRepository.save(interview);
     }
     @Override
     public Interview addInterview(Interview interview) {
