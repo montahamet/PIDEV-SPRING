@@ -28,6 +28,8 @@ public class ProjectOffer implements Serializable {
     String projectTitle;
     String description;
     LocalDate postedDate;
+    String companyname; // New attribute
+    String companyemail; // New attribute
 
     @Enumerated(EnumType.STRING)
     ProjectOfferStatus status;
