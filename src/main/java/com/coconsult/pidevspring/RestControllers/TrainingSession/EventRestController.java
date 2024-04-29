@@ -101,9 +101,15 @@ public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam Strin
     }
     @GetMapping("/events")
     public Page<Event> findAllEvent(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        // Validate page parameter
+        if (page < 0) {
+            throw new IllegalArgumentException("Page index must not be less than zero");
+        }
+
         Pageable pageable = PageRequest.of(page, size);
         return iEventService.findAllEvent(pageable);
     }
+
     @PostMapping("/addEvent")
     public ResponseEntity<?> addEvent(@Valid @RequestBody Event event, BindingResult result) {
         if (result.hasErrors()) {
