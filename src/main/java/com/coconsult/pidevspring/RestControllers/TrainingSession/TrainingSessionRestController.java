@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.RestControllers.TrainingSession;
 
 import com.coconsult.pidevspring.DAO.Entities.Room;
+import com.coconsult.pidevspring.DAO.Entities.TS_Status;
 import com.coconsult.pidevspring.DAO.Entities.TrainingSession;
 import com.coconsult.pidevspring.Services.TrainingSession.IRoomService;
 import com.coconsult.pidevspring.Services.TrainingSession.ITrainingSessionService;
@@ -34,6 +35,7 @@ public class TrainingSessionRestController {
         TrainingSession dto = iTrainingSessionService.findOneTrainingSession(ts_id);
         return ResponseEntity.ok(dto);
     }
+
     @GetMapping("/findAllTrainingSession")
     public Page<TrainingSession> findAllActivities(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -162,4 +164,24 @@ public class TrainingSessionRestController {
     public List<Room> getAvailableRooms() {
         return iTrainingSessionService.findAvailableRooms();
     }
+
+//    @PatchMapping("/{id}/status")
+//    public ResponseEntity<?> updateTrainingSessionStatus(@PathVariable Long id, @RequestBody TS_Status status) {
+//        boolean updated = iTrainingSessionService.updateTrainingSessionStatus(id, status);
+//        if (updated) {
+//            return ResponseEntity.ok().body("Status updated successfully");
+//        }
+//        return ResponseEntity.badRequest().body("Failed to update status");
+//    }
+@PatchMapping("/{id}/status")
+public ResponseEntity<?> updateTrainingSessionStatus(@PathVariable Long id, @RequestBody String statusString) {
+    TS_Status status = TS_Status.valueOf(statusString);  // Convert string to enum
+    boolean updated = iTrainingSessionService.updateTrainingSessionStatus(id, status);
+    if (updated) {
+        return ResponseEntity.ok().body("{\"message\": \"Status updated successfully\"}");
+    }
+    return ResponseEntity.badRequest().body("Failed to update status");
+}
+
+
 }

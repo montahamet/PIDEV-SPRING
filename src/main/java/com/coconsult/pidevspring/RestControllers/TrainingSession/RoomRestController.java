@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.RestControllers.TrainingSession;
 
 import com.coconsult.pidevspring.DAO.Entities.Room;
+import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RoomRepository;
 import com.coconsult.pidevspring.Services.TrainingSession.RoomService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -17,11 +18,10 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.ZoneId;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
@@ -29,6 +29,7 @@ import java.util.Set;
 @RequestMapping("/TrainingSession-Room")
 public class RoomRestController {
     private final RoomService roomService;
+    RoomRepository roomRepository;
     private static final Logger logger = LoggerFactory.getLogger(RoomRestController.class);
 
 
@@ -91,11 +92,28 @@ public class RoomRestController {
         }
     }
 
-    @GetMapping("/{roomId}/availability")
-    public ResponseEntity<Boolean> checkRoomAvailability(@PathVariable Long roomId,
-                                                         @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-                                                         @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-        boolean isAvailable = roomService.isRoomAvailable(roomId, start, end);
-        return ResponseEntity.ok(isAvailable);
-    }
+//    @GetMapping("/{roomId}/availability")
+//    public ResponseEntity<Boolean> checkRoomAvailability(@PathVariable Long roomId,
+//                                                         @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+//                                                         @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+//        boolean isAvailable = roomService.isRoomAvailable(roomId, start, end);
+//        return ResponseEntity.ok(isAvailable);
+//    }
+//    @GetMapping("/check-room-availability/{roomId}")
+//    public ResponseEntity<Boolean> checkRoomAvailability(
+//            @PathVariable Long roomId,
+//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+//
+//        // Convert LocalDateTime to Date
+//        Date startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
+//        Date endDate = Date.from(end.atZone(ZoneId.systemDefault()).toInstant());
+//
+//        // Check room availability for the given date range
+//        boolean isAvailable = roomRepository.isRoomAvailable(roomId, startDate, endDate);
+//
+//        return ResponseEntity.ok(isAvailable);
+//    }
+//
+
 }

@@ -10,4 +10,5 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
     @Query("SELECT ts FROM TrainingSession ts JOIN FETCH ts.room WHERE ts.ts_id = :ts_id")
     Optional<TrainingSession> findByIdWithRoom(Long ts_id);
 
+
 }

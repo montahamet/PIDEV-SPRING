@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.Services.TrainingSession;
 
 import com.coconsult.pidevspring.DAO.Entities.Room;
+import com.coconsult.pidevspring.DAO.Entities.TS_Status;
 import com.coconsult.pidevspring.DAO.Entities.TrainingSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,5 +19,6 @@ TrainingSession addTrainingSessionWithRoom(TrainingSession trainingSession, Long
     void deleteTrainingSessionById (Long TS_id);
     TrainingSession findOneTrainingSession (Long TS_id);
      List<Room> findAvailableRooms() ;
+     boolean updateTrainingSessionStatus(Long sessionId, TS_Status newStatus) ;
 
 }

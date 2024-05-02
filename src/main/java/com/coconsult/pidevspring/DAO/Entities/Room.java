@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
-import java.util.EnumSet;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -28,8 +28,14 @@ public class Room implements Serializable {
     @Column(name = "capacity_room", nullable = false)
     int capacityRoom;
 
+    @ElementCollection
+    @CollectionTable(name = "room_booking_dates", joinColumns = @JoinColumn(name = "room_id"))
+    @Column(name = "booking_date")
+    List<Date> bookingDates;
+
     @Column(nullable = false)
     boolean available;
+
     @ElementCollection
     @CollectionTable(name = "room_equipment", joinColumns = @JoinColumn(name = "room_id"))
     @Column(name = "equipmentr")
@@ -38,5 +44,4 @@ public class Room implements Serializable {
     @OneToMany(mappedBy = "room")
     @JsonIgnore
     private List<TrainingSession> trainingSessions;
-
 }
