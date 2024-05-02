@@ -1,10 +1,12 @@
 package com.coconsult.pidevspring.Services.TrainingSession;
 
 import com.coconsult.pidevspring.DAO.Entities.Room;
+import com.coconsult.pidevspring.DAO.Entities.TS_Status;
 import com.coconsult.pidevspring.DAO.Entities.TrainingSession;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RoomRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.TrainingSessionRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -102,5 +105,18 @@ public class TrainingSessionService implements ITrainingSessionService{
     public List<Room> findAvailableRooms() {
         return roomRepository.findByAvailable(true);
 
+    }
+
+    @Transactional
+    @Override
+    public boolean updateTrainingSessionStatus(Long sessionId, TS_Status newStatus) {
+        Optional<TrainingSession> session = trainingSessionRepository.findById(sessionId);
+        if (session.isPresent()) {
+            TrainingSession updatedSession = session.get();
+            updatedSession.setTsStatus(newStatus);
+            trainingSessionRepository.save(updatedSession);
+            return true;
+        }
+        return false;
     }
 }

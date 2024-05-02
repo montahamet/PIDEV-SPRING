@@ -48,7 +48,9 @@ public class TrainingSession implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="trainingsession")
     private Set<FeedBack> FeedBacks;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User trainer;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinColumn(name = "room_id", nullable = true)
