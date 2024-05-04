@@ -56,9 +56,11 @@ public class    User implements   Serializable , UserDetails {
     /////////////////////// Thamer /////////////////////
     /////////////////////// Malek //////////////////////
     @JsonIgnore
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projectManager")
     List<Project> projects=new ArrayList<>();
     @JsonIgnore
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "employeeTask")
     List<Task> employeeTasks=new ArrayList<>();
     /////////////////////// Malek //////////////////////

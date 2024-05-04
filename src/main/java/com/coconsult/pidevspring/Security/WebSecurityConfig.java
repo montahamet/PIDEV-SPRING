@@ -103,6 +103,8 @@ public class WebSecurityConfig{
             .authorizeHttpRequests(auth ->
                     auth.requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/api/test/**").permitAll()
+                            .requestMatchers("http://apilayer.net/api/live/**").permitAll()
+
 
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().permitAll()

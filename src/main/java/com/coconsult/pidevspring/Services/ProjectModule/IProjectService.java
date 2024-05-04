@@ -8,7 +8,7 @@ import java.util.List;
 public interface IProjectService {
     List<Project> getAllProjects();
 
-    Project addProject(Project project);
+    Project addProject(Project project, Long id);
 
     Project updateProject(Project project);
 
@@ -18,6 +18,7 @@ public interface IProjectService {
     void deleteProject(Project project);
     List<String> getAllProjectNames();
     Project findByProjectName(String projectName);
+    public List<Project> searchProjects(String keyword);
 
 
 
