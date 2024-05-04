@@ -31,16 +31,18 @@ public class Project implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetT")
     @JsonIgnore
     List<Task> tasks=new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetContract")
+    @OneToOne
     @JsonIgnore
-    List<Contract> contracts=new ArrayList<>();
+    Contract contract;
     @OneToOne
     @JsonIgnore
     Documentation document;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetInvoice")
     @JsonIgnore
     List<Invoice> invoices=new ArrayList<>();
+//    @JsonIgnore
     @ManyToOne
+
 
     User projectManager;
     @ManyToOne

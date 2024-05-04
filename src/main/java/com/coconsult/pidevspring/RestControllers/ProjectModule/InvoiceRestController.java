@@ -40,4 +40,8 @@ public class InvoiceRestController {
     public void deleteInvoice(@RequestBody Invoice invoice){
         iInvoiceService.deleteInvoice(invoice);
     }
+    @GetMapping("/GetInvoicebyPROJECT")
+    public List<Invoice> getByProjetInvoiceProjectId(Long projectId) {
+        return iInvoiceService.findByProjetInvoiceProjectId(projectId);
+    }
 }

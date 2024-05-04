@@ -52,4 +52,11 @@ public class ContractService implements IContractService
         contractRepository.delete(contract);
 
     }
+
+    @Override
+    public Contract findByProjetContractProjectId(Long projectId) {
+        return contractRepository.findByProjetContractProjectId(projectId);
+    }
+
+
 }
