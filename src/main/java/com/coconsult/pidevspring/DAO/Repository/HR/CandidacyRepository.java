@@ -2,10 +2,12 @@ package com.coconsult.pidevspring.DAO.Repository.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
 import com.coconsult.pidevspring.DAO.Entities.JobOffer;
+import com.coconsult.pidevspring.DAO.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CandidacyRepository extends JpaRepository<Candidacy, Long> {
 
@@ -19,4 +21,7 @@ List<Candidacy> findByJobOfferId(Long jobOfferId);
     List<Object[]> getCandidatesByCountryStatistics();
     @Query("SELECT c.jobOffer.titleJobOffer, COUNT(c) FROM Candidacy c WHERE c.jobOffer IS NOT NULL GROUP BY c.jobOffer")
     List<Object[]> getCandidatesByJobOfferStatistics();
+    Optional<Candidacy> findByEmail(String email);
+    Candidacy findCandidacyByEmail(String email) ;
+    Boolean existsByEmail(String email);
 }

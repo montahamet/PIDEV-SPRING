@@ -20,14 +20,24 @@ import java.util.Map;
 public class InterviewRestController {
     IInterviewService iInterviewService;
 
-    @PostMapping("addInterview")
-    public Interview addInterview (@RequestBody Interview Interview){
-        return iInterviewService.addInterview(Interview);
+    @PostMapping("/addInterview/{candidacyId}")
+    public ResponseEntity<?> addInterview(@PathVariable Long candidacyId, @RequestBody Interview interview) {
+        try {
+            // Set the candidacy_id on the Interview object
+            interview.getCandidacy().setCandidacy_id(candidacyId);
+            // Save the Interview entity
+            Interview savedInterview = iInterviewService.addOrUpdateInterview(interview, candidacyId);
+            return ResponseEntity.ok(savedInterview);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-    @PutMapping ("updateInterview")
-    public Interview updateInterview (@RequestBody Interview Interview){
-        return iInterviewService.addOrUpdateInterview(Interview);
-    }
+//    @PutMapping ("updateInterview")
+//    public Interview updateInterview (@RequestBody Interview Interview){
+//        return iInterviewService.addOrUpdateInterview(Interview);
+//    }
 
         @GetMapping("/success-rate")
         public ResponseEntity<Map<String, Double>> getSuccessRate() {

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @AllArgsConstructor
 @RequestMapping("/projectoffer")
 public class ProjectOfferRestcontroller {
@@ -21,7 +22,7 @@ public class ProjectOfferRestcontroller {
         return projectOffers;
     }
 
-    @PostMapping("/add-projectoffer")
+    @PostMapping("/addprojectoffer")
     public ProjectOffer addProjectOffer(@RequestBody ProjectOffer projectOffer) {
         ProjectOffer projectOffer1 = iProjectOfferService.addProjectOffer(projectOffer);
 
@@ -29,20 +30,20 @@ public class ProjectOfferRestcontroller {
     }
 
 
-    @PutMapping("/update-projectoffer")
+    @PutMapping("/updateprojectoffer")
     public ProjectOffer updateProjectOffer(@RequestBody ProjectOffer projectOffer) {
         return iProjectOfferService.modifyProjectOffer(projectOffer);
     }
 
-    @GetMapping("/retrieve-projectoffer")
-    public ProjectOffer retrieveProjectOffer(@PathParam("projectofferid") Long projectofferid) {
+    @GetMapping("/retrieveprojectoffer/{projectofferid}")
+    public ProjectOffer retrieveProjectOffer(@PathVariable("projectofferid") Long projectofferid) {
         ProjectOffer projectOffer = iProjectOfferService.retrieveProjectOffer(projectofferid);
         return projectOffer;
     }
 
 
-    @DeleteMapping("/remove-projectoffer")
-    public void removeProjectOffer(@PathParam("projectofferid") Long projectofferid) {
+    @DeleteMapping("/removeprojectoffer/{projectofferid}")
+    public void removeProjectOffer(@PathVariable("projectofferid") Long projectofferid) {
         iProjectOfferService.removeProjectOffer(projectofferid);
     }
 
