@@ -21,6 +21,7 @@ public class FeedBack  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long feedback_id ;
+    String sentiment;
 
     String description ;
     @CreationTimestamp

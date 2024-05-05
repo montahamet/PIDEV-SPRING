@@ -43,13 +43,14 @@ public class TrainingSession implements Serializable {
     @ManyToOne
     User user;
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "trainingSession", cascade = CascadeType.ALL)
     private Set<RegistrationTS> registrationtss;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="trainingsession")
     private Set<FeedBack> FeedBacks;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "trainer_id") // Ensuring correct naming
+    @JsonIgnore
     private User trainer;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
@@ -59,4 +60,5 @@ public class TrainingSession implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = true)
     private PlaceType placeType;
+
 }
