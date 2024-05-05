@@ -16,5 +16,7 @@ public interface IContractService {
 
     void removeContractbyid(long contractid);
     void deleteContract(Contract contract);
+    Contract findByProjetContractProjectId(Long projectId);
+
 
 }

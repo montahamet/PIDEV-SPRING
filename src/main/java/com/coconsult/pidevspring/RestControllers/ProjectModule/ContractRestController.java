@@ -40,5 +40,8 @@ public class ContractRestController {
         iContractService.deleteContract(contract);
     }
 
-
+    @GetMapping("/GetContractbyPROJECT")
+    public Contract findByProjetContractProjectId(Long projectId) {
+        return iContractService.findByProjetContractProjectId(projectId);
+    }
 }

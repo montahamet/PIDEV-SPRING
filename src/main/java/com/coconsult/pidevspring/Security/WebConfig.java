@@ -16,6 +16,7 @@ public class WebConfig {
                 registry.addMapping("/**")
                         .allowedMethods("GET", "POST", "OPTIONS")
                         .allowedOrigins("http://localhost:4200");
+
             }
         };
     }
