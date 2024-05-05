@@ -142,6 +142,10 @@ public Event UpdateEvent(Event event) {
     public List<Event> findEventsBetweenDates(LocalDate startDate, LocalDate endDate) {
         return eventRepository.findEventsBetweenDates(startDate, endDate);
     }
+
+    public List<User> findUsersByEventId(Long eventId) {
+        return registrationEventRepository.findUsersByEventId(eventId);
+    }
 //    public List<Event> searchEvents(String query) {
 //        // Utilisez le repository pour rechercher les événements en fonction de la requête
 //        return eventRepository.findByEventNameContainingIgnoreCaseOrEventDescriptionContainingIgnoreCaseOrPlaceContainingIgnoreCase(query, query, query);

@@ -2,6 +2,7 @@ package com.coconsult.pidevspring.RestControllers.TrainingSession;
 
 import com.coconsult.pidevspring.DAO.Entities.Activity;
 import com.coconsult.pidevspring.DAO.Entities.Event;
+import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.Services.TrainingSession.IActivityService;
 import com.coconsult.pidevspring.Services.TrainingSession.IEmailEventService;
@@ -168,6 +169,15 @@ public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam Strin
         }
         return ResponseEntity.ok(events);
     }
+    @GetMapping("/{eventId}/users")
+    public ResponseEntity<List<User>> getEventUsers(@PathVariable Long eventId) {
+        List<User> users = iEventService.findUsersByEventId(eventId);
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(users);
+    }
+
 //    @PostMapping("/{eventId}/like")
 //    public ResponseEntity<Event> likeEvent(@PathVariable Long eventId) {
 //        iEventService.likeEvent(eventId, userId); // Replace 'userId' with the actual user ID

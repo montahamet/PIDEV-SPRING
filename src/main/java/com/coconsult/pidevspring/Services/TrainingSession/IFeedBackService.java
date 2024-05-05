@@ -18,5 +18,6 @@ public interface IFeedBackService {
     public List<FeedBack> getFeedbacksForEvent(Long eventId);
     void deleteFeedBackById (Long feedback_id);
     FeedBack findOneFeedBack (Long feedback_id);
-
+//    public void analyzeAndSaveFeedback(FeedBack feedback, String language) ;
+    public FeedBack addFeedbackWithNoteAndSentiment(Long userId, Long eventId, String description, int note) ;
 }

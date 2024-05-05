@@ -1,15 +1,15 @@
 package com.coconsult.pidevspring.RestControllers.TrainingSession;
 
-import com.coconsult.pidevspring.DAO.Entities.Room;
-import com.coconsult.pidevspring.DAO.Entities.TS_Status;
-import com.coconsult.pidevspring.DAO.Entities.TrainingSession;
+import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.Services.TrainingSession.IRoomService;
 import com.coconsult.pidevspring.Services.TrainingSession.ITrainingSessionService;
 import com.coconsult.pidevspring.Services.TrainingSession.RoomService;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +26,8 @@ import java.util.Optional;
 @RequestMapping("/TrainingSession-TrainingSession")
 @AllArgsConstructor
 public class TrainingSessionRestController {
-    private final ITrainingSessionService iTrainingSessionService;
+    @Autowired
+    ITrainingSessionService iTrainingSessionService;
     IRoomService roomService;
     private static final Logger logger = LoggerFactory.getLogger(TrainingSessionRestController.class); // Logger added here
 
@@ -106,22 +107,30 @@ public class TrainingSessionRestController {
 //            return ResponseEntity.badRequest().body("Failed to save training session: " + e.getMessage());
 //        }
 //    }
-    @PostMapping("/with-room/{roomId}")
-    public TrainingSession addTrainingSessionWithRoom(@RequestBody TrainingSession trainingSession, @PathVariable Long roomId) {
-        return iTrainingSessionService.addTrainingSessionWithRoom(trainingSession, roomId);
+    @PostMapping("/with-room/{roomId}/{trainerId}")
+    public ResponseEntity<TrainingSession> addTrainingSessionWithRoom(
+            @RequestBody TrainingSession trainingSession,
+            @PathVariable Long roomId,
+            @PathVariable Long trainerId) {
+
+        TrainingSession createdSession = iTrainingSessionService.addTrainingSessionWithRoom(trainingSession, roomId, trainerId);
+        return ResponseEntity.ok(createdSession);
     }
 
-    @PostMapping("/without-room")
-    public ResponseEntity<?> addTrainingSessionWithoutRoom(@RequestBody @Valid TrainingSession trainingSession) {
+    @PostMapping("/without-room/{trainer}")
+    public ResponseEntity<?> addTrainingSessionWithoutRoom(@RequestBody TrainingSession trainingSession, @PathVariable("trainer") Long trainer) {
+        logger.info("Received training session: {}", trainingSession);
+        logger.info("Trainer ID: {}", trainer);
         try {
-            logger.info("Received training session request: {}", trainingSession);
-            TrainingSession createdSession = iTrainingSessionService.addTrainingSessionWithoutRoom(trainingSession);
+            TrainingSession createdSession = iTrainingSessionService.addTrainingSessionWithoutRoom(trainingSession, trainer);
             return ResponseEntity.ok(createdSession);
         } catch (Exception e) {
             logger.error("Error adding training session without room: {}", e.getMessage());
             return ResponseEntity.badRequest().body("Failed to add training session without room: " + e.toString());
         }
     }
+
+
 
 
     @PutMapping("/UpdateTrainingSession/{ts_id}")
@@ -182,6 +191,40 @@ public ResponseEntity<?> updateTrainingSessionStatus(@PathVariable Long id, @Req
     }
     return ResponseEntity.badRequest().body("Failed to update status");
 }
+
+    @PostMapping("/{sessionId}/register/{userId}")
+    public ResponseEntity<RegistrationTS> registerUserToSession(
+            @PathVariable Long sessionId,
+            @PathVariable Long userId) {
+        try {
+            RegistrationTS registration = iTrainingSessionService.registerUserToSession(sessionId, userId);
+            return ResponseEntity.ok(registration);
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);  // Provide more specific error handling/message as needed
+        }
+    }
+    @GetMapping("/{sessionId}")
+    public ResponseEntity<List<User>> getTrainingSessionById(@PathVariable Long sessionId) {
+        List<User> users = iTrainingSessionService.findUsersBytrainingId(sessionId);
+        if (users == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(users);
+    }
+    @GetMapping("/{sessionId}/users")
+    public ResponseEntity<List<User>> getUsersByTrainingSession(@PathVariable Long sessionId) {
+        try {
+            List<User> users = iTrainingSessionService.findUsersByTrainingSessionId(sessionId);
+            if (users.isEmpty()) {
+                return ResponseEntity.noContent().build(); // or notFound().build() if you prefer
+            }
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            logger.error("Error retrieving users for training session", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 
 
 }
