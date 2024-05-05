@@ -43,6 +43,9 @@ public class Interview implements Serializable {
     public String getCandidateName() {
         return candidateName;
     }
+    public boolean isPassed() {
+        return passed;
+    }
 
 
     ///Relations

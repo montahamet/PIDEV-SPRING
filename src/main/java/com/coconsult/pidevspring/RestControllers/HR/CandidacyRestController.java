@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -77,9 +78,21 @@ public class CandidacyRestController {
         return iCandidacyService.addAllCandidacies(Candidacys);
     }
     @GetMapping("getCandidacy/{id}")
-    public Candidacy getCandidacy(@PathVariable("id") long id){
+    public Candidacy getCandidacyById(@PathVariable("id") long id){
         return iCandidacyService.findCandidacyById(id);
     }
+    @GetMapping("candidateName/{candidacyId}")
+    public ResponseEntity<Map<String, String>> getCandidateName(@PathVariable Long candidacyId) {
+        String candidateName = iCandidacyService.getCandidateNameByCandidacyId(candidacyId);
+        if (candidateName != null) {
+            Map<String, String> response = new HashMap<>();
+            response.put("candidateName", candidateName);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("findAllCandidacies")
     public List<Candidacy> findAllCandidacies() {
         return iCandidacyService.findAllCandidacies();
@@ -140,9 +153,9 @@ public class CandidacyRestController {
     public int countCandidaciesByJobOfferId(@PathVariable Long jobOfferId) {
         return iCandidacyService.countCandidaciesByJobOfferId(jobOfferId);
     }
-    @PutMapping("updateCandidacyStatus")
-    public ResponseEntity<Candidacy> updateCandidacyStatus(@RequestBody Candidacy candidacy) {
-        Candidacy updatedCandidacy = iCandidacyService.updateCandidacyStatus(candidacy);
+    @PutMapping("updateCandidacyStatus/{id}")
+    public ResponseEntity<Candidacy> updateCandidacyStatus(@PathVariable Long id,@RequestBody Candidacy candidacy) {
+        Candidacy updatedCandidacy = iCandidacyService.updateCandidacyStatus(candidacy,id);
         return ResponseEntity.ok(updatedCandidacy);
     }
     @GetMapping("/updateLinkedinData")
@@ -196,32 +209,6 @@ public class CandidacyRestController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
-    @PostMapping("/sendEmailToCandidate")
-    public ResponseEntity<String> sendEmailToCandidate(@RequestBody SendEmailRequest request) {
-        // Get the candidate's email from the request
-        String candidateEmail = request.getEmail();
-
-        // Check if the candidate exists in your database
-        Optional<Candidacy> optionalCandidacy = candidacyRepository.findByEmail(candidateEmail);
-        if (optionalCandidacy.isPresent()) {
-            // Candidate exists, proceed to send the email
-            try {
-                String htmlContent = "";
-                // Send the email to the candidate
-                emailService.send(candidateEmail, htmlContent);
-
-                return ResponseEntity.ok("Email sent successfully to candidate's email: " + candidateEmail);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Failed to send email to candidate: " + candidateEmail);
-            }
-        } else {
-            // Candidate not found in the database
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Candidate not found with email: " + candidateEmail);
         }
     }
 

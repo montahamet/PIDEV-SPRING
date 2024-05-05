@@ -10,7 +10,9 @@ import java.util.Map;
 public interface ICandidacyService {
     Candidacy addOrUpdateCandidacy(Candidacy candidacy);
     List<Candidacy> addAllCandidacies(List<Candidacy> Candidacys);
-    List<Candidacy> findAllCandidacies();
+     String getCandidateNameByCandidacyId(Long candidacyId);
+
+        List<Candidacy> findAllCandidacies();
     Candidacy findCandidacyById(long id);
     void deleteCandidacy(Candidacy candidacy);
     void deleteCandidacyById(long id);
@@ -19,7 +21,7 @@ Candidacy addCandidate(Candidacy candidacy,Long id);
 List<Candidacy> getCandidaciesByJobOfferId(Long jobOfferId);
      List<Candidacy> findAllByJobOfferId(Long jobOfferId) ;
      int countCandidaciesByJobOfferId(Long jobOfferId) ;
-     Candidacy updateCandidacyStatus(Candidacy candidacy);
+     Candidacy updateCandidacyStatus(Candidacy candidacy,Long id);
      String getCandidacyInfoFromLinkedIn(String linkedinUrl) throws UnirestException;;
 
     void updateCandidaciesWithLinkedInData();

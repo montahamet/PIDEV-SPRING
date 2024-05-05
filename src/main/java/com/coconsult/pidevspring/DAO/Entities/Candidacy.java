@@ -68,13 +68,15 @@ public class Candidacy implements Serializable {
     private JobOffer jobOffer;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     User user;
 
     @JsonIgnore
     @OneToOne(mappedBy = "candidacy", cascade = CascadeType.ALL)
     Interview interview;
-
+    @JsonIgnore
+    @OneToOne(mappedBy = "candidacy", cascade = CascadeType.ALL)
+    private mark mark;
 
 
     ///Enum

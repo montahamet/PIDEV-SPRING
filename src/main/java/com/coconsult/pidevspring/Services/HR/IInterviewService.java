@@ -8,8 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 public interface IInterviewService {
-     Interview addOrUpdateInterview(Interview interview,Long id);
-    Interview addInterview(Interview interview);
+     Interview updateInterview(Long interviewId, Interview interviewDetails) ;
+     Interview getInterviewById(Long interviewId) ;
+
+
+ Interview updateInterviewPassed(Long interview_id  , Boolean passed);
+
+    Interview addInterview(Interview interview, Long id);
+
     List<Interview> addAllInterviews(List<Interview> interviews);
     List<Interview> findAllInterviews();
     Interview findInterviewById(long id);

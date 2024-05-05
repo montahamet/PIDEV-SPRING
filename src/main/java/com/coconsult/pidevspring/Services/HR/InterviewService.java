@@ -3,8 +3,10 @@ package com.coconsult.pidevspring.Services.HR;
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
 import com.coconsult.pidevspring.DAO.Entities.Interview;
 import com.coconsult.pidevspring.DAO.Entities.JobOffer;
+import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.HR.CandidacyRepository;
 import com.coconsult.pidevspring.DAO.Repository.HR.InterviewRepository;
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,22 +24,50 @@ public class InterviewService implements IInterviewService{
 //    @Autowired
     InterviewRepository interviewRepository;
     CandidacyRepository candidacyRepository;
+    private UserRepository userRepository ;
+
+
 
     @Override
-    public Interview addOrUpdateInterview(Interview interview,Long id) {
-        Candidacy c=new Candidacy();
-        c=candidacyRepository.findById(id).get();
-        interview.setCandidacy(c);
-        return interviewRepository.save(interview);
-//        // Set the candidacy_id on the Interview object
-//        interview.getCandidacy().setCandidacy_id(interview.getCandidacy().getCandidacy_id());
-//        // Save or update the Interview entity
-//        return interviewRepository.save(interview);
-    }
-    @Override
-    public Interview addInterview(Interview interview) {
+    public Interview addInterview(Interview interview,Long id) {
+        User u = new User();
+        u = userRepository.findById(id).get();
+        interview.setUser(u);
         return interviewRepository.save(interview);
     }
+    public Interview updateInterview(Long interviewId, Interview interviewDetails) {
+        // Find the existing interview by ID
+        Optional<Interview> existingInterview = interviewRepository.findById(interviewId);
+
+        // Check if the interview exists
+        if (existingInterview.isPresent()) {
+            // Update the fields of the existing interview with the details provided
+            Interview existingInterviewEntity = existingInterview.get();
+            existingInterviewEntity.setDateInterview(interviewDetails.getDateInterview());
+            existingInterviewEntity.setStatusInterview(interviewDetails.getStatusInterview());
+            existingInterviewEntity.setPassed(interviewDetails.isPassed());
+
+            // Save the updated interview back to the database
+            return interviewRepository.save(existingInterviewEntity);
+        } else {
+            // Handle the case where the interview does not exist
+            // This could be throwing an exception, logging a message, etc.
+            throw new RuntimeException("Interview not found with id " + interviewId);
+        }
+    }
+    public Interview getInterviewById(Long interviewId) {
+        return interviewRepository.findById(interviewId)
+                .orElseThrow(() -> new RuntimeException("Interview not found with id " + interviewId));
+    }
+
+public Interview updateInterviewPassed(Long interview_id, Boolean passed) {
+    Interview interview = interviewRepository.findById(interview_id).orElse(null);
+    if (interview != null) {
+        interview.setPassed(passed);
+        return interviewRepository.save(interview);
+    }
+    return null; // Or throw an exception if interview not found
+}
 
     @Override
     public List<Interview> addAllInterviews(List<Interview> interviews) {

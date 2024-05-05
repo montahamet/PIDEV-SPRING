@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.Services.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
+import com.coconsult.pidevspring.DAO.Entities.Interview;
 import com.coconsult.pidevspring.DAO.Entities.JobOffer;
 
 import java.util.List;
@@ -8,9 +9,10 @@ import java.util.Map;
 import java.util.Set;
 
 public interface IJobOfferService {
-    JobOffer addJobOffer(JobOffer JobOffer);
-//    JobOffer updateJobOffer(JobOffer updatedJobOffer);
- JobOffer updateJobOffer(JobOffer JobOffer);
+    JobOffer addJobOffer(JobOffer JobOffer, Long id);
+     JobOffer updateJobOffer(Long jobOfferId, JobOffer jobOfferDetails);
+    JobOffer getJobOfferById(Long jobOfferId) ;
+
 
     List<JobOffer> addAllJobOffers(List<JobOffer> JobOffers);
 
