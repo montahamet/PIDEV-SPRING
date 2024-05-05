@@ -6,8 +6,9 @@ import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import com.coconsult.pidevspring.Security.payload.request.SignupRequest;
 import com.coconsult.pidevspring.Security.payload.response.MessageResponse;
-import com.coconsult.pidevspring.Services.TrainingSession.EmailEventService;
-import com.coconsult.pidevspring.Services.TrainingSession.IEmailEventService;
+import com.coconsult.pidevspring.Security.payload.response.PasswordGenerator;
+import com.coconsult.pidevspring.Services.User.EmailService;
+
 import com.coconsult.pidevspring.Services.User.IUserService;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
@@ -19,6 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +41,8 @@ public class UserRestController {
     @Autowired
     PasswordEncoder encoder;
     @Autowired
-    IEmailEventService emailEventService;
+    private EmailService emailService;
+
     @GetMapping("/retrieveAllUser")
     public List<User> retrieveAllUser() {
         List<User> users= iUserService.retrieveAllUser();
@@ -59,12 +62,14 @@ public class UserRestController {
         user.setGender(signUpRequest.getGender());
         user.setPhonenumber(signUpRequest.getPhonenumber());
         user.setAdresse(signUpRequest.getAdresse());
-        user.setPassword(encoder.encode(signUpRequest.getPassword())    );
-        user.setImage(signUpRequest.getImage());
+        String newPassword = PasswordGenerator.generateNewPassword();
+        user.setPassword(encoder.encode(newPassword));
+
+        user.setImage("user.jpg");
         Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
-            Role userRole = roleRepository.findByRoleName("admin")
+            Role userRole = roleRepository.findByRoleName("Employee")
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
@@ -103,6 +108,7 @@ public class UserRestController {
         }
 
         user.setRoles(roles);
+        emailService.send(user.getEmail(), newPassword);
         iUserService.addUser(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
@@ -134,12 +140,47 @@ public class UserRestController {
     @PostMapping("/save")
     public ResponseEntity<String> saveUsers(@RequestBody List<User> users) {
         try {
-            userRepository.saveAll(users);
+            List<User> usersToSave = new ArrayList<>();
+            List<String> existingEmails = new ArrayList<>();
+
+            // Iterate through the list of users to filter out existing emails and generate passwords for new users
+            for (User user : users) {
+                if (userRepository.existsByEmail(user.getEmail())) {
+                    existingEmails.add(user.getEmail()); // Add existing email to the list
+                } else {
+                    String newPassword = PasswordGenerator.generateNewPassword();
+                    user.setImage("user.jpg");
+                    user.setPassword(encoder.encode(newPassword)); // Generate password
+                    usersToSave.add(user); // Add user to the list to save
+                    emailService.send(user.getEmail(), newPassword); // Send email with password
+
+
+                    // Save roles for the user
+                    Set<Role> roles = new HashSet<>();
+                    for (Role role : user.getRoles()) {
+                        Role existingRole = roleRepository.findByRoleName("Employee")
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(existingRole);
+                    }
+                    user.setRoles(roles);
+
+                }
+            }
+
+            if (!usersToSave.isEmpty()) {
+                userRepository.saveAll(usersToSave); // Save new users
+            }
+
+            if (!existingEmails.isEmpty()) {
+                return ResponseEntity.badRequest().body("Error: Email(s) already in use: " + existingEmails);
+            }
+
             return ResponseEntity.ok("Users saved successfully.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving users: " + e.getMessage());
         }
     }
+
 
     //malekkk
     @GetMapping("/projectmanagers")

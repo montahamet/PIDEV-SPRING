@@ -14,6 +14,7 @@ import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,11 +23,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RequestMapping("/Event-TrainingSession")
 
@@ -150,6 +151,16 @@ public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam Strin
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+        @GetMapping("/eventsByDateRange")
+    public ResponseEntity<List<Event>> getEventsBetweenDates(
+            @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+            @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
+        List<Event> events = iEventService.findEventsBetweenDates(start, end);
+        if (events.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(events);
     }
 //    @PostMapping("/{eventId}/like")
 //    public ResponseEntity<Event> likeEvent(@PathVariable Long eventId) {

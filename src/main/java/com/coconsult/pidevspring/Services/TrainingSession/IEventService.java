@@ -7,6 +7,7 @@ import com.coconsult.pidevspring.DAO.Entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -26,5 +27,6 @@ public interface IEventService {
     public List<Event> getUpcomingEvents() ;
     public Page<Event> findAllEventsAfterToday(Pageable pageable) ;
 
+    public List<Event> findEventsBetweenDates(LocalDate startDate, LocalDate endDate) ;
 
     }
