@@ -22,7 +22,6 @@ public class Attendence {
     private String reason ;
     private LocalDateTime date ;
     private String typeAttendence ;
-    @JsonIgnore
     @ManyToOne
     private User employee;
     @JsonIgnore

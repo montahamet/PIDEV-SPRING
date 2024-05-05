@@ -8,7 +8,10 @@ public interface IAttendenceService {
 
     public List<Attendence> retrieveAllAttendence();
     public Attendence retrieveAttendence(Long attendenceId);
-    public Attendence addAttendence(Attendence a);
+//    public Attendence addAttendence(Attendence a);
+    //update add with user id
+public Attendence addAttendence(Long userId,Attendence a);
+
     public void removeAttendence(Long attendenceId);
     public Attendence modifyAttendence(Attendence attendence);
 }

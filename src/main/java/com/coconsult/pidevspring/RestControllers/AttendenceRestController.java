@@ -23,11 +23,19 @@ public class AttendenceRestController {
         return attendenceService.retrieveAllAttendence();
     }
 
-        @PostMapping("/add") // Endpoint to add attendance
-        public Attendence addAttendence(@RequestBody Attendence attendance) {
-            attendance.setDate(LocalDateTime.now());
-            return attendenceService.addAttendence(attendance);
-        }
+//        @PostMapping("/add") // Endpoint to add attendance
+//        public Attendence addAttendence(@RequestBody Attendence attendance) {
+//            attendance.setDate(LocalDateTime.now());
+//            return attendenceService.addAttendence(attendance);
+//        }
+    //update pasing id user to add :
+@PostMapping("/add/{userId}") // Endpoint to add attendance with user ID in the URL
+public Attendence addAttendance(@PathVariable Long userId, @RequestBody Attendence attendance) {
+    attendance.setDate(LocalDateTime.now());
+    // Assuming attendanceService.addAttendance() handles the user ID internally
+    return attendenceService.addAttendence(userId, attendance);
+}
+
 
     @PutMapping("/update/{id}") // Endpoint to update attendance (if needed)
     public Attendence updateAttendence(@PathVariable("id") Long id, @RequestBody Attendence attendance) {
