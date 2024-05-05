@@ -23,7 +23,8 @@ public class Contract implements Serializable {
     ContractStatus contractStatus;
     LocalDate startDateContract;
     LocalDate endDateContract;
-    @ManyToOne
+    String paymentMethods;
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "contract")
     Project projetContract;
 
 

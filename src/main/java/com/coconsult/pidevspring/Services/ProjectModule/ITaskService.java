@@ -29,5 +29,7 @@ public interface ITaskService {
     List<Task> getTasksByStatus(StatusTask status);
     long countByEmployeeTaskUserId(long userId);
     boolean existsByEmployeeTaskUserIdAndDueDateTaskAfter(@Param("userId") long userId);
+    public List<Task> searchTasks(String keyword);
+
 
 }

@@ -82,8 +82,8 @@ public class Reset {
     public String passwordResetProcess(@PathVariable String token,@RequestBody NewPasswordRequest request) {
         logger.info("***"+request.getToken()+"+++");
         String t = request.getToken();
-        User reset = userRepository.findUserByResetPasswordToken(t);
-        logger.info("11"+reset.getPassword()+"+++");
+        User reset = userRepository.findUserByResetPasswordToken(token);
+        logger.info("11"+reset+"+++");
         logger.info("111"+request.getToken()+"+++");
         User user = userRepository.findUserByEmail("thamersouelmi10@gmail.com");
         logger.info("***"+user+"+++");
