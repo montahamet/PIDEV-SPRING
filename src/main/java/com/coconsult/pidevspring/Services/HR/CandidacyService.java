@@ -2,8 +2,10 @@ package com.coconsult.pidevspring.Services.HR;
 
 import com.coconsult.pidevspring.DAO.Entities.Candidacy;
 import com.coconsult.pidevspring.DAO.Entities.JobOffer;
+import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.HR.CandidacyRepository;
 import com.coconsult.pidevspring.DAO.Repository.HR.JobOfferRepository;
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.transaction.Transactional;
@@ -25,6 +27,7 @@ public class CandidacyService implements ICandidacyService {
     JobOfferRepository jobOfferRepository;
     private final LinkedInScraperService linkedInScraperService;
     private EmailVerificationService emailVerificationService;
+    private UserRepository userRepository ;
 
 
 
@@ -44,6 +47,20 @@ public class CandidacyService implements ICandidacyService {
     @Override
     public List<Candidacy> addAllCandidacies(List<Candidacy> Candidacys) {
         return candidacyRepository.saveAll(Candidacys);
+    }
+    @Override
+    public String getCandidateNameByCandidacyId(Long candidacyId) {
+        // Fetch the candidacy from the repository based on the provided candidacy ID
+        Candidacy candidacy = candidacyRepository.findById(candidacyId).orElse(null);
+
+        // Check if the candidacy exists
+        if (candidacy != null) {
+            // Retrieve the candidate's name from the candidacy object
+            return candidacy.getCandidateName();
+        } else {
+            // Handle the case where the candidacy is not found
+            return null;
+        }
     }
     @Override
     public List<Candidacy> findAllCandidacies() {
@@ -77,7 +94,10 @@ public class CandidacyService implements ICandidacyService {
     public int countCandidaciesByJobOfferId(Long jobOfferId) {
         return candidacyRepository.countByJobOfferId(jobOfferId);
     }
-    public Candidacy updateCandidacyStatus(Candidacy updatedCandidacy) {
+    public Candidacy updateCandidacyStatus(Candidacy updatedCandidacy,Long id) {
+        User u = new User();
+        u = userRepository.findById(id).get();
+        updatedCandidacy.setUser(u);
         // Fetch the existing Candidacy object from the database
         Optional<Candidacy> optionalCandidacy = candidacyRepository.findById(updatedCandidacy.getCandidacy_id());
 
