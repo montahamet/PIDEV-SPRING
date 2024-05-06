@@ -2,6 +2,7 @@ package com.coconsult.pidevspring.RestControllers.TrainingSession;
 
 import com.coconsult.pidevspring.DAO.Entities.Activity;
 import com.coconsult.pidevspring.DAO.Entities.Event;
+import com.coconsult.pidevspring.DAO.Entities.Status;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
 import com.coconsult.pidevspring.Services.TrainingSession.IActivityService;
@@ -189,7 +190,15 @@ public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam Strin
 //        iEventService.dislikeEvent(eventId, userId); // Replace 'userId' with the actual user ID
 //        return ResponseEntity.ok().build();
 //    }
-
+@PutMapping("/{eventId}/update-user-status/{userId}")
+public ResponseEntity<?> updateUserStatus(@PathVariable Long eventId, @PathVariable Long userId, @RequestParam Status status) {
+    try {
+        iEventService.updateUserStatus(eventId, userId, status);
+        return ResponseEntity.ok().build();
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+}
 
 
 }

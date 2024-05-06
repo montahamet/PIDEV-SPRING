@@ -12,4 +12,7 @@ public interface IRegistrationTSService {
 
     void deleteRegistrationTSById (Long registrationTS_id);
     RegistrationTS findOneRegistrationTS (Long registrationTS_id);
-}
+
+    boolean isUserRegistered(Long sessionId, Long userId);
+    public boolean unregisterFromTraining(Long userId, Long sessionId) ;
+    }

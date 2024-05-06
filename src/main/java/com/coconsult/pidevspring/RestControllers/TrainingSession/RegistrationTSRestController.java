@@ -55,4 +55,15 @@ public class RegistrationTSRestController {
     public void  deleteRegistrationTS(Long registrationTS_id){
         iRegistrationTSService.deleteRegistrationTSById(registrationTS_id);
     }
+    @GetMapping("/{sessionId}/is-registered/{userId}")
+    public ResponseEntity<Boolean> isUserRegistered(@PathVariable Long sessionId, @PathVariable Long userId) {
+        boolean isRegistered = iRegistrationTSService.isUserRegistered(sessionId, userId);
+        return ResponseEntity.ok(isRegistered);
+    }
+
+    @PostMapping("/unregister")
+    public ResponseEntity<String> unregisterFromTraining(@RequestParam Long userId, @RequestParam Long sessionId) {
+        iRegistrationTSService.unregisterFromTraining(userId, sessionId);
+        return ResponseEntity.ok("Unregistered successfully");
+    }
 }

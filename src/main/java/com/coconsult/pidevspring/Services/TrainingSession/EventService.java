@@ -146,6 +146,14 @@ public Event UpdateEvent(Event event) {
     public List<User> findUsersByEventId(Long eventId) {
         return registrationEventRepository.findUsersByEventId(eventId);
     }
+    public void updateUserStatus(Long eventId, Long userId, Status status) throws Exception {
+        RegistrationEvent registration = registrationEventRepository.findByEventIdAndUserId(eventId, userId)
+                .orElseThrow(() -> new Exception("Registration not found"));
+
+        registration.setRegistrationEvent_status(status);
+        registrationEventRepository.save(registration);
+    }
+
 //    public List<Event> searchEvents(String query) {
 //        // Utilisez le repository pour rechercher les événements en fonction de la requête
 //        return eventRepository.findByEventNameContainingIgnoreCaseOrEventDescriptionContainingIgnoreCaseOrPlaceContainingIgnoreCase(query, query, query);

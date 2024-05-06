@@ -1,9 +1,6 @@
 package com.coconsult.pidevspring.Services.TrainingSession;
 
-import com.coconsult.pidevspring.DAO.Entities.Activity;
-import com.coconsult.pidevspring.DAO.Entities.Event;
-import com.coconsult.pidevspring.DAO.Entities.RegistrationEvent;
-import com.coconsult.pidevspring.DAO.Entities.User;
+import com.coconsult.pidevspring.DAO.Entities.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,7 +21,9 @@ public interface IEventService {
     public Set<User> getRelatedUsers(Long eventId);
     public Set<Activity> getRelatedActivities(Long eventId);
     public void updateEventAverageRating(Long eventId);
-    public List<Event> getUpcomingEvents() ;
+    public void updateUserStatus(Long eventId, Long userId, Status status) throws Exception ;
+
+        public List<Event> getUpcomingEvents() ;
     public Page<Event> findAllEventsAfterToday(Pageable pageable) ;
 
     public List<Event> findEventsBetweenDates(LocalDate startDate, LocalDate endDate) ;

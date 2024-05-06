@@ -78,4 +78,15 @@ public class RegistrationTSService implements IRegistrationTSService{
     public RegistrationTS findOneRegistrationTS(Long registrationTS_id) {
         return registrationTSRepository.findById(registrationTS_id).get();
     }
+    public boolean isUserRegistered(Long tsId, Long userId) {
+        return registrationTSRepository.existsByTrainingSessionIdAndUserId(tsId, userId);
+    }
+    public boolean unregisterFromTraining(Long userId, Long sessionId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        TrainingSession session = trainingSessionRepository.findById(sessionId).orElseThrow(() -> new RuntimeException("Session not found"));
+
+        user.getTrainingSessions().remove(session);
+        userRepository.save(user);
+        return true;
+    }
 }
