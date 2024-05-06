@@ -12,8 +12,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
 @Setter
+@Getter
 public class EmailDetails implements Serializable {
     String to;
      String subject;

@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRolesRoleName(String roleName);
 
     ///malekkk
-  /*  @Query("SELECT u FROM User u " +
+   @Query(  "SELECT u FROM User u " +
             "JOIN FETCH u.employeeTasks t " +
             "WHERE SIZE(u.employeeTasks) > 0 " +
             "AND EXISTS (SELECT t2 FROM Task t2 " +
@@ -27,7 +27,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "            AND (t2.dueDateTask - t2.startDateTask) = " +
             "                (SELECT MIN(t3.dueDateTask - t3.startDateTask) FROM Task t3 " +
             "                 WHERE t3.employeeTask = u)) " +
-            "ORDER BY SIZE(u.employeeTasks) DESC")*/
-    //List<User> findCompetentUsersOrderByTasks();
+            "ORDER BY SIZE(u.employeeTasks) DESC")
+    List<User> findCompetentUsersOrderByTasks();
 
 }

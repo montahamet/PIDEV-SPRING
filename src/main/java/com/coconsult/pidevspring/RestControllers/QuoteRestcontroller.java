@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RequestMapping("/quote")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class QuoteRestcontroller {
     IQuoteService iQuoteService;
     private final IProjectOfferService iProjectOfferService; // Inject the ProjectOffer service

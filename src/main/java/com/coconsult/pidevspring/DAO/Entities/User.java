@@ -15,7 +15,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -56,9 +57,11 @@ public class    User implements   Serializable , UserDetails {
     /////////////////////// Thamer /////////////////////
     /////////////////////// Malek //////////////////////
     @JsonIgnore
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projectManager")
     List<Project> projects=new ArrayList<>();
     @JsonIgnore
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "employeeTask")
     List<Task> employeeTasks=new ArrayList<>();
     /////////////////////// Malek //////////////////////
@@ -109,6 +112,7 @@ public class    User implements   Serializable , UserDetails {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="admin")
     private Set<Attendence> Attendence = new HashSet<>();
+
 
     public User(String email, String encode) {
     }

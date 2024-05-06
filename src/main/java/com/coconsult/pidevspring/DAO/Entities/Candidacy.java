@@ -13,8 +13,8 @@ import java.util.Set;
 import java.util.List;
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -38,6 +38,8 @@ public class Candidacy implements Serializable {
     String country;
     String educationHistory;
     boolean isArchived=false;
+    String verifEmail;
+    String emailStatus;
 
 
 
@@ -66,13 +68,15 @@ public class Candidacy implements Serializable {
     private JobOffer jobOffer;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     User user;
 
     @JsonIgnore
     @OneToOne(mappedBy = "candidacy", cascade = CascadeType.ALL)
     Interview interview;
-
+    @JsonIgnore
+    @OneToOne(mappedBy = "candidacy", cascade = CascadeType.ALL)
+    private mark mark;
 
 
     ///Enum
