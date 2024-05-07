@@ -9,7 +9,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,7 +28,7 @@ public class Invoice implements Serializable {
     String paymentMethods;
     @Enumerated(EnumType.STRING)
     PaymentStatus paymentStatus;
+    @JsonIgnore
     @ManyToOne
-
     Project projetInvoice;
 }

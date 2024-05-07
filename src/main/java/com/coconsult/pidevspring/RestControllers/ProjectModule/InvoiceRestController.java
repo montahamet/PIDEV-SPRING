@@ -1,9 +1,13 @@
 package com.coconsult.pidevspring.RestControllers.ProjectModule;
 
 import com.coconsult.pidevspring.DAO.Entities.Invoice;
+import com.coconsult.pidevspring.DAO.Entities.Project;
+import com.coconsult.pidevspring.DAO.Repository.ProjectModule.ProjectRepository;
 import com.coconsult.pidevspring.Services.ProjectModule.IInvoiceService;
+import com.coconsult.pidevspring.Services.ProjectModule.IProjectService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +19,12 @@ import java.util.List;
 
 @RequestMapping("/Invoice")
 public class InvoiceRestController {
+    @Autowired
     IInvoiceService iInvoiceService;
+    @Autowired
+    ProjectRepository projectRepository;
+    @Autowired
+    IProjectService projectService;
     @GetMapping("/GetAllInvoice")
     public List<Invoice> getAllInvoices(){
         return iInvoiceService.getAllInvoices();
@@ -24,8 +33,18 @@ public class InvoiceRestController {
     public Invoice getOneInvoice(@RequestParam long invoiceid){
         return iInvoiceService.getOneInvoice(invoiceid);
     }
-    @PostMapping("/AddInvoice")
-    public Invoice addInvoice(@RequestBody Invoice invoice){
+    @PostMapping("/AddInvoice/{projectId}")
+    public Invoice addInvoice(@RequestBody Invoice invoice,@PathVariable Long projectId){
+        System.out.println("***********************************"+invoice.toString());
+        System.out.println("***********************************"+invoice.getInvoiceDescription());
+        System.out.println("***********************************"+invoice.toString());
+        System.out.println("***********************************"+projectId);
+        Project p = new Project();
+        p = projectService.getOneProject(projectId);
+//        System.out.println("***********************************"+p);
+
+        // Set the candidacy_id on the Interview object
+        invoice.setProjetInvoice(p);
         return iInvoiceService.addInvoice(invoice);
     }
     @PutMapping("/UpdateInvoice")
