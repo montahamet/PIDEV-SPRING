@@ -104,6 +104,12 @@ public class WebSecurityConfig{
                     auth.requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/api/test/**").permitAll()
 
+                            .requestMatchers("http://apilayer.net/api/live/**").permitAll()
+
+
+                            .requestMatchers("https://nominatim.openstreetmap.org/**").permitAll()
+
+
                             .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                             .anyRequest().permitAll()
 

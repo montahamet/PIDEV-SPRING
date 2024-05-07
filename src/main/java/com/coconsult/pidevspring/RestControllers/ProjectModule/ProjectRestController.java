@@ -23,9 +23,9 @@ public class ProjectRestController {
     public Project findProjectById(@RequestParam long id){
         return iProjectService.getOneProject(id);
     }
-    @PostMapping("/AddProject")
-    public Project addProject(@RequestBody Project project){
-        return iProjectService.addProject(project);
+    @PostMapping("/AddProject/{id}")
+    public Project addProject(@RequestBody Project project,@PathVariable Long id){
+        return iProjectService.addProject(project,id);
     }
     @PutMapping("/UpdateProject")
     public Project updateProject(@RequestBody Project project){
@@ -41,4 +41,9 @@ public class ProjectRestController {
         iProjectService.deleteProject(project);
 
     }
-}
+    @GetMapping("/searchProject")
+    public List<Project> searchProjects(String keyword) {
+        return  iProjectService.searchProjects(keyword);
+    }
+
+    }

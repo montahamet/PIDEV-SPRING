@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Service
@@ -100,5 +101,21 @@ public class TaskService implements ITaskService {
         return taskRepository.existsByEmployeeTaskUserIdAndDueDateTaskAfter(userId);
     }
 
+    @Override
+    public List<Task> searchTasks(String keyword) {
+        LocalDate startDate = null;
+        try {
+            startDate = LocalDate.parse(keyword);
+        } catch (DateTimeParseException e) {
+        }
 
-}
+        if (startDate != null) {
+            return taskRepository.findByTaskDescriptionContainingIgnoreCaseOrStartDateTask(keyword,startDate);
+        } else {
+            return taskRepository.findByTaskDescriptionContainingIgnoreCaseOrStartDateTask(keyword,startDate);
+        }
+    }
+    }
+
+
+

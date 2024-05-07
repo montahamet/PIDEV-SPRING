@@ -12,8 +12,6 @@ import com.coconsult.pidevspring.Services.User.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,13 +43,13 @@ public class Reset {
     @Autowired
     private EmailService emailService;
 
- /*   @GetMapping("/forgotPassword")
+    @GetMapping("/forgotPassword")
     public String forgotPassword() {
         return "forgotPassword";
-    }*/
+    }
 
     @PostMapping("/forgotPassword")
-    public ResponseEntity<String> forgotPassordProcess(@RequestBody ForgotPasswordRequest userDTO) {
+    public String forgotPassordProcess(@RequestBody ForgotPasswordRequest userDTO) {
         String output = "";
         logger.info("3333333");
         logger.info(userDTO.getEmail()+"------");
@@ -61,13 +59,13 @@ public class Reset {
             output = userDetailsService.sendEmail(user);
         }
         if (output.equals("success")) {
-            return ResponseEntity.ok("Password reset instructions sent to your email.");
+            return "redirect:/api/auth/forgotPassword?success";
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found.");
+        return "redirect:/login?error";
     }
 
     @GetMapping("/resetPassword/{token}")
-    public ResponseEntity<String> resetPasswordForm(@PathVariable String token, Model model) {
+    public String resetPasswordForm(@PathVariable String token, Model model) {
         logger.info("1111111111111111111");
         User reset = userRepository.findUserByResetPasswordToken(token);
 
@@ -75,24 +73,28 @@ public class Reset {
         if (reset != null && userDetailsService.hasExpired(reset.getExpiryDateToken())) {
             logger.info("////////////////////////////");
             model.addAttribute("email", reset.getEmail());
-            return ResponseEntity.ok("Password reset instructions sent to your email.");
+            return "reset";
         }
         logger.info("66666666666");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found.");
+        return "redirect:/forgotPassword?error";
     }
     @PutMapping("/resetPassword/{token}")
-    public ResponseEntity<String> passwordResetProcess(@PathVariable String token,@RequestBody NewPasswordRequest request) {
-
+    public String passwordResetProcess(@PathVariable String token,@RequestBody NewPasswordRequest request) {
+        logger.info("***"+request.getToken()+"+++");
+        String t = request.getToken();
         User reset = userRepository.findUserByResetPasswordToken(token);
-
-
+        logger.info("11"+reset+"+++");
+        logger.info("111"+request.getToken()+"+++");
+        User user = userRepository.findUserByEmail("thamersouelmi10@gmail.com");
+        logger.info("***"+user+"+++");
+        logger.info("***"+request.getPassword()+"+++");
         if (reset != null ) {
             reset.setPassword(encoder.encode(request.getPassword()));
             logger.info("000"+reset.getPassword());
             userRepository.save(reset);
-            return ResponseEntity.ok("Password reset instructions sent to your email.");
+            return "redirect:/login";
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found.");
+        return null;
     }
 
 }

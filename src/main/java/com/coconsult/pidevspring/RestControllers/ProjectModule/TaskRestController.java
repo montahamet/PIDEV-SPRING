@@ -88,4 +88,8 @@ public class TaskRestController {
     public boolean existsByEmployeeTaskUserIdAndDueDateTaskAfter(long userId){
         return iTaskService.existsByEmployeeTaskUserIdAndDueDateTaskAfter(userId);
     }
+    @GetMapping("/searchTasks")
+    public List<Task> searchTasks(String keyword) {
+        return iTaskService.searchTasks(keyword);
+    }
 }
