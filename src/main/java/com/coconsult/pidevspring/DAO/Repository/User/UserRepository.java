@@ -30,4 +30,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "ORDER BY SIZE(u.employeeTasks) DESC")
     List<User> findCompetentUsersOrderByTasks();
 
+
+    // New method to fetch only the email by user ID
+    @Query("SELECT u.email FROM User u WHERE u.userId = :userId")
+    Optional<Long> findEmailById(Long userId);
 }

@@ -54,7 +54,10 @@ public class EventService implements IEventService {
     public Page<Event> findAllEvent(Pageable pageable) {
         return eventRepository.findAll(pageable);
     }
-
+    @Override
+    public List<Event> findAllEvent2() {
+        return eventRepository.findAll();
+    }
     @Override
     public Event addEvent(Event event) {
         return eventRepository.save(event);
@@ -153,7 +156,14 @@ public Event UpdateEvent(Event event) {
         registration.setRegistrationEvent_status(status);
         registrationEventRepository.save(registration);
     }
+    public List<Event> findEventsWithFinishDateGreaterThanSysdate() {
+        return eventRepository.findEventsWithFinishDateGreaterThanSysdate();
+    }
 
+    @Override
+    public String getUserEmailById(Long userId) {
+        return null;
+    }
 //    public List<Event> searchEvents(String query) {
 //        // Utilisez le repository pour rechercher les événements en fonction de la requête
 //        return eventRepository.findByEventNameContainingIgnoreCaseOrEventDescriptionContainingIgnoreCaseOrPlaceContainingIgnoreCase(query, query, query);

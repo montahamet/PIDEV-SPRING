@@ -46,6 +46,7 @@ public class RegistrationTSService implements IRegistrationTSService{
         // Fetching the training session and user entities by their IDs
         TrainingSession trainingSession = trainingSessionRepository.findById(tsId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Training session not found"));
+        trainingSession.setRegisteredCount(trainingSession.getRegisteredCount()+1);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 

@@ -12,7 +12,9 @@ import java.util.Set;
 public interface IEventService {
     public Event saveEventWithLocation(Event event);
     Page<Event> findAllEvent(Pageable pageable);
-    Event addEvent(Event event);
+    public List<Event> findAllEvent2() ;
+
+        Event addEvent(Event event);
     Event UpdateEvent(Event event);
     public boolean hasRelatedActivities(Long eventId) ;
     void deleteEventById (Long Event_id);
@@ -29,4 +31,7 @@ public interface IEventService {
     public List<Event> findEventsBetweenDates(LocalDate startDate, LocalDate endDate) ;
 
     List<User> findUsersByEventId(Long eventId);
+    public List<Event> findEventsWithFinishDateGreaterThanSysdate() ;
+
+    String getUserEmailById(Long userId);
 }

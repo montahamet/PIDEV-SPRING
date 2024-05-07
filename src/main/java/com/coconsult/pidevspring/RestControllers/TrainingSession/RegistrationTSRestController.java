@@ -5,6 +5,8 @@ import com.coconsult.pidevspring.DAO.Entities.RegistrationTS;
 import com.coconsult.pidevspring.Services.TrainingSession.IRegistrationTSService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +20,40 @@ import java.util.List;
 @RequestMapping("/RegistrationTS-TrainingSession")
 
 public class RegistrationTSRestController {
+    private final Logger logger = LoggerFactory.getLogger(RegistrationTSRestController.class);
+
     IRegistrationTSService iRegistrationTSService;
 
 
-        @PostMapping("/addRegistrationTS/{tsId}/{userId}")
-    public ResponseEntity<?> addRegistrationTS(@PathVariable Long tsId, @PathVariable Long userId) {
-        try {
-            RegistrationTS registration = iRegistrationTSService.addRegistrationTS(tsId, userId);
-            return ResponseEntity.ok(registration); // Retourne 200 OK avec le corps contenant l'objet registration
-        } catch (OpenApiResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
-        }
+//        @PostMapping("/addRegistrationTS/{tsId}/{userId}")
+//    public ResponseEntity<?> addRegistrationTS(@PathVariable Long tsId, @PathVariable Long userId) {
+//        try {
+//            RegistrationTS registration = iRegistrationTSService.addRegistrationTS(tsId, userId);
+//            return ResponseEntity.ok(registration); // Retourne 200 OK avec le corps contenant l'objet registration
+//        } catch (OpenApiResourceNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        } catch (IllegalStateException e) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+//        }
+//    }
+@PostMapping("/addRegistrationTS/{tsId}/{userId}")
+public ResponseEntity<?> addRegistrationTS(@PathVariable Long tsId, @PathVariable Long userId) {
+    try {
+        RegistrationTS registration = iRegistrationTSService.addRegistrationTS(tsId, userId);
+        return ResponseEntity.ok(registration);
+    } catch (OpenApiResourceNotFoundException e) {
+        logger.error("Resource not found for ID: {}", tsId, e);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found");
+    } catch (IllegalStateException e) {
+        logger.error("Conflict in registering for session: {}", tsId, e);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("This session is already full or the user is already registered");
+    } catch (Exception e) {
+        logger.error("Internal server error while registering for session: {}", tsId, e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
     }
+}
     @GetMapping("/findOneRegistrationTS")
     public RegistrationTS findOneRegistrationTS(@PathParam("registrationTS_id") Long registrationTS_id){
         return iRegistrationTSService.findOneRegistrationTS(registrationTS_id);
