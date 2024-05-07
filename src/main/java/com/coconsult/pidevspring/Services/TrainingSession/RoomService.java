@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,5 +65,15 @@ public class RoomService implements IRoomService {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Room with ID " + id + " not found"));
         roomRepository.delete(room);
+    }
+
+    public List<Date> getUnavailableDatesForRoom(Long roomId) {
+        Optional<Room> optionalRoom = roomRepository.findById(roomId);
+        if (optionalRoom.isPresent()) {
+            Room room = optionalRoom.get();
+            return room.getBookingDates();
+        } else {
+            throw new RuntimeException("Room not found");
+        }
     }
 }

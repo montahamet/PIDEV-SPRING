@@ -17,8 +17,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -43,24 +46,100 @@ public class TrainingSessionService implements ITrainingSessionService{
         return trainingSessionRepository.save(trainingSession);
     }
 
-    @Override
-    public TrainingSession addTrainingSessionWithRoom(TrainingSession trainingSession, Long roomId, Long trainerId) {
-        // Retrieve the room using the provided ID
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException("Room not found"));
-        trainingSession.setRoom(room);
+//    @Override
+//    public TrainingSession addTrainingSessionWithRoom(TrainingSession trainingSession, Long roomId, Long trainerId) {
+//        // Retrieve the room using the provided ID
+//        Room room = roomRepository.findById(roomId)
+//                .orElseThrow(() -> new RuntimeException("Room not found"));
+//        trainingSession.setRoom(room);
+//
+//        // Optionally set the trainer if a trainerId is provided
+//        if (trainerId != null) {
+//            User trainer = userRepository.findById(trainerId)
+//                    .orElseThrow(() -> new RuntimeException("Trainer not found"));
+//            trainingSession.setTrainer(trainer);
+//        }
+//
+//        // Save the new training session to the database
+//        return trainingSessionRepository.save(trainingSession);
+//    }
+//@Override
+//public TrainingSession addTrainingSessionWithRoom(TrainingSession trainingSession, Long roomId, Long trainerId) {
+//    Room room = roomRepository.findById(roomId)
+//            .orElseThrow(() -> new RuntimeException("Room not found"));
+//
+//    // Convert LocalDateTime to Date
+//    Date startDate = java.sql.Timestamp.valueOf(trainingSession.getStart_date());
+//    Date endDate = java.sql.Timestamp.valueOf(trainingSession.getFinish_date());
+//
+//    // Vérifiez si la salle est disponible pour la période demandée
+//    if (!isRoomAvailable(room, startDate, endDate)) {
+//        throw new IllegalStateException("Room is not available for the selected dates.");
+//    }
+//
+//    // Ajoutez les nouvelles dates de réservation à la salle
+//    room.getBookingDates().add(startDate);
+//    room.getBookingDates().add(endDate);
+//
+//    // Sauvegardez la salle avec les nouvelles dates de réservation
+//    roomRepository.save(room);
+//
+//    trainingSession.setRoom(room);
+//
+//    if (trainerId != null) {
+//        User trainer = userRepository.findById(trainerId)
+//                .orElseThrow(() -> new RuntimeException("Trainer not found"));
+//        trainingSession.setTrainer(trainer);
+//    }
+//
+//    return trainingSessionRepository.save(trainingSession);
+//}
+@Override
+public TrainingSession addTrainingSessionWithRoom(TrainingSession trainingSession, Long roomId, Long trainerId) {
+    Room room = roomRepository.findById(roomId)
+            .orElseThrow(() -> new RuntimeException("Room not found"));
 
-        // Optionally set the trainer if a trainerId is provided
-        if (trainerId != null) {
-            User trainer = userRepository.findById(trainerId)
-                    .orElseThrow(() -> new RuntimeException("Trainer not found"));
-            trainingSession.setTrainer(trainer);
-        }
+    // Convert LocalDateTime to Date
+    LocalDateTime startDate = trainingSession.getStart_date();
+    LocalDateTime endDate = trainingSession.getFinish_date();
 
-        // Save the new training session to the database
-        return trainingSessionRepository.save(trainingSession);
+    // Vérifiez si la salle est disponible pour la période demandée
+    if (!isRoomAvailable(room.getId(), startDate, endDate)) {
+        throw new IllegalStateException("Room is not available for the selected dates.");
     }
 
+    // Ajoutez les nouvelles dates de réservation à la salle
+    room.getBookingDates().add(java.sql.Timestamp.valueOf(startDate));
+    room.getBookingDates().add(java.sql.Timestamp.valueOf(endDate));
+
+    // Sauvegardez la salle avec les nouvelles dates de réservation
+    roomRepository.save(room);
+
+    trainingSession.setRoom(room);
+
+    if (trainerId != null) {
+        User trainer = userRepository.findById(trainerId)
+                .orElseThrow(() -> new RuntimeException("Trainer not found"));
+        trainingSession.setTrainer(trainer);
+    }
+
+    return trainingSessionRepository.save(trainingSession);
+}
+
+    private boolean isRoomAvailable(Room room, Date start, Date end) {
+        // Implémentez la logique pour vérifier les chevauchements de dates
+        return room.getBookingDates().stream().noneMatch(date -> date.compareTo(start) >= 0 && date.compareTo(end) <= 0);
+    }
+    public boolean isRoomAvailable(Long roomId, LocalDateTime startDate, LocalDateTime endDate) {
+        List<LocalDateTime> overlappingDates = roomRepository.findOverlappingDates(roomId, startDate, endDate);
+        if (!overlappingDates.isEmpty()) {
+            String dates = overlappingDates.stream()
+                    .map(date -> date.toString())
+                    .collect(Collectors.joining(", "));
+            throw new IllegalStateException("Room is already booked for the following dates: " + dates);
+        }
+        return true;
+    }
 
     @Override
     public TrainingSession addTrainingSessionWithoutRoom(TrainingSession trainingSession, Long trainerId) {

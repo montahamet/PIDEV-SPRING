@@ -35,6 +35,7 @@ public class TrainingSession implements Serializable {
     @Column(nullable = true)
      String place;
     int capacity;
+    int registeredCount = 0;
     @Enumerated(EnumType.STRING)
     TypeTS typeTS;
     @Enumerated(EnumType.STRING)

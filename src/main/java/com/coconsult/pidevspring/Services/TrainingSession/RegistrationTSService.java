@@ -46,6 +46,7 @@ public class RegistrationTSService implements IRegistrationTSService{
         // Fetching the training session and user entities by their IDs
         TrainingSession trainingSession = trainingSessionRepository.findById(tsId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Training session not found"));
+        trainingSession.setRegisteredCount(trainingSession.getRegisteredCount()+1);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
@@ -77,5 +78,16 @@ public class RegistrationTSService implements IRegistrationTSService{
     @Override
     public RegistrationTS findOneRegistrationTS(Long registrationTS_id) {
         return registrationTSRepository.findById(registrationTS_id).get();
+    }
+    public boolean isUserRegistered(Long tsId, Long userId) {
+        return registrationTSRepository.existsByTrainingSessionIdAndUserId(tsId, userId);
+    }
+    public boolean unregisterFromTraining(Long userId, Long sessionId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        TrainingSession session = trainingSessionRepository.findById(sessionId).orElseThrow(() -> new RuntimeException("Session not found"));
+
+        user.getTrainingSessions().remove(session);
+        userRepository.save(user);
+        return true;
     }
 }
