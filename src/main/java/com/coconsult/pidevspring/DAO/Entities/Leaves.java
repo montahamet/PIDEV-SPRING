@@ -23,7 +23,9 @@ public class Leaves implements Serializable {
      String duration ;
      boolean approved ;
      String reason ;
-     LocalDate date ;
+    LocalDate startdate ;
+    LocalDate enddate ;
+    boolean archive ;
 
     @JsonIgnore
     @ManyToOne

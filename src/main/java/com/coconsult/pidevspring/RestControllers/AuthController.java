@@ -10,6 +10,7 @@ import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import com.coconsult.pidevspring.Security.Password.UserDTO;
 import com.coconsult.pidevspring.Security.Password.UserDetailsServiceImplmdp;
+import com.coconsult.pidevspring.Security.payload.request.NewPasswordRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import org.slf4j.Logger;
@@ -192,7 +193,34 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found.");
         }
     }
+    @GetMapping("/resetPassword/{token}")
+    public ResponseEntity<String> resetPasswordForm(@PathVariable String token, Model model) {
+        logger.info("1111111111111111111");
+        User reset = userRepository.findUserByResetPasswordToken(token);
 
+
+        if (reset != null && userDetailsService.hasExpired(reset.getExpiryDateToken())) {
+            logger.info("////////////////////////////");
+            model.addAttribute("email", reset.getEmail());
+            return ResponseEntity.ok("Password reset instructions sent to your email.");
+        }
+        logger.info("66666666666");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found.");
+    }
+    @PutMapping("/resetPassword/{token}")
+    public ResponseEntity<String> passwordResetProcess(@PathVariable String token,@RequestBody NewPasswordRequest request) {
+
+        User reset = userRepository.findUserByResetPasswordToken(token);
+
+
+        if (reset != null ) {
+            reset.setPassword(encoder.encode(request.getPassword()));
+            logger.info("000"+reset.getPassword());
+            userRepository.save(reset);
+            return ResponseEntity.ok("Password reset instructions sent to your email.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found.");
+    }
     @GetMapping("/auth/url")
     public ResponseEntity<UrlDto> auth() {
         String url = new GoogleAuthorizationCodeRequestUrl(clientId,

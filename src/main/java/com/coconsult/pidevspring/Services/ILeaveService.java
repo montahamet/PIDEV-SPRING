@@ -11,5 +11,5 @@ public interface ILeaveService {
     public Leaves addLeave(Leaves a ,Long id);
     public void removeLeave(Long attendenceId);
     public Leaves modifyLeave(Leaves attendence);
-    public Leaves aprouveLeave(Leaves attendence);
+    public Leaves aprouveLeave(Leaves attendence, Long id);
 }
