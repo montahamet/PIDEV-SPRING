@@ -12,11 +12,8 @@ public interface IAttendenceService {
     //update add with user id
 public Attendence addAttendence(Long userId,Attendence a);
 
-<<<<<<< HEAD
-=======
     Long startAttendance(Long userId);
 
->>>>>>> 491a11e43d1e89df12b91b79fa5b0fa70aad9e0a
     public void removeAttendence(Long attendenceId);
     public Attendence modifyAttendence(Attendence attendence);
 
