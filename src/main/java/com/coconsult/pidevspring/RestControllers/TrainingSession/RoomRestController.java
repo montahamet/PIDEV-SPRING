@@ -91,7 +91,15 @@ public class RoomRestController {
             return ResponseEntity.badRequest().body("Failed to delete room: " + e.getMessage());
         }
     }
-
+    @GetMapping("/{roomId}/unavailable-dates")
+    public ResponseEntity<List<Date>> getUnavailableDatesForRoom(@PathVariable Long roomId) {
+        try {
+            List<Date> unavailableDates = roomService.getUnavailableDatesForRoom(roomId);
+            return ResponseEntity.ok(unavailableDates);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 //    @GetMapping("/{roomId}/availability")
 //    public ResponseEntity<Boolean> checkRoomAvailability(@PathVariable Long roomId,
 //                                                         @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,

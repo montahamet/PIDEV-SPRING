@@ -107,14 +107,28 @@ public class TrainingSessionRestController {
 //            return ResponseEntity.badRequest().body("Failed to save training session: " + e.getMessage());
 //        }
 //    }
+//    @PostMapping("/with-room/{roomId}/{trainerId}")
+//    public ResponseEntity<TrainingSession> addTrainingSessionWithRoom(
+//            @RequestBody TrainingSession trainingSession,
+//            @PathVariable Long roomId,
+//            @PathVariable Long trainerId) {
+//
+//        TrainingSession createdSession = iTrainingSessionService.addTrainingSessionWithRoom(trainingSession, roomId, trainerId);
+//        return ResponseEntity.ok(createdSession);
+//    }
     @PostMapping("/with-room/{roomId}/{trainerId}")
-    public ResponseEntity<TrainingSession> addTrainingSessionWithRoom(
+    public ResponseEntity<?> addTrainingSessionWithRoom(
             @RequestBody TrainingSession trainingSession,
             @PathVariable Long roomId,
             @PathVariable Long trainerId) {
-
-        TrainingSession createdSession = iTrainingSessionService.addTrainingSessionWithRoom(trainingSession, roomId, trainerId);
-        return ResponseEntity.ok(createdSession);
+        try {
+            TrainingSession createdSession = iTrainingSessionService.addTrainingSessionWithRoom(trainingSession, roomId, trainerId);
+            return ResponseEntity.ok(createdSession);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(e.getMessage());
+        }
     }
 
     @PostMapping("/without-room/{trainer}")

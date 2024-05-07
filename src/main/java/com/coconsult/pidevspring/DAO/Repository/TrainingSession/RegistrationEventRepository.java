@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface RegistrationEventRepository extends JpaRepository<RegistrationEvent, Long> {
@@ -21,4 +22,9 @@ public interface RegistrationEventRepository extends JpaRepository<RegistrationE
     boolean existsByEvent_EventIdAndUser_UserId(Long eventId, Long userId);
     @Query("SELECT re.user FROM RegistrationEvent re WHERE re.event.eventId = :eventId")
     List<User> findUsersByEventId(Long eventId);
+    @Query("SELECT re FROM RegistrationEvent re WHERE re.event.eventId = :eventId AND re.user.userId = :userId")
+    Optional<RegistrationEvent> findByEventIdAndUserId(Long eventId, Long userId);
+
+    List<RegistrationEvent> findByEventEventId(Long eventId);
+
 }
