@@ -1,0 +1,13 @@
+get:
+  tags:
+    - batch
+  summary: running batch file
+  description: It will load csv file to db
+  operationId: startBatch
+  responses:
+    '200':
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: string

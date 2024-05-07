@@ -6,10 +6,6 @@ import org.springframework.batch.item.ItemProcessor;
 public class QuizQuestionProcessor implements ItemProcessor<QuizQuestion, QuizQuestion> {
     @Override
     public QuizQuestion process(QuizQuestion item) throws Exception {
-
-        // logic
-
         return item;
     }
-
 }
