@@ -20,7 +20,7 @@ public class RoleRestController {
 
     IRoleService iRoleService;
     @GetMapping("/retrieveAllRoles")
-    @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('ADMIN')")
     public List<Role> retrieveAllRoles() {
         List<Role> roles= iRoleService.retrieveAllRoles();
         return roles;

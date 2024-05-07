@@ -31,6 +31,7 @@ public class    User implements   Serializable , UserDetails {
     String lastname;
     String password;
     String Adresse;
+    String CIN;
     LocalDate birthdate ;
     Integer phonenumber ;
     @Enumerated(EnumType.STRING)

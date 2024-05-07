@@ -15,6 +15,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByEmail(String email) ;
     Boolean existsByEmail(String email);
     User findUserByResetPasswordToken(String token);
+    @Query("SELECT COUNT(u) FROM User u")
+    Long countUsers();
+    long countUsersByRolesRoleName(String roleName);
+    @Query("SELECT ur.roleName, COUNT(ur.users) FROM User u JOIN u.roles ur GROUP BY ur.roleName")
+    List<Object[]> countUsersByRoles();
     ///malekkk
     List<User> findByRolesRoleName(String roleName);
 

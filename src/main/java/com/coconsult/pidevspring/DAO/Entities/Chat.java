@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,4 +24,8 @@ public class Chat implements Serializable {
     LocalDateTime createdAt;
     @ManyToMany(mappedBy="chats", cascade = CascadeType.ALL)
     private Set<User> users;
+
+    public Chat(String name) {
+        this.name = name;
+    }
 }

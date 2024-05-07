@@ -20,10 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //@CrossOrigin(origins = "*", maxAge = 3600)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -47,6 +44,18 @@ public class UserRestController {
     public List<User> retrieveAllUser() {
         List<User> users= iUserService.retrieveAllUser();
         return users;
+
+    }
+    @GetMapping("/count")
+    public Long count() {
+        Long users= iUserService.count();
+        return users;
+
+    }
+    @GetMapping("/roles/count")
+    public ResponseEntity<Map<String, Long>> countUsersByRoles() {
+        Map<String, Long> roleCounts = iUserService.countUsersByRoles();
+        return ResponseEntity.ok(roleCounts);
     }
 
     @PostMapping("/addUser")
@@ -93,6 +102,13 @@ public class UserRestController {
                         roles.add(hrRole);
 
                         break;
+                    case "admin_hr":
+                        Role admin_hrRole = roleRepository.findByRoleName("admin_hr")
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(admin_hrRole);
+
+                        break;
+
                     case "consultant":
                         Role cRole = roleRepository.findByRoleName("Consultant")
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));

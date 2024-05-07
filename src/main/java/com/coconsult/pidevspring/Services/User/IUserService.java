@@ -3,6 +3,7 @@ package com.coconsult.pidevspring.Services.User;
 import com.coconsult.pidevspring.DAO.Entities.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface IUserService {
@@ -14,6 +15,8 @@ public interface IUserService {
     User updateUsermdp(User u);
     User retrieveOneUser(Long userId);
     User retrieveUser(Long userId);
+    Long count();
+    public Map<String, Long> countUsersByRoles() ;
 
     void removeUser(Long userId);
 
@@ -25,6 +28,7 @@ public interface IUserService {
     List<User> getEmployeesForTASKS();
     // malekk
     List<User> findCompetentUsersOrderByTasks();
+   // public String recognizeFace(byte[] image);
 
 
 }
