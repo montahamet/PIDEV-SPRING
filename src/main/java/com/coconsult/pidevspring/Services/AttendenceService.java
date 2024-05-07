@@ -1,17 +1,14 @@
 package com.coconsult.pidevspring.Services;
 
 import com.coconsult.pidevspring.DAO.Entities.Attendence;
-<<<<<<< HEAD
-import com.coconsult.pidevspring.DAO.Entities.User;
-import com.coconsult.pidevspring.DAO.Repository.AttendenceRepository;
-import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
-=======
-
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.AttendenceRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 
->>>>>>> 491a11e43d1e89df12b91b79fa5b0fa70aad9e0a
+
+import com.coconsult.pidevspring.DAO.Entities.User;
+import com.coconsult.pidevspring.DAO.Repository.AttendenceRepository;
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -22,16 +19,10 @@ import java.util.Optional;
 @Service
 public class AttendenceService implements IAttendenceService {
 
-<<<<<<< HEAD
     private final AttendenceRepository attendenceRepository;
     private final UserRepository userRepository;
 
-=======
 
-    private final AttendenceRepository attendenceRepository;
-    private final UserRepository userRepository;
-
->>>>>>> 491a11e43d1e89df12b91b79fa5b0fa70aad9e0a
     public AttendenceService(AttendenceRepository attendenceRepository,UserRepository userRepository) {
         this.attendenceRepository = attendenceRepository;
         this.userRepository=userRepository;
@@ -61,10 +52,7 @@ public Attendence addAttendence(Long userId,Attendence attendence) {
     // Optionally, you can add validation logic here before saving the attendance record
     return attendenceRepository.save(attendence);
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 491a11e43d1e89df12b91b79fa5b0fa70aad9e0a
 
     @Override
     public void removeAttendence(Long attendenceId) {
