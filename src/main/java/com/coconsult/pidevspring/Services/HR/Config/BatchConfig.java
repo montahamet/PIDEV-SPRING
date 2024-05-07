@@ -1,11 +1,9 @@
-
 package com.coconsult.pidevspring.Services.HR.Config;
 
 import com.coconsult.pidevspring.DAO.Entities.ContractEmployment;
 import com.coconsult.pidevspring.DAO.Entities.QuizQuestion;
 import com.coconsult.pidevspring.DAO.Repository.HR.ContractEmploymentRepository;
 import com.coconsult.pidevspring.DAO.Repository.HR.QuizQuestionRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -18,16 +16,12 @@ import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
-
-@Configuration
-@AllArgsConstructor
-public class SpringBatchConfig {
+public class BatchConfig {
     private ContractEmploymentRepository contractEmploymentRepository;
     public FlatFileItemReader<ContractEmployment> itemReader(){
         FlatFileItemReader<ContractEmployment> itemReader = new FlatFileItemReader<>();

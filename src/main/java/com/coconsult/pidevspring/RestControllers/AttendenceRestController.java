@@ -44,8 +44,13 @@ public class AttendenceRestController {
     //update pasing id user to add :
 @PostMapping("/add/{userId}") // Endpoint to add attendance with user ID in the URL
 public Attendence addAttendance(@PathVariable Long userId, @RequestBody Attendence attendance) {
+<<<<<<< HEAD
+    attendance.setDate(LocalDateTime.now());
+    // Assuming attendanceService.addAttendance() handles the user ID internally
+=======
     attendance.setStart(LocalDateTime.now());
     attendance.setEnd(LocalDateTime.now());
+>>>>>>> 491a11e43d1e89df12b91b79fa5b0fa70aad9e0a
     return attendenceService.addAttendence(userId, attendance);
 }
 
