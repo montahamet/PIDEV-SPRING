@@ -23,7 +23,9 @@ public class Attendence implements Serializable {
     private String reason ;
     private LocalDateTime date ;
     private String typeAttendence ;
-    @JsonIgnore
+    private LocalDateTime start ;
+    private LocalDateTime end ;
+    private Double workedHours;
     @ManyToOne
     private User employee;
     @JsonIgnore

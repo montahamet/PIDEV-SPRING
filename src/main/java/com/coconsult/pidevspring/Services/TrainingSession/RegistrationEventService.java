@@ -114,4 +114,8 @@ public class RegistrationEventService implements IRegistrationEventService{
 
         // Save the new registration
         return registrationEventRepository.save(registration);    }
+
+    public List<RegistrationEvent> getRelatedRegistrations(Long eventId) {
+        return registrationEventRepository.findByEventEventId(eventId);
+    }
 }

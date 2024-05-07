@@ -21,6 +21,7 @@ public class FeedBack  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long feedback_id ;
+//    String sentiment;
 
     String description ;
     @CreationTimestamp
@@ -36,6 +37,7 @@ public class FeedBack  implements Serializable {
     @JsonIgnore
 
     @ManyToOne
-    TrainingSession trainingsession;
+    @JoinColumn(name = "training_session_id") // ensure this matches the DB column
+    private TrainingSession trainingsession;
 
 }

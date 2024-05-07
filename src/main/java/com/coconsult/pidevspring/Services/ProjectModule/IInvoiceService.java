@@ -15,4 +15,6 @@ public interface IInvoiceService {
 
     void removeInvoicebyid(long invoiceid);
     void deleteInvoice(Invoice invoice);
+    List<Invoice> findByProjetInvoiceProjectId(Long projectId);
+
 }

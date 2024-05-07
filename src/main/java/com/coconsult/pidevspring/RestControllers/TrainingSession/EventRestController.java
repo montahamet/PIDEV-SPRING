@@ -1,12 +1,9 @@
 package com.coconsult.pidevspring.RestControllers.TrainingSession;
 
-import com.coconsult.pidevspring.DAO.Entities.Activity;
-import com.coconsult.pidevspring.DAO.Entities.Event;
+import com.coconsult.pidevspring.DAO.Entities.*;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
-import com.coconsult.pidevspring.Services.TrainingSession.IActivityService;
-import com.coconsult.pidevspring.Services.TrainingSession.IEmailEventService;
-import com.coconsult.pidevspring.Services.TrainingSession.IEventService;
-import com.coconsult.pidevspring.Services.TrainingSession.IFeedBackService;
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+import com.coconsult.pidevspring.Services.TrainingSession.*;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
@@ -14,6 +11,7 @@ import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,11 +20,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RequestMapping("/Event-TrainingSession")
 
@@ -35,7 +33,10 @@ public class EventRestController {
     EventRepository eventRepository;
     IFeedBackService iFeedBackService;
     IActivityService iActivityService;
-    IEmailEventService iEmailEventService;
+//    IEmailEventService iEmailEventService;
+    private EmailEventService emailEventService;
+    IRegistrationEventService service;
+    UserRepository userRepository;
     @GetMapping("/{eventId}/hasRelatedActivities")
     public ResponseEntity<Boolean> checkEventRelatedActivities(@PathVariable Long eventId) {
         boolean hasRelated = iEventService.hasRelatedActivities(eventId);
@@ -89,10 +90,10 @@ public class EventRestController {
 //
 //        return response;
 //    }
-@PostMapping("/sendConfirmation")
-public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam String eventName) {
-    iEmailEventService.sendEventConfirmationEmail(userId, eventName);
-}
+//@PostMapping("/sendConfirmation")
+//public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam String eventName) {
+//    iEmailEventService.sendEventConfirmationEmail(userId, eventName);
+//}
 
     @GetMapping("/findOneEvent/{eventId}")
     public Event findOneEvent(@PathVariable("eventId") Long eventId){
@@ -100,8 +101,18 @@ public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam Strin
     }
     @GetMapping("/events")
     public Page<Event> findAllEvent(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        // Validate page parameter
+        if (page < 0) {
+            throw new IllegalArgumentException("Page index must not be less than zero");
+        }
+
         Pageable pageable = PageRequest.of(page, size);
         return iEventService.findAllEvent(pageable);
+    }
+
+    @GetMapping("/eventssss")
+    public List<Event> finddallEventA(){
+        return iEventService.findAllEvent2();
     }
     @PostMapping("/addEvent")
     public ResponseEntity<?> addEvent(@Valid @RequestBody Event event, BindingResult result) {
@@ -118,7 +129,7 @@ public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam Strin
         return ResponseEntity.ok(updatedEvent);
     }
     @GetMapping("/upcoming")
-    public List<Event> getUpcomingEvents() {
+    public List<Event> getUpcomingEvents(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return iEventService.getUpcomingEvents();
     }
 //    public ResponseEntity<Event> updateEvent(@PathVariable(value = "eventId") Long eventId, @RequestBody Event eventDetails) {
@@ -151,6 +162,28 @@ public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam Strin
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+        @GetMapping("/eventsByDateRange")
+    public ResponseEntity<List<Event>> getEventsBetweenDates(
+            @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+            @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
+        List<Event> events = iEventService.findEventsBetweenDates(start, end);
+        if (events.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(events);
+    }
+    @GetMapping("/{eventId}/users")
+    public ResponseEntity<List<User>> getEventUsers(@PathVariable Long eventId) {
+        List<User> users = iEventService.findUsersByEventId(eventId);
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(users);
+    }
+    @GetMapping("/getRelatedRegistrations/{eventId}")
+    public List<RegistrationEvent> getRelatedRegistrations(@PathVariable Long eventId) {
+        return service.getRelatedRegistrations(eventId);
+    }
 //    @PostMapping("/{eventId}/like")
 //    public ResponseEntity<Event> likeEvent(@PathVariable Long eventId) {
 //        iEventService.likeEvent(eventId, userId); // Replace 'userId' with the actual user ID
@@ -162,7 +195,45 @@ public void sendEmailConfirmation(@RequestParam Long userId, @RequestParam Strin
 //        iEventService.dislikeEvent(eventId, userId); // Replace 'userId' with the actual user ID
 //        return ResponseEntity.ok().build();
 //    }
+@PutMapping("/{eventId}/update-user-status/{userId}")
+public ResponseEntity<?> updateUserStatus(@PathVariable Long eventId, @PathVariable Long userId, @RequestParam Status status) {
+    try {
+        iEventService.updateUserStatus(eventId, userId, status);
+        return ResponseEntity.ok().build();
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+}
 
-
+//    @PutMapping("/{eventId}/update-user-status/{userId}")
+//    public ResponseEntity<?> updateUserStatus(@PathVariable Long eventId, @PathVariable Long userId, @RequestParam Status status) {
+//        try {
+//            // Update user status
+//            iEventService.updateUserStatus(eventId, userId, status);
+//
+//            // Retrieve the email of the user
+//            String userEmail = String.valueOf(userRepository.findEmailById(userId)); // Assuming such a method exists in your service
+//
+//            // Email content based on status
+//            String emailContent;
+//            if (status == Status.CONFIRMED) {
+//                emailContent = "Congratulations! Your registration has been accepted.";
+//            } else {
+//                emailContent = "We regret to inform you that your registration has been refused.";
+//            }
+//
+//            // Send email
+//            emailEventService.send(userEmail, emailContent);
+//
+//            return ResponseEntity.ok().build();
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+    @GetMapping("/upcoming2")
+    public ResponseEntity<List<Event>> getUpcomingEvents2() {
+        List<Event> events = iEventService.findEventsWithFinishDateGreaterThanSysdate();
+        return ResponseEntity.ok(events);
+    }
 
 }

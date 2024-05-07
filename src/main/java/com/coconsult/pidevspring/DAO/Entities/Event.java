@@ -28,23 +28,24 @@ public class Event implements Serializable {
 
     String event_name;
     LocalDate event_date;
+    LocalDate finishevent_date;
+
     String event_description;
     String place;
     Double latitude;
     Double longitude;
    Double averageRating;
 
-@JsonIgnore
-
+    @JsonIgnore
     @ManyToMany(mappedBy="Events", cascade = CascadeType.ALL)
     private Set<User> users;
-@JsonIgnore
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<RegistrationEvent> RegistationEvents;
-@JsonIgnore
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<Activity> Activitys;
-@JsonIgnore
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<FeedBack> FeedBacks;
 //    @JsonIgnore

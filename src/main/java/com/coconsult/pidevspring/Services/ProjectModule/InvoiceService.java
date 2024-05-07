@@ -48,4 +48,9 @@ public class InvoiceService implements IInvoiceService {
         invoiceRepository.delete(invoice);
 
     }
+
+    @Override
+    public List<Invoice> findByProjetInvoiceProjectId(Long projectId) {
+        return invoiceRepository.findByProjetInvoiceProjectId(projectId);
+    }
 }

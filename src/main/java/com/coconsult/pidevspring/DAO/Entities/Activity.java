@@ -25,6 +25,8 @@ public class Activity implements Serializable {
     LocalDateTime finishTime;
 
     @ManyToOne
+    @JsonIgnore
+
     @JoinColumn(name = "event_id")
     Event event;
 }

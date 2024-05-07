@@ -13,8 +13,8 @@ import java.util.Set;
 import java.util.List;
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -37,11 +37,14 @@ public class Candidacy implements Serializable {
     String skills;
     String country;
     String educationHistory;
+    boolean isArchived=false;
+    String verifEmail;
+    String emailStatus;
 
 
 
     @Builder
-    public Candidacy(Long candidacy_id, String candidateName, String link,String linkedin,String github, String cv, String coverLetter, int candidacystatus) {
+    public Candidacy(Long candidacy_id, String candidateName, String link,String linkedin,String github, String cv, String coverLetter, int candidacystatus,boolean isArchived) {
         this.candidacy_id = candidacy_id;
         this.candidateName = candidateName;
         this.link = link;
@@ -51,6 +54,7 @@ public class Candidacy implements Serializable {
         this.coverLetter = coverLetter;
         this.submissionDate = LocalDateTime.now(); // Set submissionDate to current system date and time
         this.candidacystatus = candidacystatus;
+        this.isArchived=isArchived;
 //        this.job_offer = job_offer;
 //        this.user = user;
 //        this.Interviews = Interviews;
@@ -64,13 +68,15 @@ public class Candidacy implements Serializable {
     private JobOffer jobOffer;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     User user;
 
     @JsonIgnore
     @OneToOne(mappedBy = "candidacy", cascade = CascadeType.ALL)
     Interview interview;
-
+    @JsonIgnore
+    @OneToOne(mappedBy = "candidacy", cascade = CascadeType.ALL)
+    private mark mark;
 
 
     ///Enum
