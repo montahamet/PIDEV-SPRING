@@ -26,6 +26,8 @@ public class Project implements Serializable {
     LocalDate startdateProject;
     LocalDate enddateProject;
     String fileName;
+    float  progressp;
+
     @Enumerated(EnumType.STRING)
     StatusProject projectStatus;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetT")
@@ -37,8 +39,8 @@ public class Project implements Serializable {
     @OneToOne
     @JsonIgnore
     Documentation document;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetInvoice")
     @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "projetInvoice")
     List<Invoice> invoices=new ArrayList<>();
 //    @JsonIgnore
     @ManyToOne
