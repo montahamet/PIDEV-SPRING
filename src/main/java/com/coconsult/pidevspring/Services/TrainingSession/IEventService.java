@@ -29,4 +29,5 @@ public interface IEventService {
 
     public List<Event> findEventsBetweenDates(LocalDate startDate, LocalDate endDate) ;
 
-    }
+    List<User> findUsersByEventId(Long eventId);
+}

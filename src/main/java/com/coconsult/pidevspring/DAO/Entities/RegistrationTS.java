@@ -22,6 +22,9 @@ public class RegistrationTS implements Serializable {
     LocalDateTime RegistrationTS_date;
     @ManyToOne
     User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "training_session_id")
+    private TrainingSession trainingSession;
 
 
 }

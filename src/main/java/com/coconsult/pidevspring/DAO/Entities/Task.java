@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -31,13 +30,11 @@ public class Task implements Serializable {
     Priority priority;
     @Enumerated(EnumType.ORDINAL)
     StatusTask taskStatus;
+    @JsonIgnore
     @ManyToOne
-
-
     Project projetT;
+//    @JsonIgnore
     @ManyToOne
-
-
     User employeeTask;
 
 

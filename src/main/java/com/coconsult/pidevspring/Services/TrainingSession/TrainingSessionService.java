@@ -1,15 +1,17 @@
 package com.coconsult.pidevspring.Services.TrainingSession;
 
-import com.coconsult.pidevspring.DAO.Entities.Room;
-import com.coconsult.pidevspring.DAO.Entities.TS_Status;
-import com.coconsult.pidevspring.DAO.Entities.TrainingSession;
+import com.coconsult.pidevspring.DAO.Entities.*;
+import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationTSRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RoomRepository;
 import com.coconsult.pidevspring.DAO.Repository.TrainingSession.TrainingSessionRepository;
+import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+import com.coconsult.pidevspring.Services.User.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,10 @@ public class TrainingSessionService implements ITrainingSessionService{
     @Autowired
     TrainingSessionRepository trainingSessionRepository;
     RoomRepository roomRepository;
+    UserRepository userRepository;
+    RegistrationTSRepository registrationTSRepository;
+    UserService userService;
+
     @Override
     public Page<TrainingSession> findAllTrainingSession(Pageable pageable) {
         return trainingSessionRepository.findAll(pageable);
@@ -38,18 +44,40 @@ public class TrainingSessionService implements ITrainingSessionService{
     }
 
     @Override
-    public TrainingSession addTrainingSessionWithRoom(TrainingSession trainingSession, Long roomId) {
+    public TrainingSession addTrainingSessionWithRoom(TrainingSession trainingSession, Long roomId, Long trainerId) {
+        // Retrieve the room using the provided ID
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new RuntimeException("Room not found"));
         trainingSession.setRoom(room);
+
+        // Optionally set the trainer if a trainerId is provided
+        if (trainerId != null) {
+            User trainer = userRepository.findById(trainerId)
+                    .orElseThrow(() -> new RuntimeException("Trainer not found"));
+            trainingSession.setTrainer(trainer);
+        }
+
+        // Save the new training session to the database
         return trainingSessionRepository.save(trainingSession);
     }
 
+
     @Override
-    public TrainingSession addTrainingSessionWithoutRoom(TrainingSession trainingSession) {
+    public TrainingSession addTrainingSessionWithoutRoom(TrainingSession trainingSession, Long trainerId) {
+        // Set room to null since this session does not require a room
         trainingSession.setRoom(null);
+
+        // Optionally set the trainer if a trainerId is provided
+        if (trainerId != null) {
+            User trainer = userService.retrieveOneUser(trainerId);
+
+            trainingSession.setTrainer(trainer);
+        }
+
+        // Save the training session to the database
         return trainingSessionRepository.save(trainingSession);
     }
+
 //    public TrainingSession addTrainingSession(TrainingSession trainingSession, Integer roomId) {
 //        logger.info("Adding new training session, Type: {}, Room ID: {}", trainingSession.getTypeTS(), roomId);
 //        try {
@@ -119,4 +147,38 @@ public class TrainingSessionService implements ITrainingSessionService{
         }
         return false;
     }
+
+    public RegistrationTS registerUserToSession(Long sessionId, Long userId) {
+        TrainingSession session = trainingSessionRepository.findById(sessionId)
+                .orElseThrow(() -> new IllegalArgumentException("Session not found with id: " + sessionId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+
+        if (session.getRegistrationtss().size() >= session.getCapacity()) {
+            throw new IllegalStateException("Session is full and cannot accommodate more participants.");
+        }
+
+        RegistrationTS registration = new RegistrationTS();
+        registration.setUser(user);
+        registration.setTrainingSession(session);
+        registration.setRegistrationTS_date(java.time.LocalDateTime.now());
+        registration.setRegistrationTS_status(Status.PENDING);  // Assuming Status is an enum
+
+        return registrationTSRepository.save(registration);
+    }
+
+//    public TrainingSession getTrainingSessionWithUsers(Long sessionId) {
+//        return trainingSessionRepository.findByIdWithUsers(sessionId)
+//                .orElseThrow(() -> new OpenApiResourceNotFoundException("Session not found with ID: " + sessionId));
+//    }
+@Override
+
+    public List<User> findUsersBytrainingId(Long sessionId) {
+        return trainingSessionRepository.findUsersBySessionId(sessionId);
+    }
+    @Override
+    public List<User> findUsersByTrainingSessionId(Long sessionId) {
+        return trainingSessionRepository.findUsersBySessionId(sessionId);
+    }
+
 }
