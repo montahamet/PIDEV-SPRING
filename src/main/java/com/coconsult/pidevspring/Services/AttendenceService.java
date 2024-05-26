@@ -1,18 +1,15 @@
 package com.coconsult.pidevspring.Services;
 
 import com.coconsult.pidevspring.DAO.Entities.Attendence;
-import com.coconsult.pidevspring.DAO.Entities.User;
-import com.coconsult.pidevspring.DAO.Repository.AttendenceRepository;
-import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
 
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.AttendenceRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
-
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +18,6 @@ public class AttendenceService implements IAttendenceService {
 
     private final AttendenceRepository attendenceRepository;
     private final UserRepository userRepository;
-
-
-
 
     public AttendenceService(AttendenceRepository attendenceRepository,UserRepository userRepository) {
         this.attendenceRepository = attendenceRepository;
@@ -40,20 +34,49 @@ public class AttendenceService implements IAttendenceService {
         return attendenceRepository.findById(attendenceId).orElse(null);
     }
 
-//    @Override
+    //    @Override
 //    public Attendence addAttendence(Attendence attendence) {
 //        // Optionally, you can add validation logic here before saving the attendance record
 //        return attendenceRepository.save(attendence);
 //    }
     //update add user id to patth add
-@Override
-public Attendence addAttendence(Long userId,Attendence attendence) {
-    User user = new User();
-    user= userRepository.findById(userId).get();
+    @Override
+    public Attendence addAttendence(Long userId,Attendence attendence) {
+        User user = new User();
+        user= userRepository.findById(userId).get();
         attendence.setEmployee(user);
-    // Optionally, you can add validation logic here before saving the attendance record
-    return attendenceRepository.save(attendence);
-}
+        // Optionally, you can add validation logic here before saving the attendance record
+        return attendenceRepository.save(attendence);
+    }
+    //find attendance with employee id
+    @Override
+    public List<Attendence> findByEmployeeId(Long UserId){
+        List<Attendence> attendences = attendenceRepository.findByEmployeeUserId(UserId);
+        return attendences;
+
+    }
+
+
+    @Override
+    public void approved(Long UserId){
+        List<Attendence> attendences = attendenceRepository.findByEmployeeUserId(UserId);
+        List<Attendence> currentattences = new ArrayList<>();
+        for (Attendence attendence : attendences) {
+            // Assuming you have a method to construct the URL for the images
+            if (attendence.getStart().getDayOfMonth() == LocalDateTime.now().getDayOfMonth() &&
+                    attendence.getStart().getMonth() == LocalDateTime.now().getMonth() &&
+                    attendence.getStart().getYear() == LocalDateTime.now().getYear()) {
+                currentattences.add(attendence);
+            }
+
+        }
+        for (Attendence attendence : currentattences) {
+            attendence.setApproved(true);
+            attendenceRepository.save(attendence);
+        }
+    }
+
+
 
 
     @Override
@@ -82,7 +105,7 @@ public Attendence addAttendence(Long userId,Attendence attendence) {
             throw new RuntimeException("Utilisateur avec l'ID " + userId + " non trouvé");
         }
     }
- @Override
+    @Override
     public void endAttendance(Long attendenceId) {
         Optional<Attendence> attendanceOptional = attendenceRepository.findById(attendenceId);
         if (attendanceOptional.isPresent()) {

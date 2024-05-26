@@ -34,6 +34,7 @@ public class    User implements   Serializable , UserDetails {
     String CIN;
     LocalDate birthdate ;
     Integer phonenumber ;
+    Integer leaveCredit =22;
     @Enumerated(EnumType.STRING)
     Gender gender;
     String image ;
