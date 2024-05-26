@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
     List<User> findByIdWithUsers(@Param("ts_id") Long tsId);
     @Query("SELECT r.user FROM RegistrationTS r WHERE r.trainingSession.ts_id = :sessionId")
     List<User> findUsersBySessionId(@Param("sessionId") Long sessionId);
-
-
+@Query("SELECT ts FROM TrainingSession ts WHERE ts.user.userId = :userId AND " +
+        "(ts.start_date >= :endDate or ts.finish_date <= :startDate)")
+List<TrainingSession> findTrainingSessionsByUserAndDateRange(Long userId, LocalDateTime startDate, LocalDateTime endDate);
 }

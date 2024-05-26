@@ -16,7 +16,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long messageId ;
     String msg ;
-
+    String t_stamp;
     @ManyToOne
     Chat chat;
     @JsonIgnore

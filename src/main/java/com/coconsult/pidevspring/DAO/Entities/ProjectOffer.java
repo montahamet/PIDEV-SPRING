@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import com.coconsult.pidevspring.DAO.Entities.ProjectOfferStatus;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;

@@ -4,6 +4,7 @@ import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+import com.coconsult.pidevspring.Security.Password.UserDetailsServiceImplmdp;
 import com.coconsult.pidevspring.Security.payload.request.SignupRequest;
 import com.coconsult.pidevspring.Security.payload.response.MessageResponse;
 import com.coconsult.pidevspring.Security.payload.response.PasswordGenerator;
@@ -20,10 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //@CrossOrigin(origins = "*", maxAge = 3600)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -42,11 +40,25 @@ public class UserRestController {
     PasswordEncoder encoder;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    UserDetailsServiceImplmdp userDetailsService;
 
     @GetMapping("/retrieveAllUser")
     public List<User> retrieveAllUser() {
         List<User> users= iUserService.retrieveAllUser();
         return users;
+
+    }
+    @GetMapping("/count")
+    public Long count() {
+        Long users= iUserService.count();
+        return users;
+
+    }
+    @GetMapping("/roles/count")
+    public ResponseEntity<Map<String, Long>> countUsersByRoles() {
+        Map<String, Long> roleCounts = iUserService.countUsersByRoles();
+        return ResponseEntity.ok(roleCounts);
     }
 
     @PostMapping("/addUser")
@@ -93,6 +105,13 @@ public class UserRestController {
                         roles.add(hrRole);
 
                         break;
+                    case "admin_hr":
+                        Role admin_hrRole = roleRepository.findByRoleName("admin_hr")
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(admin_hrRole);
+
+                        break;
+
                     case "consultant":
                         Role cRole = roleRepository.findByRoleName("Consultant")
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -152,7 +171,7 @@ public class UserRestController {
                     user.setImage("user.jpg");
                     user.setPassword(encoder.encode(newPassword)); // Generate password
                     usersToSave.add(user); // Add user to the list to save
-                    emailService.send(user.getEmail(), newPassword); // Send email with password
+                    userDetailsService.sendEmail(user); // Send email with password
 
 
                     // Save roles for the user

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -26,5 +27,6 @@ public interface RegistrationEventRepository extends JpaRepository<RegistrationE
     Optional<RegistrationEvent> findByEventIdAndUserId(Long eventId, Long userId);
 
     List<RegistrationEvent> findByEventEventId(Long eventId);
-
+    @Query("SELECT e FROM Event e JOIN e.RegistationEvents re WHERE re.user.userId = :userId AND e.event_date >= :startDate AND e.finishevent_date <= :endDate")
+    List<Event> findEventsByUserAndDateRange(Long userId, LocalDate startDate, LocalDate endDate);
 }
