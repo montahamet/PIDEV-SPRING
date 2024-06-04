@@ -50,10 +50,10 @@ public class    User implements   Serializable , UserDetails {
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Chat> chats = new HashSet<>();
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Message> Messages = new HashSet<>();
+//
+//    @JsonIgnore
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+//    private Set<Message> Messages = new HashSet<>();
 
     /////////////////////// Thamer /////////////////////
     /////////////////////// Malek //////////////////////

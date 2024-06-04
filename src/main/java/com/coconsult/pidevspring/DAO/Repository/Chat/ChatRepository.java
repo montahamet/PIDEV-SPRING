@@ -12,7 +12,7 @@ public interface ChatRepository extends JpaRepository<Chat,Long> {
     Chat findChatByName(String chat);
 
 
-
-    List<Chat> findByUsersUserId(Long userId);
+Chat findChatByChatId(Long id);
+    List<Chat> findByUsersFirstname(String userId);
 
 }
