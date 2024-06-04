@@ -22,7 +22,7 @@ public class Chat implements Serializable {
     Long chatId ;
     String name ;
     LocalDateTime createdAt;
-    @ManyToMany(mappedBy="chats", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy="chats", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<User> users;
 
     public Chat(String name) {

@@ -5,6 +5,7 @@ import com.coconsult.pidevspring.DAO.Entities.TrainingSession;
 import lombok.*;
 
 import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor

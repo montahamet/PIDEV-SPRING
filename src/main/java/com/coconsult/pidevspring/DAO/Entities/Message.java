@@ -1,6 +1,5 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -19,7 +18,7 @@ public class Message {
     String t_stamp;
     @ManyToOne
     Chat chat;
-    @JsonIgnore
-    @ManyToOne
-    User user;
+//    @JsonIgnore
+//    @ManyToOne
+    String sender;
 }

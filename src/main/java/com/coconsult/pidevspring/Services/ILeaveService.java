@@ -15,4 +15,5 @@ public interface ILeaveService {
     public Leaves modifyLeave(Leaves attendence);
     public Leaves aprouveLeave(Leaves attendence, Long id);
     public LeaveRequestDTO getLeaveRequestDetails(Long userId, LocalDate startDate, LocalDate endDate);
+
 }

@@ -20,10 +20,11 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     @Query("SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END FROM Task t WHERE t.employeeTask.userId = :userId AND t.dueDateTask > CURRENT_DATE")
     boolean existsByEmployeeTaskUserIdAndDueDateTaskAfter(@Param("userId") long userId);
     long countByEmployeeTaskUserId(long userId);
+    // Thamer
+    List<Task> findByEmployeeTaskUserIdAndDueDateTaskBetween(Long userId, LocalDate startDate, LocalDate endDate);
 
     @Query("SELECT p FROM Task p WHERE LOWER(p.taskDescription) LIKE %:taskDescription% OR p.startDateTask = :startDate")
     List<Task> findByTaskDescriptionContainingIgnoreCaseOrStartDateTask(String taskDescription, LocalDate startDate);
 
-// Thamer
-List<Task> findByEmployeeTaskUserIdAndDueDateTaskBetween(Long userId, LocalDate startDate, LocalDate endDate);
+
 }
