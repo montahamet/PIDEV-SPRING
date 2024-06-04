@@ -21,6 +21,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         logger.info("Stomp endpoints registered");
 
 
+
     }
 
     @Override
@@ -30,3 +31,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     }
 }
+

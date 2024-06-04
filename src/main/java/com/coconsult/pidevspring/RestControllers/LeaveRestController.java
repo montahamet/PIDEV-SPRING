@@ -1,6 +1,7 @@
 package com.coconsult.pidevspring.RestControllers;
 
 import com.coconsult.pidevspring.DAO.Entities.Leaves;
+import com.coconsult.pidevspring.Security.payload.request.LeaveRequestDTO;
 import com.coconsult.pidevspring.Services.ILeaveService;
 import com.coconsult.pidevspring.Services.LeaveService;
 import jakarta.websocket.server.PathParam;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import okhttp3.FormBody;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.io.IOException;
 import java.net.URI;
@@ -62,7 +64,7 @@ public class LeaveRestController {
 //        } catch (URISyntaxException | IOException | InterruptedException e) {
 //            e.printStackTrace();
 //        }
- this.sendWhatsAppMessage("50378582", "test");
+        this.sendWhatsAppMessage("50378582", "test");
         return iLeaveService.aprouveLeave(Leaves,id);
     }
 
@@ -99,5 +101,8 @@ public class LeaveRestController {
 
         response.close();
     }
-
+    @GetMapping("leaves/{userId}/{startDate}/{endDate}")
+    public LeaveRequestDTO getLeaveRequestDetails(@PathVariable Long userId,@PathVariable LocalDate startDate,@PathVariable LocalDate endDate){
+        return iLeaveService.getLeaveRequestDetails(userId,startDate,endDate);
+    }
 }

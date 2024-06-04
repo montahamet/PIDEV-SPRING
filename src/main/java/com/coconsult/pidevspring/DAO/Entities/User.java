@@ -34,6 +34,7 @@ public class    User implements   Serializable , UserDetails {
     String CIN;
     LocalDate birthdate ;
     Integer phonenumber ;
+    Integer leaveCredit =22;
     @Enumerated(EnumType.STRING)
     Gender gender;
     String image ;
@@ -58,9 +59,11 @@ public class    User implements   Serializable , UserDetails {
     /////////////////////// Thamer /////////////////////
     /////////////////////// Malek //////////////////////
     @JsonIgnore
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "projectManager")
     List<Project> projects=new ArrayList<>();
     @JsonIgnore
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "employeeTask")
     List<Task> employeeTasks=new ArrayList<>();
     /////////////////////// Malek //////////////////////
@@ -77,10 +80,9 @@ public class    User implements   Serializable , UserDetails {
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Event> Events = new HashSet<>();
-
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "likedByUsers", cascade = CascadeType.ALL)
-//    private Set<Event> likedEvents;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<TrainingSession> trainingSessions = new HashSet<>();
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<RegistrationEvent> RegistationTSs;

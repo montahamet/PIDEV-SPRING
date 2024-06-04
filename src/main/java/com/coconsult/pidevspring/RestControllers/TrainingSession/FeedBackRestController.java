@@ -41,13 +41,20 @@ public class FeedBackRestController {
         List<FeedBack> feedbacks = iFeedBackService.findAllFeedbacksForEvent(eventId);
         return ResponseEntity.ok(feedbacks);
     }
-    @PostMapping("/feedback/addWithNote/{eventId}")
-    public ResponseEntity<?> addFeedbackWithNote(@PathVariable Long eventId, @RequestParam String description, @RequestParam int note) {
+    @PostMapping("/{userId}/addWithNote/{eventId}")
+    public ResponseEntity<?> addFeedbackWithNote(@PathVariable Long userId,
+                                                 @PathVariable Long eventId,
+                                                 @RequestParam String description,
+                                                 @RequestParam int note) {
         try {
-            FeedBack savedFeedback = iFeedBackService.addFeedbackWithNote(eventId, description, note);
+            FeedBack savedFeedback = iFeedBackService.addFeedbackWithNoteAndSentiment(userId, eventId, description, note);
             return ResponseEntity.ok(savedFeedback);
+        } catch (RuntimeException e) {
+            // Handling cases where the user or event does not exist or other business logic failures
+            return ResponseEntity.badRequest().body("Error adding feedback: " + e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding feedback with note: " + e.getMessage());
+            // Generic exception handler for unexpected errors
+            return ResponseEntity.internalServerError().body("Server error while processing the request: " + e.getMessage());
         }
     }
     @PostMapping("/feedback/add/{eventId}")

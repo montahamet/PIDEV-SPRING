@@ -1,15 +1,21 @@
 package com.coconsult.pidevspring.Services;
 
 
-import com.coconsult.pidevspring.DAO.Entities.Leaves;
-import com.coconsult.pidevspring.DAO.Entities.User;
+import com.coconsult.pidevspring.DAO.Entities.*;
+import com.coconsult.pidevspring.DAO.Repository.AttendenceRepository;
 import com.coconsult.pidevspring.DAO.Repository.LeaveRepository;
+import com.coconsult.pidevspring.DAO.Repository.ProjectModule.TaskRepository;
+import com.coconsult.pidevspring.DAO.Repository.TrainingSession.EventRepository;
+import com.coconsult.pidevspring.DAO.Repository.TrainingSession.RegistrationEventRepository;
+import com.coconsult.pidevspring.DAO.Repository.TrainingSession.TrainingSessionRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+import com.coconsult.pidevspring.Security.payload.request.LeaveRequestDTO;
 import lombok.AllArgsConstructor;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,6 +24,11 @@ public class LeaveService implements ILeaveService {
 
     LeaveRepository attendenceRepository;
     UserRepository userRepository ;
+    TaskRepository taskRepository ;
+    TrainingSessionRepository trainingSessionRepository ;
+    EventRepository eventRepository ;
+    RegistrationEventRepository registrationEventRepository ;
+    AttendenceRepository attendenceRepository1;
     @Override
     public List<Leaves> retrieveAllLeave() {
         return attendenceRepository.findLeavesByApproved(false);
@@ -80,4 +91,25 @@ public class LeaveService implements ILeaveService {
 
         response.close();
     }
+    @Override
+    public LeaveRequestDTO getLeaveRequestDetails(Long userId, LocalDate startDate, LocalDate endDate) {
+        User user = userRepository.findById(userId).get();
+        List<Task> tasks = taskRepository.findByEmployeeTaskUserIdAndDueDateTaskBetween(userId,startDate,endDate);
+        List<TrainingSession> trainingSession = trainingSessionRepository.findTrainingSessionsByUserAndDateRange(userId,startDate.atStartOfDay(),endDate.atStartOfDay());
+        List<Event> event = registrationEventRepository.findEventsByUserAndDateRange(userId,startDate,endDate);
+        long thismounth = attendenceRepository1.countAttendancesForCurrentMonth(userId);
+        long thisyear = attendenceRepository1.countAttendancesForCurrentYear(userId);
+        return new LeaveRequestDTO(
+                user.getFirstname(),
+                user.getLastname(),
+                user.getLeaveCredit(),
+                trainingSession,
+                thismounth,
+                thisyear,
+                event
+        );
+    }
+
+
+
 }

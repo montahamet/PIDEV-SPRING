@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +9,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -18,7 +20,7 @@ public class Invoice implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long invoice_id;
     LocalDate issueDateinvoice;
-    LocalDate dueDateinvoice;
+    String item;
     String invoiceDescription;
     int quantity;
     double unitPrice;
@@ -26,6 +28,7 @@ public class Invoice implements Serializable {
     String paymentMethods;
     @Enumerated(EnumType.STRING)
     PaymentStatus paymentStatus;
+    @JsonIgnore
     @ManyToOne
     Project projetInvoice;
 }

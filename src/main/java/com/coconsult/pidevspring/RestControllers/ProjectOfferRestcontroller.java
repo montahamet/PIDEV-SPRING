@@ -2,6 +2,7 @@ package com.coconsult.pidevspring.RestControllers;
 
 import com.coconsult.pidevspring.DAO.Entities.ProjectOffer;
 import com.coconsult.pidevspring.DAO.Entities.Quote;
+import com.coconsult.pidevspring.Services.EmailServiceProjectoffer;
 import com.coconsult.pidevspring.Services.IProjectOfferService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/projectoffer")
 public class ProjectOfferRestcontroller {
     IProjectOfferService iProjectOfferService;
+    EmailServiceProjectoffer emailServiceProjectoffer;
 
     @GetMapping("/retrieve-projectoffers")
     public List<ProjectOffer> retrieveAllProjectOffer() {
@@ -22,12 +24,22 @@ public class ProjectOfferRestcontroller {
         return projectOffers;
     }
 
+    //    @PostMapping("/addprojectoffer")
+//    public ProjectOffer addProjectOffer(@RequestBody ProjectOffer projectOffer) {
+//        ProjectOffer projectOffer1 = iProjectOfferService.addProjectOffer(projectOffer);
+//
+//        return projectOffer1 ;
+//    }
     @PostMapping("/addprojectoffer")
     public ProjectOffer addProjectOffer(@RequestBody ProjectOffer projectOffer) {
-        ProjectOffer projectOffer1 = iProjectOfferService.addProjectOffer(projectOffer);
+        ProjectOffer addedProjectOffer = iProjectOfferService.addProjectOffer(projectOffer);
 
-        return projectOffer1 ;
+        // Send email with project offer details
+        emailServiceProjectoffer.send(projectOffer.getCompanyemail(), addedProjectOffer);
+
+        return addedProjectOffer;
     }
+
 
 
     @PutMapping("/updateprojectoffer")

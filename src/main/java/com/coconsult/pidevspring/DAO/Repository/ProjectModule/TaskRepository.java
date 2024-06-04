@@ -1,5 +1,6 @@
 package com.coconsult.pidevspring.DAO.Repository.ProjectModule;
 
+import com.coconsult.pidevspring.DAO.Entities.Project;
 import com.coconsult.pidevspring.DAO.Entities.StatusTask;
 import com.coconsult.pidevspring.DAO.Entities.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,9 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     boolean existsByEmployeeTaskUserIdAndDueDateTaskAfter(@Param("userId") long userId);
     long countByEmployeeTaskUserId(long userId);
 
+    @Query("SELECT p FROM Task p WHERE LOWER(p.taskDescription) LIKE %:taskDescription% OR p.startDateTask = :startDate")
+    List<Task> findByTaskDescriptionContainingIgnoreCaseOrStartDateTask(String taskDescription, LocalDate startDate);
+
+// Thamer
+List<Task> findByEmployeeTaskUserIdAndDueDateTaskBetween(Long userId, LocalDate startDate, LocalDate endDate);
 }

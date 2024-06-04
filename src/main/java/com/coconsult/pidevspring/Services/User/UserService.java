@@ -92,7 +92,8 @@ public class UserService implements IUserService {
     //malekk
     @Override
     public List<User> findCompetentUsersOrderByTasks() {
-        return null;//userRepository.findCompetentUsersOrderByTasks();
+
+        return userRepository.findCompetentUsersOrderByTasks();
     }
 }
 /*

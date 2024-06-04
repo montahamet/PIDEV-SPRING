@@ -23,15 +23,18 @@ public class Task implements Serializable {
     LocalDate startDateTask;
     LocalDate dueDateTask;
     String taskDescription;
+    float  progress;
+    long duration;
+    long parent;
     @Enumerated(EnumType.STRING)
     Priority priority;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     StatusTask taskStatus;
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
     Project projetT;
+//    @JsonIgnore
     @ManyToOne
-    @JsonIgnore
     User employeeTask;
 
 

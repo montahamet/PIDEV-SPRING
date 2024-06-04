@@ -4,6 +4,7 @@ import com.coconsult.pidevspring.DAO.Entities.Role;
 import com.coconsult.pidevspring.DAO.Entities.User;
 import com.coconsult.pidevspring.DAO.Repository.User.RoleRepository;
 import com.coconsult.pidevspring.DAO.Repository.User.UserRepository;
+import com.coconsult.pidevspring.Security.Password.UserDetailsServiceImplmdp;
 import com.coconsult.pidevspring.Security.payload.request.SignupRequest;
 import com.coconsult.pidevspring.Security.payload.response.MessageResponse;
 import com.coconsult.pidevspring.Security.payload.response.PasswordGenerator;
@@ -39,6 +40,8 @@ public class UserRestController {
     PasswordEncoder encoder;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    UserDetailsServiceImplmdp userDetailsService;
 
     @GetMapping("/retrieveAllUser")
     public List<User> retrieveAllUser() {
@@ -168,7 +171,7 @@ public class UserRestController {
                     user.setImage("user.jpg");
                     user.setPassword(encoder.encode(newPassword)); // Generate password
                     usersToSave.add(user); // Add user to the list to save
-                    emailService.send(user.getEmail(), newPassword); // Send email with password
+                    userDetailsService.sendEmail(user); // Send email with password
 
 
                     // Save roles for the user
